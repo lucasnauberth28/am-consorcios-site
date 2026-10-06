@@ -1,0 +1,4 @@
+DirectoryIndex index.php
+<FilesMatch "^(?:_panel\.html|index\.html)$">
+Require all denied
+</FilesMatch>

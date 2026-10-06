@@ -1,72 +1,40 @@
 'use strict';
 (() => {
-  const $ = id => document.getElementById(id);
-  const key = 'am-fictitious-leads-demo-v1';
-  const statuses = ['Novo', 'Em contato', 'Concluído'];
-  const cls = status => ({'Novo':'new','Em contato':'talking','Concluído':'done'})[status];
-  const goals = {
-    'Imóvel': {icon:'<path d="m3 10 9-7 9 7v11H3Z"/><path d="M9 21v-8h6v8"/>', text:'Quer planejar a conquista de um imóvel e entender como o consórcio se encaixa no orçamento.'},
-    'Veículo': {icon:'<path d="m5 7 2-3h10l2 3 2 5v7H3v-7Z"/><path d="M3 11h18M7 15h1m8 0h1M5 19v2m14-2v2"/>', text:'Busca uma alternativa para trocar de carro com planejamento e orientação sobre as parcelas.'},
-    'Investimento': {icon:'<path d="M4 19V5m0 14h16M7 14l4-4 4 2 5-6"/>', text:'Já conhece o consórcio e quer conversar sobre as possibilidades, custos e riscos da estratégia.'},
-    'Encontro presencial': {icon:'<path d="m2 8 10-5 10 5-10 5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6m4-3v8"/>', text:'Quer estruturar uma operação de consórcios na empresa e conhecer a mentoria da AM.'},
-    'Carta contemplada': {icon:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h4"/>', text:'Quer avaliar uma carta contemplada, com análise das condições e orientação para a negociação.'}
-  };
-  const seed = () => [
-    {id:'AM-DEMO-001',name:'Marina Alves',goal:'Imóvel',credit:350000,status:'Novo',minutes:12,timing:'Entre 6 e 12 meses',budget:'Até R$ 2.000 / mês',experience:'Primeiro contato com consórcio'},
-    {id:'AM-DEMO-002',name:'Rafael Costa',goal:'Veículo',credit:100000,status:'Novo',minutes:47,timing:'Nos próximos 6 meses',budget:'Até R$ 900 / mês',experience:'Está comparando alternativas'},
-    {id:'AM-DEMO-003',name:'Camila Rocha',goal:'Encontro presencial',credit:null,status:'Novo',minutes:125,timing:'Nos próximos 3 meses',company:'Empresa Exemplo',experience:'Quer começar a operar com consórcios'},
-    {id:'AM-DEMO-004',name:'Felipe Santos',goal:'Investimento',credit:500000,status:'Em contato',minutes:230,timing:'Sem prazo definido',budget:'Até R$ 3.000 / mês',experience:'Já possui uma cota'},
-    {id:'AM-DEMO-005',name:'Juliana Lima',goal:'Carta contemplada',credit:200000,status:'Em contato',minutes:1440,timing:'Nos próximos 3 meses',budget:'Prefere conversar com a AM',experience:'Conhece a modalidade'},
-    {id:'AM-DEMO-006',name:'André Oliveira',goal:'Veículo',credit:80000,status:'Concluído',minutes:1800,timing:'Entre 6 e 12 meses',budget:'Até R$ 700 / mês',experience:'Primeiro contato com consórcio'}
-  ];
-  let leads = seed(), filter = 'Todos', selected = null, toastTimer;
-  try { const saved = JSON.parse(sessionStorage.getItem(key)); if(Array.isArray(saved)&&saved.length&&saved.every(x=>typeof x.name==='string'&&goals[x.goal]&&statuses.includes(x.status)&&/^AM-DEMO-\d+$/.test(x.id)&&Number.isFinite(x.minutes))) leads=saved; } catch {}
-  const save = () => { try {sessionStorage.setItem(key,JSON.stringify(leads));}catch{} };
-  const money = n => n == null ? 'A definir' : new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(n);
-  const escape = value => String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const initials = name => name.split(' ').map(x=>x[0]).slice(0,2).join('');
-  const received = m => m===0?'Agora':m<60?`Há ${m} min`:m<1440?`Há ${Math.floor(m/60)} h`:'Ontem';
-  const normalized = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const message = lead => `Olá, ${lead.name.split(' ')[0]}! Sou da AM Consórcios. Recebemos seu interesse em ${lead.goal.toLowerCase()} pelo site e gostaria de entender melhor seus planos. Podemos conversar?`;
-  function notify(text) {clearTimeout(toastTimer);$('toast').textContent=text;$('toast').classList.add('visible');toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),3600);}
-  function render() {
-    $('count-new').textContent=leads.filter(x=>x.status==='Novo').length;
-    $('count-talking').textContent=leads.filter(x=>x.status==='Em contato').length;
-    $('count-done').textContent=leads.filter(x=>x.status==='Concluído').length;
-    document.querySelectorAll('.tabs [data-filter]').forEach(button=>{const active=button.dataset.filter===filter;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
-    const query=normalized($('search').value.trim());
-    const visible=leads.filter(x=>(filter==='Todos'||x.status===filter)&&normalized(x.name+' '+x.goal).includes(query));
-    $('result-count').textContent=`${visible.length} ${visible.length===1?'contato':'contatos'} · Mais recentes primeiro`;
-    $('rows').innerHTML=visible.map(lead=>`<tr><td><div class="person"><span class="avatar">${escape(initials(lead.name))}</span><div><strong>${escape(lead.name)}</strong><small>Formulário do site</small></div></div></td><td><span class="goal-cell"><svg viewBox="0 0 24 24" aria-hidden="true">${goals[lead.goal].icon}</svg>${escape(lead.goal)}</span></td><td class="money">${money(lead.credit)}</td><td class="received">${received(lead.minutes)}</td><td><span class="status ${cls(lead.status)}">${escape(lead.status)}</span></td><td><button class="open-contact" data-id="${escape(lead.id)}" aria-label="Ver contato de ${escape(lead.name)}">Ver contato</button></td></tr>`).join('');
-    $('empty').hidden=visible.length!==0;
-    $('rows').closest('table').hidden=visible.length===0;
-  }
-  function openDialog(dialog){dialog.classList.remove('closing');if(!dialog.open)dialog.showModal();}
-  function closeDialog(dialog){if(!dialog.open)return;if(matchMedia('(prefers-reduced-motion: reduce)').matches){dialog.close();return;}dialog.classList.add('closing');setTimeout(()=>{dialog.close();dialog.classList.remove('closing');},190);}
-  function openLead(id){
-    selected=leads.find(x=>x.id===id);if(!selected)return;
-    $('contact-title').textContent=selected.name;
-    $('detail-avatar').textContent=initials(selected.name);
-    $('detail-reference').textContent=selected.id+' · '+received(selected.minutes);
-    $('detail-status').textContent=selected.status;$('detail-status').className='status '+cls(selected.status);
-    $('detail-goal').textContent=selected.goal;
-    $('detail-summary').textContent=goals[selected.goal].text;
-    const entries=[['Crédito desejado',money(selected.credit)],['Parcela desejada',selected.budget||'A definir com a AM'],['Quando pretende avançar',selected.timing],['Experiência',selected.experience],['Telefone','(11) 9XXXX-0000'],['E-mail','contato@example.com'],...(selected.company?[['Empresa',selected.company]]:[]),['Origem','Formulário do site'],['Consentimento','Contato autorizado · exemplo']];
-    $('details').innerHTML=entries.map(([label,value])=>`<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join('');
-    $('message').textContent=message(selected);$('status-select').value=selected.status;
-    openDialog($('contact-dialog'));
-  }
-  document.querySelectorAll('[data-filter]').forEach(button=>button.addEventListener('click',()=>{filter=button.dataset.filter;render();}));
-  $('search').addEventListener('input',render);
-  $('clear').addEventListener('click',()=>{filter='Todos';$('search').value='';render();$('search').focus();});
-  $('rows').addEventListener('click',event=>{const button=event.target.closest('[data-id]');if(button)openLead(button.dataset.id);});
-  document.querySelectorAll('dialog').forEach(dialog=>{dialog.querySelector('.close').addEventListener('click',()=>closeDialog(dialog));dialog.addEventListener('cancel',event=>{event.preventDefault();closeDialog(dialog);});dialog.addEventListener('click',event=>{const rect=dialog.getBoundingClientRect();if(event.target===dialog&&(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom))closeDialog(dialog);});});
-  $('status-select').addEventListener('change',()=>{selected.status=$('status-select').value;save();render();$('detail-status').textContent=selected.status;$('detail-status').className='status '+cls(selected.status);notify('Situação atualizada nesta demonstração.');});
-  $('email-preview').addEventListener('click',()=>openDialog($('email-dialog')));
-  $('open-latest').addEventListener('click',()=>{closeDialog($('email-dialog'));openLead(leads[0].id);});
-  $('whatsapp-preview').addEventListener('click',()=>{$('chat-message').textContent=message(selected);openDialog($('chat-dialog'));});
-  $('start-contact').addEventListener('click',()=>{selected.status='Em contato';save();render();$('status-select').value=selected.status;$('detail-status').textContent=selected.status;$('detail-status').className='status talking';closeDialog($('chat-dialog'));notify('Contato marcado como em atendimento.');});
-  $('simulate').addEventListener('click',()=>{const next=Math.max(...leads.map(x=>Number(x.id.split('-').at(-1))))+1;leads.unshift({id:`AM-DEMO-${String(next).padStart(3,'0')}`,name:`Contato Exemplo ${String(next).padStart(2,'0')}`,goal:'Imóvel',credit:300000,status:'Novo',minutes:0,timing:'Entre 6 e 12 meses',budget:'Até R$ 1.800 / mês',experience:'Primeiro contato com consórcio'});filter='Todos';$('search').value='';save();render();openDialog($('email-dialog'));notify('Novo contato fictício recebido pelo site.');});
-  $('reset').addEventListener('click',()=>{leads=seed();filter='Todos';$('search').value='';save();render();notify('Exemplos restaurados.');});
-  render();
+ const $=id=>document.getElementById(id),statuses=['Novo','Em contato','Concluído'];
+ const base=location.pathname.replace(/\/admin\/leads\/(?:index\.php)?$/,'');
+ const endpoint=base+'/api/briefings.php';
+ const labels={imovel:'Imóvel',carro:'Veículo',investir:'Patrimônio',carta:'Carta contemplada',venda:'Negociar cota',mentoria:'Encontro presencial'};
+ const credit={'nao-sei':'A conversar','ate-100k':'Até R$ 100 mil','100-300k':'R$ 100–300 mil','300-600k':'R$ 300–600 mil','600k-1m':'R$ 600 mil–1 milhão','mais-1m':'Acima de R$ 1 milhão'};
+ const timing={planejamento:'Em planejamento','12-24':'12 a 24 meses','avaliar-agora':'Avaliar agora'};
+ const experience={primeiro:'Primeiro contato',conheco:'Já conhece', 'tenho-cota':'Já possui cota'};
+ const stage={iniciar:'Conhecer o consórcio',organizar:'Avaliar possibilidades',desenvolver:'Conversar sobre parceria'};
+ let leads=[],filter='Todos',selected=null,csrf='',next=null,busy=false,timer;
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const normalized=v=>v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ const initials=v=>v.trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('');
+ const cls=s=>({'Novo':'new','Em contato':'talking','Concluído':'done'})[s];
+ const date=t=>new Date(t*1000).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+ const message=l=>`Olá, ${l.name.split(' ')[0]}! Sou da AM Consórcios. Recebemos seu interesse em ${(labels[l.interest]||'consórcio').toLowerCase()} pelo site. Podemos conversar sobre seus planos?`;
+ function notify(v){clearTimeout(timer);$('toast').textContent=v;$('toast').classList.add('visible');timer=setTimeout(()=>$('toast').classList.remove('visible'),4500);}
+ async function api(url,options={}){const r=await fetch(url,{cache:'no-store',credentials:'same-origin',...options});if(r.status===401){location.replace(base+'/admin/leads/login.php');throw Error('Sessão encerrada.');}const body=await r.json();if(!r.ok)throw Error(body.error||'Não foi possível concluir.');return body;}
+ function render(){for(const [s,id]of [['Novo','count-new'],['Em contato','count-talking'],['Concluído','count-done']])$(id).textContent=leads.filter(l=>l.status===s).length;
+ document.querySelectorAll('[data-filter]').forEach(b=>{b.classList.toggle('active',b.dataset.filter===filter);b.setAttribute('aria-pressed',String(b.dataset.filter===filter));});
+ const q=normalized($('search').value.trim());const list=leads.filter(l=>(filter==='Todos'||l.status===filter)&&normalized(l.name+' '+labels[l.interest]).includes(q));
+ $('result-count').textContent=`${list.length} contatos exibidos · ${leads.length} carregados · Mais recentes primeiro`;
+ $('rows').innerHTML=list.map(l=>`<tr><td><div class="person"><span class="avatar">${esc(initials(l.name))}</span><div><strong>${esc(l.name)}</strong><small>Formulário do site</small></div></div></td><td>${esc(labels[l.interest]||'Consórcio')}</td><td class="money">${esc(credit[l.credit]||'A conversar')}</td><td class="received">${esc(date(l.createdAt))}</td><td><span class="status ${cls(l.status)}">${esc(l.status)}</span></td><td><button class="open-contact" data-id="${esc(l.id)}">Ver contato</button></td></tr>`).join('');$('empty').hidden=list.length!==0;$('rows').closest('table').hidden=list.length===0;$('load-more').hidden=!next;
+ }
+ async function load(more=false){if(busy)return;busy=true;$('refresh').disabled=true;$('load-more').disabled=true;
+ try{let url=endpoint;if(more&&next)url+='?'+new URLSearchParams(next);const b=await api(url);leads=more?leads.concat(b.items):b.items;next=b.next;csrf=b.csrf;$('logout-csrf').value=csrf;render();}catch(e){notify(e.message);}finally{busy=false;$('refresh').disabled=false;$('load-more').disabled=false;}}
+ function close(){const d=$('contact-dialog');if(!d.open)return;if(matchMedia('(prefers-reduced-motion: reduce)').matches)d.close();else{d.classList.add('closing');setTimeout(()=>{d.close();d.classList.remove('closing');},190);}}
+ function open(id){selected=leads.find(l=>l.id===id);if(!selected)return;const l=selected;
+ $('contact-title').textContent=l.name;$('detail-avatar').textContent=initials(l.name);$('detail-reference').textContent=l.id.slice(0,8).toUpperCase()+' · '+date(l.createdAt);$('detail-status').textContent=l.status;$('detail-status').className='status '+cls(l.status);$('detail-goal').textContent=labels[l.interest];$('detail-summary').textContent=l.note||'Um novo contato para conhecer melhor.';
+ const entries=[['Crédito desejado',credit[l.credit]||'A conversar'],['Orçamento mensal',l.monthlyBudget?Number(l.monthlyBudget).toLocaleString('pt-BR',{style:'currency',currency:'BRL'}):'A conversar'],['Horizonte',timing[l.timing]||'A conversar'],['Experiência',experience[l.experience]||'A conversar'],['WhatsApp',l.phone],['E-mail',l.email||'Não informado'],['Cidade',l.city||'Não informada'],...(l.company?[['Empresa',l.company],['Conversa',stage[l.businessStage]],['Equipe',l.teamSize]]:[]),...(l.cpf?[['CPF',l.cpf]]:[]),...(l.birthDate?[['Nascimento',l.birthDate.split('-').reverse().join('/')]]:[]),['Origem',l.source],['Autorização',l.consentVersion]];
+ $('details').innerHTML=entries.map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');$('message').textContent=message(l);$('status-select').value=l.status;$('contact-dialog').showModal();
+ }
+ document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;render();}));$('search').addEventListener('input',render);$('clear').addEventListener('click',()=>{filter='Todos';$('search').value='';render();});$('refresh').addEventListener('click',()=>load());$('load-more').addEventListener('click',()=>load(true));$('rows').addEventListener('click',e=>{const b=e.target.closest('[data-id]');if(b)open(b.dataset.id);});
+ $('contact-dialog').querySelector('.close').addEventListener('click',close);$('contact-dialog').addEventListener('cancel',e=>{e.preventDefault();close();});
+ $('status-select').addEventListener('change',async()=>{const l=selected,s=$('status-select').value;$('status-select').disabled=true;try{await api(endpoint,{method:'PATCH',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({id:l.id,status:s})});l.status=s;render();$('detail-status').textContent=s;$('detail-status').className='status '+cls(s);notify('Situação salva.');}catch(e){$('status-select').value=l.status;notify(e.message);}finally{$('status-select').disabled=false;}});
+ $('whatsapp-open').addEventListener('click',()=>{const phone=selected.phone.replace(/\D/g,'');if(!/^[1-9]\d{9,10}$/.test(phone)){notify('Confira o telefone antes de conversar.');return;}window.open('https://wa.me/55'+phone+'?text='+encodeURIComponent(message(selected)),'_blank','noopener,noreferrer');});
+ $('delete-lead').addEventListener('click',async()=>{if(!confirm('Excluir permanentemente este contato?'))return;$('delete-lead').disabled=true;try{await api(endpoint,{method:'DELETE',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({id:selected.id})});leads=leads.filter(l=>l.id!==selected.id);close();render();notify('Contato excluído.');}catch(e){notify(e.message);}finally{$('delete-lead').disabled=false;}});
+ load();
 })();
