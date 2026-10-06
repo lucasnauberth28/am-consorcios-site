@@ -1,6 +1,6 @@
 (() => {
  const list=document.querySelector('#inbox-list'),status=document.querySelector('#inbox-status'),refresh=document.querySelector('#refresh-inbox');let cursor=null,busy=false;
- const labels={imovel:'Imóvel',carro:'Veículo',investir:'Planejar patrimônio',carta:'Carta contemplada',venda:'Negociar cota',mentoria:'Mentoria empresarial'};
+ const labels={imovel:'Imóvel',carro:'Veículo',investir:'Planejar patrimônio',carta:'Carta contemplada',venda:'Negociar cota',mentoria:'Encontro presencial empresarial'};
  const credit={'nao-sei':'A conversar','ate-100k':'Até R$ 100 mil','100-300k':'R$ 100 mil a R$ 300 mil','300-600k':'R$ 300 mil a R$ 600 mil','600k-1m':'R$ 600 mil a R$ 1 milhão','mais-1m':'Acima de R$ 1 milhão'};
  const timing={planejamento:'Planejamento sem data','12-24':'Horizonte de 12 a 24 meses','avaliar-agora':'Avaliar opções agora'};
  const stage={iniciar:'Começar a operar',organizar:'Organizar a operação',desenvolver:'Desenvolver equipe e processos'};

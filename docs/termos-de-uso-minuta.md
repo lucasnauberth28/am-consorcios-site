@@ -6,7 +6,7 @@ Versão: 05/10/2026
 
 ## 1. Finalidade do site
 
-Este site apresenta os serviços da AM Consórcios e Investimentos e oferece informações sobre consórcio, planejamento patrimonial e mentoria para empresas interessadas em atuar nesse mercado.
+Este site apresenta os serviços da AM Consórcios e Investimentos e oferece informações sobre consórcio, planejamento patrimonial e encontros presenciais para empresas interessadas em conhecer suas possibilidades.
 
 ## 2. Simulações e informações
 
@@ -24,9 +24,9 @@ O formulário permite apresentar seu interesse e solicitar contato. Enviar infor
 
 O tratamento das informações enviadas nos formulários está descrito na Política de Privacidade da AM. Autorizações para envio de conteúdos devem ser tratadas separadamente do atendimento solicitado.
 
-## 6. Mentoria para empresas
+## 6. Encontros para empresas
 
-A página de mentoria apresenta uma possibilidade de serviço. Escopo, entregas, prazo e valor serão definidos em uma proposta específica, antes da contratação.
+A página para empresas permite manifestar interesse em um encontro presencial. Data, local e eventuais condições serão combinados diretamente com a equipe antes de qualquer contratação.
 
 ## 7. Contato
 
