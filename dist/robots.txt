@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_server/
+Disallow: /briefings
+Sitemap: https://amconsorcios.com/sitemap.xml

@@ -24,3 +24,7 @@ Antes da migração, confirmar plano e recursos disponíveis, adaptar os endpoin
 `/admin/leads/` é somente demonstração com dados fictícios, não é o cadastro de leads reais. O formulário depende da API e não deve ser apresentado como operacional sem validar o backend.
 
 A conexão GitHub/Hostinger ainda não foi configurada. Não substituir o site antigo antes de backup e validação em ambiente de teste. O repositório é público; nenhum segredo ou dado real deve ser incluído. Acesso de implantação deve ser limitado a este projeto. Nenhum segredo ou dado real de lead acompanha esta entrega.
+
+## Hospedagem atual: Hostinger
+
+A implantação externa usa PHP + MySQL. Execute `python scripts/build-hostinger.py --preview` para homologação ou sem a opção para produção. A branch `hostinger-preview` contém o pacote pronto para `/homologacao/`. Não publique `dist/` diretamente na Hostinger: ele não contém o backend PHP. Consulte [guia de ativação, segurança e SEO](docs/HOSTINGER-LEADS-E-SEO.md). Credenciais ficam fora de `public_html` e do Git. O Worker original é legado da demonstração em outra hospedagem.

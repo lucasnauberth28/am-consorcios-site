@@ -5,3 +5,6 @@ dist/.openai/
 .env
 .env.local
 .sites-runtime/
+tmp/
+hostinger/private/config.php
+*.log
