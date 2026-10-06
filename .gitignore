@@ -1,0 +1,7 @@
+node_modules/
+dist/client/
+dist/server/
+dist/.openai/
+.env
+.env.local
+.sites-runtime/
