@@ -8,13 +8,13 @@
     'Imóvel': {icon:'<path d="m3 10 9-7 9 7v11H3Z"/><path d="M9 21v-8h6v8"/>', text:'Quer planejar a conquista de um imóvel e entender como o consórcio se encaixa no orçamento.'},
     'Veículo': {icon:'<path d="m5 7 2-3h10l2 3 2 5v7H3v-7Z"/><path d="M3 11h18M7 15h1m8 0h1M5 19v2m14-2v2"/>', text:'Busca uma alternativa para trocar de carro com planejamento e orientação sobre as parcelas.'},
     'Investimento': {icon:'<path d="M4 19V5m0 14h16M7 14l4-4 4 2 5-6"/>', text:'Já conhece o consórcio e quer conversar sobre as possibilidades, custos e riscos da estratégia.'},
-    'Mentoria': {icon:'<path d="m2 8 10-5 10 5-10 5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6m4-3v8"/>', text:'Quer estruturar uma operação de consórcios na empresa e conhecer a mentoria da AM.'},
+    'Encontro presencial': {icon:'<path d="m2 8 10-5 10 5-10 5Z"/><path d="M6 11v6c4 3 8 3 12 0v-6m4-3v8"/>', text:'Quer estruturar uma operação de consórcios na empresa e conhecer a mentoria da AM.'},
     'Carta contemplada': {icon:'<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h4"/>', text:'Quer avaliar uma carta contemplada, com análise das condições e orientação para a negociação.'}
   };
   const seed = () => [
     {id:'AM-DEMO-001',name:'Marina Alves',goal:'Imóvel',credit:350000,status:'Novo',minutes:12,timing:'Entre 6 e 12 meses',budget:'Até R$ 2.000 / mês',experience:'Primeiro contato com consórcio'},
     {id:'AM-DEMO-002',name:'Rafael Costa',goal:'Veículo',credit:100000,status:'Novo',minutes:47,timing:'Nos próximos 6 meses',budget:'Até R$ 900 / mês',experience:'Está comparando alternativas'},
-    {id:'AM-DEMO-003',name:'Camila Rocha',goal:'Mentoria',credit:null,status:'Novo',minutes:125,timing:'Nos próximos 3 meses',company:'Empresa Exemplo',experience:'Quer começar a operar com consórcios'},
+    {id:'AM-DEMO-003',name:'Camila Rocha',goal:'Encontro presencial',credit:null,status:'Novo',minutes:125,timing:'Nos próximos 3 meses',company:'Empresa Exemplo',experience:'Quer começar a operar com consórcios'},
     {id:'AM-DEMO-004',name:'Felipe Santos',goal:'Investimento',credit:500000,status:'Em contato',minutes:230,timing:'Sem prazo definido',budget:'Até R$ 3.000 / mês',experience:'Já possui uma cota'},
     {id:'AM-DEMO-005',name:'Juliana Lima',goal:'Carta contemplada',credit:200000,status:'Em contato',minutes:1440,timing:'Nos próximos 3 meses',budget:'Prefere conversar com a AM',experience:'Conhece a modalidade'},
     {id:'AM-DEMO-006',name:'André Oliveira',goal:'Veículo',credit:80000,status:'Concluído',minutes:1800,timing:'Entre 6 e 12 meses',budget:'Até R$ 700 / mês',experience:'Primeiro contato com consórcio'}
