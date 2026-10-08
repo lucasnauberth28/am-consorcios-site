@@ -80,7 +80,7 @@
     document.querySelectorAll('[data-model]').forEach((el) => {
       if (el.closest('template')) return;
       const k = el.dataset.model; if (!(k in v)) return;
-      if (document.activeElement !== el || el.tagName === 'SELECT') el.value = v[k];
+      if (document.activeElement !== el || el.tagName === 'SELECT') el.value = (k === 'credit' && v[k] !== '') ? Number(v[k]).toLocaleString('pt-BR') : v[k];
     });
     document.querySelectorAll('[data-attr-min],[data-attr-max],[data-attr-aria-label]').forEach((el) => {
       ['min', 'max', 'aria-label'].forEach((a) => {
@@ -127,7 +127,7 @@
     const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, credit: c.dflt, prazo: c.dPrazo }); render(); };
     actions.setImovel = () => setTipo('imovel');
     actions.setVeiculo = () => setTipo('veiculo');
-    actions.onCredit = (e) => { state.credit = e.target.value === '' ? '' : Number(e.target.value); render(); };
+    actions.onCredit = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 9); state.credit = d === '' ? '' : Number(d); e.target.value = d === '' ? '' : Number(d).toLocaleString('pt-BR'); render(); };
     actions.onPrazo = (e) => { state.prazo = Number(e.target.value); render(); };
     compute = () => {
       const c = cfgFor(state.tipo); const credit = num(state.credit); const prazo = state.prazo;
@@ -155,7 +155,7 @@
     const prazos = imovel ? [120, 150, 180, 200, 240] : [48, 60, 72, 80, 100];
     const mesContemplacao = imovel ? 12 : 6;
     Object.assign(state, { credit: imovel ? 500000 : 90000, prazo: imovel ? 200 : 80, lance: 25 });
-    actions.onCredit = (e) => { state.credit = e.target.value === '' ? '' : Number(e.target.value); render(); };
+    actions.onCredit = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 9); state.credit = d === '' ? '' : Number(d); e.target.value = d === '' ? '' : Number(d).toLocaleString('pt-BR'); render(); };
     actions.onPrazo = (e) => { state.prazo = Number(e.target.value); render(); };
     compute = () => {
       const credit = num(state.credit); const { prazo, lance } = state;
@@ -242,6 +242,127 @@
         fail(ex.message || 'Não foi possível enviar agora. Fale com a AM pelo WhatsApp.');
       } finally { if (submit) submit.disabled = false; }
     });
+  });
+
+  /* ---------- Máscara de WhatsApp ---------- */
+  document.querySelectorAll('input[type=tel]').forEach((el) => {
+    el.addEventListener('input', () => {
+      const d = el.value.replace(/\D/g, '').slice(0, 11);
+      let out = d;
+      if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+      if (d.length > 6) out = `(${d.slice(0, 2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}`;
+      el.value = out;
+    });
+  });
+
+  /* ---------- Rolagem suave (Lenis) ---------- */
+  let lenis = null;
+  if (!reduceMotion && window.Lenis) {
+    lenis = new window.Lenis({ autoRaf: true, lerp: 0.085, smoothWheel: true, syncTouch: false, anchors: false });
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('href').length < 2) return;
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { offset: -12, duration: 1.4 });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  }
+
+  /* ---------- Barra de rolagem que some quando a página para ---------- */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const rail = document.createElement('div'); rail.className = 'sb-rail'; rail.setAttribute('aria-hidden', 'true');
+    const thumb = document.createElement('div'); thumb.className = 'sb-thumb'; rail.appendChild(thumb);
+    document.body.appendChild(rail);
+    document.documentElement.classList.add('has-sb');
+    let hideTimer = 0, dragging = false, startY = 0, startScroll = 0, thumbH = 40, maxScroll = 0, track = 0;
+    const metrics = () => {
+      const doc = document.documentElement;
+      maxScroll = Math.max(0, doc.scrollHeight - innerHeight);
+      track = rail.clientHeight;
+      thumbH = Math.max(40, track * innerHeight / Math.max(doc.scrollHeight, 1));
+      thumb.style.height = thumbH + 'px';
+    };
+    const place = () => {
+      const y = lenis ? lenis.scroll : scrollY;
+      thumb.style.transform = `translateY(${maxScroll ? (y / maxScroll) * (track - thumbH) : 0}px)`;
+    };
+    const show = () => {
+      if (!maxScroll) return;
+      rail.classList.add('is-on'); clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => { if (!dragging && !rail.matches(':hover')) rail.classList.remove('is-on'); }, 900);
+    };
+    const onScroll = () => { place(); show(); };
+    if (lenis) lenis.on('scroll', onScroll); else addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { metrics(); place(); });
+    addEventListener('load', () => { metrics(); place(); });
+    if ('ResizeObserver' in window) new ResizeObserver(() => { metrics(); place(); }).observe(document.body);
+    document.addEventListener('mousemove', (e) => { if (innerWidth - e.clientX < 28) show(); }, { passive: true });
+    rail.addEventListener('mouseleave', show);
+    const scrollToY = (y) => { y = Math.max(0, Math.min(maxScroll, y)); if (lenis) lenis.scrollTo(y, { immediate: true }); else scrollTo(0, y); };
+    thumb.addEventListener('pointerdown', (e) => {
+      e.preventDefault(); dragging = true; rail.classList.add('is-drag'); thumb.setPointerCapture(e.pointerId);
+      startY = e.clientY; startScroll = lenis ? lenis.scroll : scrollY;
+    });
+    thumb.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      scrollToY(startScroll + (e.clientY - startY) / Math.max(1, track - thumbH) * maxScroll);
+    });
+    const endDrag = () => { dragging = false; rail.classList.remove('is-drag'); show(); };
+    thumb.addEventListener('pointerup', endDrag); thumb.addEventListener('pointercancel', endDrag);
+    rail.addEventListener('pointerdown', (e) => {
+      if (e.target !== rail) return;
+      const r = rail.getBoundingClientRect();
+      const y = Math.max(0, Math.min(maxScroll, (e.clientY - r.top - thumbH / 2) / Math.max(1, track - thumbH) * maxScroll));
+      if (lenis) lenis.scrollTo(y, { duration: 0.8 }); else scrollTo({ top: y, behavior: 'smooth' });
+    });
+    metrics(); place();
+  }
+
+  /* ---------- Conteúdo surgindo suavemente ---------- */
+  if (document.documentElement.classList.contains('js-anim') && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+    const mark = (el, i) => {
+      if (!el || el.classList.contains('rv') || el.tagName === 'TEMPLATE' || el.tagName === 'IMG' || el.hasAttribute('data-show') || el.getAttribute('aria-hidden') === 'true' && !el.hasAttribute('data-type')) return;
+      el.classList.add('rv');
+      el.style.setProperty('--d', Math.min(i, 6) * 90 + 'ms');
+      io.observe(el);
+    };
+    const sameKind = (el) => el.children.length >= 3 && Array.from(el.children).every((c) => c.tagName === el.children[0].tagName);
+    document.querySelectorAll('.v2 > section, .v2 > footer').forEach((sec, sIdx) => {
+      const boxes = sec.querySelectorAll(':scope > div[style*="max-width"]');
+      boxes.forEach((box) => {
+        let i = 0;
+        Array.from(box.children).forEach((child) => {
+          if (sameKind(child)) Array.from(child.children).forEach((c) => mark(c, i++));
+          else if (child.children.length === 2 && child.tagName === 'DIV' && sIdx > 0) Array.from(child.children).forEach((c) => mark(c, i++));
+          else mark(child, i++);
+        });
+      });
+    });
+  }
+
+  /* ---------- Digitação do nome no rodapé ---------- */
+  document.querySelectorAll('[data-type]').forEach((el) => {
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+    const text = el.textContent.trim();
+    el.textContent = '';
+    const chars = Array.from(text).map((ch) => {
+      const s = document.createElement('span'); s.className = 'type-char'; s.textContent = ch === ' ' ? ' ' : ch; el.appendChild(s); return s;
+    });
+    const caret = document.createElement('span'); caret.className = 'type-caret'; el.insertBefore(caret, el.firstChild);
+    const obs = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting) return;
+      obs.disconnect();
+      chars.forEach((s, i) => setTimeout(() => {
+        s.classList.add('on'); s.after(caret);
+        if (i === chars.length - 1) caret.classList.add('done');
+      }, 250 + i * 95));
+    }, { threshold: 0.5 });
+    obs.observe(el);
   });
 
   /* Links ainda sem endereço definido (redes sociais) */
