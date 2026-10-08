@@ -10,6 +10,10 @@ Header always set Referrer-Policy "strict-origin-when-cross-origin"
 <FilesMatch "\.(?:sql|log|env|bak)$">
 Require all denied
 </FilesMatch>
+# Telas da área restrita só saem pelos index.php, depois do login.
+<FilesMatch "^_.+\.html$">
+Require all denied
+</FilesMatch>
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^briefings/?$ admin/leads/index.php [R=302,L]

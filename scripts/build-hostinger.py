@@ -30,6 +30,13 @@ for p in out.glob('*.html'):
  s=p.read_text()
  for name,v in versions.items():s=s.replace(f'{name}"',f'{name}?v={v}"')
  p.write_text(s)
+# Simulador da equipe: mesma regra de versão para os arquivos próprios.
+sim=out/'admin'/'simulador'
+if sim.exists():
+ sv={n:hashlib.sha256((sim/n).read_bytes()).hexdigest()[:10] for n in ['simulador.css','simulador.js','calc.js']}
+ page=sim/'_simulador.html';s=page.read_text()
+ for n,v in sv.items():s=s.replace(f'"{n}"',f'"{n}?v={v}"')
+ page.write_text(s)
 if preview:
  # robots.txt only controls the origin root; meta noindex protects this subdirectory.
  (out/'robots.txt').write_text('User-agent: *\nDisallow: /admin/\nDisallow: /api/\n')

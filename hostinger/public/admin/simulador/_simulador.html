@@ -1,0 +1,155 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Simulador | AM Consórcios</title><meta name="description" content="Simulador de consórcio da equipe AM para apresentações."><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="simulador.css"><script src="calc.js" defer></script><script src="simulador.js" defer></script></head>
+<body>
+<a class="skip" href="#resultado">Ir para o resultado</a>
+<header class="top">
+  <a class="brand" href="/" aria-label="Ver o site da AM"><img src="/assets/am-logo-dourado.svg" alt="" width="40" height="40"><span>AM Consórcios<small>Simulador da equipe</small></span></a>
+  <nav class="top-nav" aria-label="Área da equipe"><a href="/admin/leads/">Contatos</a><a href="/admin/simulador/" aria-current="page">Simulador</a></nav>
+  <div class="top-actions">
+    <button type="button" class="tbtn" id="btn-apresentar" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg><span>Apresentar</span></button>
+    <button type="button" class="tbtn" id="btn-whats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l1.5-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg><span>WhatsApp</span></button>
+    <button type="button" class="tbtn gold" id="btn-pdf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg><span>Proposta em PDF</span></button>
+    <form method="post" action="/admin/leads/logout.php" class="logout"><input type="hidden" name="csrf" id="logout-csrf"><button class="tbtn">Sair</button></form>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="panel" aria-label="Dados da simulação">
+    <form id="form" novalidate>
+      <div class="fl"><input id="cliente" name="cliente" placeholder=" " autocomplete="off" maxlength="80"><label for="cliente">Nome do cliente</label></div>
+
+      <fieldset class="block">
+        <legend>Objetivo</legend>
+        <div class="seg seg-3" role="group" aria-label="Objetivo">
+          <button type="button" data-obj="imovel" aria-pressed="true">Imóvel<small>Santander</small></button>
+          <button type="button" data-obj="automovel" aria-pressed="false">Automóvel<small>Servopa</small></button>
+          <button type="button" data-obj="investimento" aria-pressed="false">Investimento<small>Servopa</small></button>
+        </div>
+      </fieldset>
+
+      <div class="block">
+        <div class="fl fl--money"><span class="fl-prefix" aria-hidden="true">R$</span><input id="credito" inputmode="numeric" autocomplete="off" placeholder=" "><label for="credito">Valor do crédito</label></div>
+        <div class="chips" id="chips" aria-label="Valores rápidos"></div>
+      </div>
+
+      <div class="row2">
+        <div class="fl fl--select" id="grupo-wrap"><select id="grupo"></select><label for="grupo">Grupo</label></div>
+        <div class="fl"><input id="prazo" inputmode="numeric" placeholder=" " autocomplete="off"><label for="prazo">Prazo (meses)</label></div>
+      </div>
+
+      <fieldset class="block">
+        <legend>Contemplação simulada</legend>
+        <div class="seg" role="group" aria-label="Forma de contemplação">
+          <button type="button" data-lance="nenhum" aria-pressed="true">Sorteio</button>
+          <button type="button" data-lance="fixo" aria-pressed="false">Lance fixo</button>
+          <button type="button" data-lance="livre" aria-pressed="false">Lance livre</button>
+        </div>
+        <div class="range">
+          <label for="mes">Mês da contemplação <output id="mes-out" for="mes">12</output></label>
+          <input type="range" id="mes" min="1" max="240" value="12">
+        </div>
+        <div class="lance-opts" id="lance-opts" hidden>
+          <div class="row2">
+            <div class="fl"><input id="lancePct" inputmode="decimal" placeholder=" " autocomplete="off"><label for="lancePct">Lance (%)</label></div>
+            <div class="fl fl--select"><select id="abatimento"><option value="parcela">Parcela</option><option value="prazo">Prazo</option></select><label for="abatimento">O lance reduz</label></div>
+          </div>
+          <label class="check"><input type="checkbox" id="embutido" checked><span>Lance embutido (sai do próprio crédito)</span></label>
+        </div>
+      </fieldset>
+
+      <details class="premissas internal" id="premissas">
+        <summary>Premissas da administradora</summary>
+        <p class="fonte" id="fonte"></p>
+        <div class="row2">
+          <div class="fl"><input id="taxaAdm" inputmode="decimal" placeholder=" "><label for="taxaAdm">Taxa de adm. (%)</label></div>
+          <div class="fl"><input id="fundoReserva" inputmode="decimal" placeholder=" "><label for="fundoReserva">Fundo de reserva (%)</label></div>
+          <div class="fl"><input id="reducao" inputmode="decimal" placeholder=" "><label for="reducao">Redução da parcela (%)</label></div>
+          <div class="fl"><input id="reducaoAte" inputmode="numeric" placeholder=" "><label for="reducaoAte">Redução até o mês (0 = contemplação)</label></div>
+          <div class="fl"><input id="reajusteTaxa" inputmode="decimal" placeholder=" "><label for="reajusteTaxa">Reajuste por período (%)</label></div>
+          <div class="fl fl--select"><select id="reajustePeriodo"><option value="12">Anual</option><option value="6">Semestral</option></select><label for="reajustePeriodo">Período do reajuste</label></div>
+          <div class="fl fl--select"><select id="reducaoBase"><option value="fc">Só o fundo comum</option><option value="total">Parcela inteira</option></select><label for="reducaoBase">A redução vale sobre</label></div>
+          <div class="fl fl--select"><select id="lanceBase"><option value="credito">Crédito</option><option value="plano">Crédito + taxas</option></select><label for="lanceBase">Base do lance</label></div>
+          <div class="fl"><input id="venda" inputmode="decimal" placeholder=" "><label for="venda">Venda da carta (% do crédito)</label></div>
+          <div class="fl"><input id="aplicacao" inputmode="decimal" placeholder=" "><label for="aplicacao">Aplicação (% ao mês)</label></div>
+          <div class="fl"><input id="finTaxa" inputmode="decimal" placeholder=" "><label for="finTaxa" id="finTaxa-label">Financiamento (% a.a.)</label></div>
+          <div class="fl"><input id="finPrazo" inputmode="numeric" placeholder=" "><label for="finPrazo">Financiamento (meses)</label></div>
+        </div>
+        <button type="button" class="link" id="restaurar">Restaurar premissas da base</button>
+      </details>
+    </form>
+  </aside>
+
+  <main class="main" id="resultado" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-head">
+        <p class="eyebrow" id="hero-eyebrow">Consórcio de imóvel · Santander</p>
+        <h1 id="hero-title">Parcela de <strong>R$ 0</strong></h1>
+        <p class="hero-sub" id="hero-sub"></p>
+      </div>
+      <dl class="kpis">
+        <div><dt>Crédito</dt><dd id="kpi-credito">—</dd></div>
+        <div><dt id="kpi-depois-label">Parcela depois</dt><dd id="kpi-depois">—</dd></div>
+        <div><dt>Taxas por mês</dt><dd id="kpi-taxa">—</dd></div>
+        <div><dt id="kpi-plano-label">Taxa total</dt><dd id="kpi-plano">—</dd></div>
+      </dl>
+    </section>
+
+    <div class="tabs" role="tablist" aria-label="Visões da simulação">
+      <button role="tab" id="tab-evolucao" aria-controls="view-evolucao" aria-selected="true">Evolução da cota</button>
+      <button role="tab" id="tab-contemplacao" aria-controls="view-contemplacao" aria-selected="false" tabindex="-1">Contemplação e lance</button>
+      <button role="tab" id="tab-comparativo" aria-controls="view-comparativo" aria-selected="false" tabindex="-1">Consórcio × financiamento</button>
+      <button role="tab" id="tab-tabela" aria-controls="view-tabela" aria-selected="false" tabindex="-1">Ano a ano</button>
+    </div>
+
+    <section class="view" id="view-evolucao" role="tabpanel" aria-labelledby="tab-evolucao">
+      <div class="view-head">
+        <div><h2>O que a cota vale em cada momento</h2><p>Arraste para ver, mês a mês, se compensa mais usar o crédito, vender a carta ou manter como investimento.</p></div>
+      </div>
+      <figure class="chart-card">
+        <div class="legend" id="legend-evo"></div>
+        <div class="chart" id="chart-evo"></div>
+        <div class="phases" id="phases"></div>
+        <div class="range range--big">
+          <label for="scrub">Se a carta for contemplada no <output id="scrub-out" for="scrub">mês 12</output></label>
+          <input type="range" id="scrub" min="1" max="240" value="12">
+        </div>
+      </figure>
+      <div class="strategies" id="strategies"></div>
+      <div class="marcos-card"><h3>Pontos de virada</h3><ol class="marcos" id="marcos"></ol></div>
+    </section>
+
+    <section class="view" id="view-contemplacao" role="tabpanel" aria-labelledby="tab-contemplacao" hidden>
+      <div class="view-head"><div><h2 id="cont-title">Contemplação no mês 12</h2><p id="cont-sub"></p></div></div>
+      <div class="cont-grid" id="cont-grid"></div>
+      <figure class="chart-card"><figcaption>Parcela mês a mês</figcaption><div class="chart" id="chart-parcela"></div></figure>
+    </section>
+
+    <section class="view" id="view-comparativo" role="tabpanel" aria-labelledby="tab-comparativo" hidden>
+      <div class="view-head"><div><h2>O mesmo crédito, dois caminhos</h2><p id="comp-sub"></p></div>
+        <div class="seg seg-sm" role="group" aria-label="Sistema do financiamento"><button type="button" data-sis="sac" aria-pressed="true">SAC</button><button type="button" data-sis="price" aria-pressed="false">Price</button></div></div>
+      <div class="compare" id="compare"></div>
+      <p class="note" id="comp-note"></p>
+    </section>
+
+    <section class="view" id="view-tabela" role="tabpanel" aria-labelledby="tab-tabela" hidden>
+      <div class="view-head"><div><h2>Ano a ano</h2><p>Valores no fim de cada ano, considerando que a carta ainda não foi contemplada.</p></div></div>
+      <div class="table-wrap"><table class="tbl" id="tabela"></table></div>
+    </section>
+
+    <p class="disclaimer" id="disclaimer"></p>
+  </main>
+</div>
+
+<!-- Proposta para impressão / PDF -->
+<article class="print" id="print" aria-hidden="true"></article>
+
+<dialog id="dlg-whats" class="dlg" aria-labelledby="dlg-whats-title">
+  <form method="dialog" class="dlg-inner">
+    <h2 id="dlg-whats-title">Enviar resumo no WhatsApp</h2>
+    <div class="fl"><input id="whats-num" type="tel" placeholder=" " autocomplete="off"><label for="whats-num">WhatsApp do cliente com DDD (opcional)</label></div>
+    <textarea id="whats-text" rows="12" aria-label="Mensagem"></textarea>
+    <div class="dlg-actions"><button value="cancel" class="tbtn ghost">Fechar</button><button type="button" class="tbtn ghost" id="whats-copy">Copiar texto</button><button type="button" class="tbtn gold" id="whats-open">Abrir WhatsApp</button></div>
+    <p class="hint">O WhatsApp abre com a mensagem pronta. Você revisa e decide quando enviar.</p>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>

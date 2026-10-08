@@ -12,6 +12,16 @@ Código do site institucional, simulador e demonstração de leads. Destino soli
 - WhatsApp atualizado para o número informado pela AM: (11) 99608-6204.
 - CI de testes e build no GitHub; o workflow gera um artefato, **não faz deploy**.
 
+## Simulador da equipe (pitch)
+
+Fica em `/admin/simulador/`, com o mesmo login do painel de contatos (`hostinger/public/admin/simulador/`). Todo o cálculo roda no navegador; nada é gravado no servidor. O estado da simulação fica no endereço da página, para reabrir depois.
+
+- **Bases de preço:** imóvel = Consórcio Santander (grupos 3210, 3213, 3216 e 3217, conforme os anúncios de outubro de 2026); automóvel e investimento = Servopa (premissas da planilha "Plano de investimento v6"). Premissas em `calc.js` (`BASES`) e editáveis na tela em "Premissas da administradora".
+- **Conta:** feita em percentual do crédito, como as administradoras fazem. Parcela reduzida até a 60ª assembleia ou a contemplação (Santander, só sobre o fundo comum) ou até a contemplação (Servopa, parcela inteira). A diferença reduzida é diluída nas parcelas seguintes, então o total pago sempre fecha 100% + taxas. As planilhas antigas mantinham 50% durante todo o prazo e subestimavam o total pago.
+- **Visões:** evolução da cota mês a mês (usar o crédito × vender a carta × manter como investimento, com pontos de virada), contemplação e lance, consórcio × financiamento e tabela ano a ano. Saídas: modo apresentação, proposta em PDF (impressão A4) e resumo pronto para WhatsApp.
+- **Pendências:** prazo e taxa de automóvel na tabela Servopa (hoje: 100 meses com as premissas da planilha), índice de reajuste e rendimento de aplicação que a AM quer usar como padrão.
+- Testes do cálculo: `node --test tests/simulador-calc.test.mjs` (compara com a planilha Servopa e com os anúncios Santander).
+
 ## Validação local
 
 Node.js 22. Executar `npm ci`, `npm test` e `npm run build`.

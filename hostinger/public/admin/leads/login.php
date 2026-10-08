@@ -1,13 +1,14 @@
 <?php
 require __DIR__.'/../../_server/bootstrap.php';
-start_session();if(authenticated())redirect_to('/admin/leads/');
+$dest=(($_GET['next']??'')==='simulador')?'/admin/simulador/':'/admin/leads/';
+start_session();if(authenticated())redirect_to($dest);
 $message='';
 if($_SERVER['REQUEST_METHOD']==='POST'){
  same_origin();csrf();rate('login',8,900);
  $password=$_POST['password']??'';$user=$_POST['username']??'';
  $valid=is_string($password)&&strlen($password)<=1024&&password_verify($password,$cfg['password_hash']);
  if($valid&&is_string($user)&&hash_equals($cfg['username']??'AM',$user)){
-  session_regenerate_id(true);$_SESSION=['auth'=>true,'started'=>time(),'last'=>time(),'csrf'=>bin2hex(random_bytes(32)),'version'=>hash('sha256',$cfg['password_hash'])];audit('login-success');redirect_to('/admin/leads/');
+  session_regenerate_id(true);$_SESSION=['auth'=>true,'started'=>time(),'last'=>time(),'csrf'=>bin2hex(random_bytes(32)),'version'=>hash('sha256',$cfg['password_hash'])];audit('login-success');redirect_to($dest);
  }
  audit('login-failed');$message='Confira o usuário e a senha.';
 }
