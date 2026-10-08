@@ -117,3 +117,14 @@ html.has-sb::-webkit-scrollbar{width:0;height:0}
 @media (max-width:760px){.v2 .goal-title{white-space:normal}}
 @media (prefers-reduced-motion: reduce){.js-anim .v2 .goal-panel.rv{clip-path:none}}
 .v2 .on-dark a.goal-panel:hover,.v2 .on-dark a.goal-panel:focus-visible{color:#FFFFFF}
+
+/* Faixa e imagens da seção de depoimentos */
+.v2 .dep-hero{aspect-ratio:21/9}
+@media (max-width:760px){.v2 .dep-hero{aspect-ratio:4/5}.v2 .dep-hero img{object-position:62% center}}
+.js-anim .v2 .dep-hero.rv{opacity:1;transform:none;clip-path:inset(10% 6% 10% 6% round 20px);transition:clip-path 1.6s var(--am-inout)}
+.js-anim .v2 .dep-hero.rv.in{clip-path:inset(0 0 0 0 round 20px)}
+.js-anim .v2 .dep-hero.rv img{transform:scale(1.14);transition:transform 2.4s var(--am-inout)}
+.js-anim .v2 .dep-hero.rv.in img{transform:none}
+.js-anim .v2 .dep-hero figcaption{opacity:0;transform:translateY(18px);transition:opacity 1s ease .7s,transform 1.2s var(--am-ease) .7s}
+.js-anim .v2 .dep-hero.rv.in figcaption{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){.js-anim .v2 .dep-hero.rv{clip-path:none}.js-anim .v2 .dep-hero figcaption{opacity:1;transform:none}}
