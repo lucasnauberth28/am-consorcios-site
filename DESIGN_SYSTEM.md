@@ -95,3 +95,10 @@ Direção aprovada no canvas de design: clareza, transparência de custos e um c
 - Botões com elevação no hover, brilho no dourado e compressão ao clicar; WhatsApp fixo com entrada e pulso discreto.
 - Nome "AM CONSÓRCIOS" do rodapé digitado quando aparece na tela.
 - Tudo respeita a preferência de movimento reduzido do aparelho.
+
+### Simulador em duas etapas (08/10/2026)
+
+- Etapa 1: tipo (imóvel/automóvel), simular pelo valor do crédito ou pelo valor da parcela, valor e prazo; resultado na hora, sem detalhamento de taxas. Nas páginas de produto, o lance continua na etapa 1.
+- Etapa 2: resumo com "Alterar", nome e sobrenome, CPF (máscara e validação) e WhatsApp, mais a autorização. O CPF segue criptografado no servidor como os demais dados.
+- Depoimentos e casos das páginas de produto são ilustrativos, com nomes fictícios e aviso visível; trocar por avaliações reais antes de publicar no domínio principal.
+- Consultor: Alex Ferreira.
