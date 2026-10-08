@@ -20,6 +20,16 @@ for p in out.rglob('*'):
   s=s.replace('https://amconsorcios.com/assets/hero-poster.jpg','https://amconsorcios.com/homologacao/assets/hero-poster.jpg')
   s=re.sub(r'(<meta property="og:url" content=")https://amconsorcios.com/',r'\1https://amconsorcios.com/homologacao/',s)
  p.write_text(s)
+# Cache busting: versioned URLs for the site's own CSS/JS so browsers never mix old scripts with new pages.
+import hashlib
+versions={}
+for name in ['site-v2.js','site-v2.css','assets/lenis.min.js','assets/lenis.css']:
+ f=out/name
+ if f.exists():versions[name]=hashlib.sha256(f.read_bytes()).hexdigest()[:10]
+for p in out.glob('*.html'):
+ s=p.read_text()
+ for name,v in versions.items():s=s.replace(f'{name}"',f'{name}?v={v}"')
+ p.write_text(s)
 if preview:
  # robots.txt only controls the origin root; meta noindex protects this subdirectory.
  (out/'robots.txt').write_text('User-agent: *\nDisallow: /admin/\nDisallow: /api/\n')
