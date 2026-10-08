@@ -4,6 +4,8 @@ Código do site institucional, simulador e demonstração de leads. Destino soli
 
 ## Estado desta entrega
 
+- Redesign v2 publicado em homologação (07/10/2026): ver "Redesign v2" no `DESIGN_SYSTEM.md`.
+
 - Política de Privacidade fornecida pela AM, data 05/10/2026, em `dist/politica-de-privacidade.html`.
 - Termos de Uso em `dist/termos-de-uso.html`: **minuta identificada, pendente de aprovação da AM**. Aprovar a redação antes de publicá-la como termos oficiais.
 - Links locais de privacidade e termos nos rodapés institucionais; ciência da política no formulário.

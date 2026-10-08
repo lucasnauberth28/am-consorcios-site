@@ -3,11 +3,11 @@
  const $=id=>document.getElementById(id),statuses=['Novo','Em contato','Concluído'];
  const base=location.pathname.replace(/\/admin\/leads\/(?:index\.php)?$/,'');
  const endpoint=base+'/api/briefings.php';
- const labels={imovel:'Imóvel',carro:'Veículo',investir:'Patrimônio',carta:'Carta contemplada',venda:'Negociar cota',mentoria:'Encontro presencial'};
+ const labels={imovel:'Imóvel',carro:'Automóvel',investir:'Patrimônio',carta:'Carta contemplada',venda:'Negociar cota',mentoria:'Para empresas'};
  const credit={'nao-sei':'A conversar','ate-100k':'Até R$ 100 mil','100-300k':'R$ 100–300 mil','300-600k':'R$ 300–600 mil','600k-1m':'R$ 600 mil–1 milhão','mais-1m':'Acima de R$ 1 milhão'};
  const timing={planejamento:'Em planejamento','12-24':'12 a 24 meses','avaliar-agora':'Avaliar agora'};
  const experience={primeiro:'Primeiro contato',conheco:'Já conhece', 'tenho-cota':'Já possui cota'};
- const stage={iniciar:'Conhecer o consórcio',organizar:'Avaliar possibilidades',desenvolver:'Conversar sobre parceria'};
+ const stage={iniciar:'Quer começar a vender consórcio',organizar:'Já vende e quer melhorar',desenvolver:'Está formando uma equipe'};
  let leads=[],filter='Todos',selected=null,csrf='',next=null,busy=false,timer;
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const normalized=v=>v.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();

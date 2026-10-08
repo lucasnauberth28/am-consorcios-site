@@ -72,3 +72,17 @@ Na apresentação, reutilizar logo, tokens, tipografia e capturas reais do site 
 ## Demonstração da área de contatos
 
 `/admin/leads/` apresenta somente contatos fictícios, busca por nome/interesse, filtros por situação e detalhes em painel lateral. Entrada simulada, aviso por e-mail e mensagem de WhatsApp são prévias locais, sem envio ou chamadas de API. Situação e exemplos usam sessionStorage para estado explicitamente local de demonstração. A área real `/briefings` e suas proteções permanecem sob o Worker; não devem ser usadas como fonte de dados da demonstração.
+
+## Redesign v2 (07/10/2026)
+
+Direção aprovada no canvas de design: clareza, transparência de custos e um consultor de verdade.
+
+- Páginas: `index.html` (principal), `imovel.html`, `automovel.html`, `empresas.html` e `contempladas.html` (tela de passagem que redireciona em 3 s para amcontempladas.com.br). `cultura.html`, `simulador.html` e `mentoria.html` passam a redirecionar para as páginas novas.
+- Tipografia: Newsreader (títulos), Instrument Sans (texto) e Cinzel apenas no nome da marca. Logo vetorizado em `assets/am-logo-dourado.svg` (fundo escuro) e `assets/am-logo-dourado-escuro.svg` (fundo claro).
+- Cores: branco, preto `#111111`/`#0A0A0A`, areia `#F7F5F0`, linhas `#E6E2DA`; dourado `#D4AF37` só no botão principal, ouro escuro `#8A6408` em texto pequeno sobre claro.
+- Topo da principal com o vídeo (`assets/hero-film-1280.mp4`, 1,1 MB, comprimido do original) e botão de pausa; movimento reduzido respeitado.
+- Calculadora transparente (crédito + taxa de administração + fundo de reserva, juros R$ 0) e simulador com lance nas páginas de produto. Premissas em `site-v2.js` (`TAXA_ADM`, `FUNDO`, taxas de financiamento): ilustrativas, a validar com a AM.
+- Leads: os formulários enviam para `api/briefings.php` com nome, WhatsApp e consentimento; a simulação vai no campo `note` e a página de origem em `source`. Perguntas de horizonte e experiência ficaram opcionais no servidor. Para empresas usa o identificador técnico `mentoria`, mas o texto público é "Para empresas".
+- Botão de WhatsApp fixo no canto inferior direito em todas as páginas.
+- Pendências marcadas entre colchetes nas páginas: números da AM, nota e avaliações do Google, administradoras parceiras, nome e foto do Alex, depoimentos, horário, redes sociais e as premissas de taxa. Imagens geradas por IA são ilustrativas; pessoas reais da AM só com foto real.
+- Política de privacidade e termos ainda usam o estilo anterior.
