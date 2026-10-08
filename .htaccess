@@ -2,6 +2,9 @@ DirectoryIndex index.html index.php
 Options -Indexes
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
+<FilesMatch "\.html$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 <FilesMatch "\.(?:sql|log|env|bak)$">
