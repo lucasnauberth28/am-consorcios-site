@@ -259,7 +259,7 @@
       const fail = (m, el) => { err.textContent = m; err.hidden = false; if (el) el.focus(); };
       if (nome.length < 3 || !nome.includes(' ')) return fail('Informe seu nome e sobrenome.', form.elements.nome);
       const cpfEl = form.elements.cpf; const cpf = cpfEl ? cpfEl.value.replace(/\D/g, '') : '';
-      if (cpfEl && !validCPF(cpf)) return fail('Confira o CPF.', cpfEl);
+      if (cpf && !validCPF(cpf)) return fail('Confira o CPF ou deixe o campo em branco.', cpfEl);
       if (!/^[1-9]\d{9,10}$/.test(phone)) return fail('Informe um WhatsApp com DDD.', tel);
       if (!form.elements.consent.checked) return fail('Confirme a autorização para a AM entrar em contato.', form.elements.consent);
       const payload = Object.assign({ requestId, name: nome, phone, cpf, consent: true, consentVersion: CONSENT_VERSION, website: form.elements.website.value }, leadPayload(form));
