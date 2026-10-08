@@ -1,0 +1,92 @@
+/* AM Consórcios — site v2: movimento, campos, botões e barra de rolagem. */
+:root{--am-ease:cubic-bezier(.2,.8,.2,1);--am-gold:#D4AF37;--am-ink:#111111;--fl-bg:#FFFFFF}
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto!important}
+
+/* ---------- Conteúdo surgindo ---------- */
+.js-anim .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--am-ease),transform 1s var(--am-ease);transition-delay:var(--d,0ms);will-change:opacity,transform}
+.js-anim .rv.in{opacity:1;transform:none}
+.js-anim .rv-img{clip-path:inset(8% 8% 8% 8% round 16px);transition:clip-path 1.2s var(--am-ease),opacity .9s var(--am-ease)}
+.js-anim .rv-img.in{clip-path:inset(0 0 0 0 round 16px)}
+
+/* ---------- Botões ---------- */
+.v2 a[class*="btn-"],.v2 button,.v2 a[style*="border-radius: 999px"]{transition:transform .35s var(--am-ease),box-shadow .35s var(--am-ease),background-color .3s ease,color .3s ease,border-color .3s ease}
+@media (hover:hover) and (pointer:fine){
+ .v2 a[class*="btn-"]:hover,.v2 button[type=submit]:hover,.v2 a[style*="border-radius: 999px"]:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.55)}
+ .v2 .seg:hover,.v2 .chip:hover,.v2 .pill-opt:hover{transform:translateY(-1px)}
+}
+.v2 a[class*="btn-"]:active,.v2 button:active,.v2 a[style*="border-radius: 999px"]:active{transform:translateY(0) scale(.97);box-shadow:none;transition-duration:.12s}
+.v2 .btn-gold{position:relative;overflow:hidden;isolation:isolate}
+.v2 .btn-gold::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.55) 50%,transparent 75%);transform:translateX(-130%);transition:transform .9s var(--am-ease);pointer-events:none}
+.v2 .btn-gold:hover::after{transform:translateX(130%)}
+.v2 button:disabled{opacity:.6;cursor:progress;transform:none!important}
+
+/* Links do menu e do rodapé */
+.v2 nav.nav-links a:not([aria-current]){background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;padding-bottom:3px;transition:background-size .4s var(--am-ease),color .3s}
+.v2 nav.nav-links a:hover{background-size:100% 1px}
+.v2 footer a{transition:color .3s ease}
+
+/* WhatsApp fixo: entrada e pulso discreto */
+.v2 .wa-float{animation:am-pop .7s var(--am-ease) 1s both}
+.v2 .wa-float::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25D366;animation:am-ring 3.6s ease-out 2.4s infinite;pointer-events:none}
+@keyframes am-pop{from{opacity:0;transform:scale(.4) translateY(20px)}to{opacity:1;transform:none}}
+@keyframes am-ring{0%{opacity:.7;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.7)}}
+
+/* ---------- Campos com rótulo flutuante (estilo "on") ---------- */
+.fl{position:relative;flex:0 0 auto;min-width:0}
+.fl input,.fl select{display:block;width:100%;height:56px;box-sizing:border-box;margin:0;border:1px solid #CFC8BA;border-radius:12px;background-color:var(--fl-bg);color:#111111;font:inherit;font-size:16px;padding:0 16px;outline:none;transition:border-color .25s ease,box-shadow .25s ease,background-color .25s ease}
+.fl input::placeholder{color:transparent}
+.fl input:hover,.fl select:hover{border-color:#8F897D}
+.fl input:focus,.fl select:focus{border-color:#111111;box-shadow:0 0 0 4px rgba(212,175,55,.28)}
+.fl input:user-invalid{border-color:#B3261E}
+.fl label{position:absolute;left:11px;top:50%;transform:translateY(-50%);padding:0 6px;border-radius:4px;background:var(--fl-bg);color:#6B665C;font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 28px);pointer-events:none;transition:top .25s var(--am-ease),font-size .25s var(--am-ease),color .25s ease}
+.fl input:focus+label,.fl input:not(:placeholder-shown)+label,.fl select+label{top:0;font-size:12.5px;color:#5E5B55}
+.fl input:focus+label,.fl select:focus+label{color:#8A6408}
+.fl select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:46px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%23111111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;background-size:12px 8px}
+.fl select:focus{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%238A6408' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 6.5 6 1.5 11 6.5'/%3E%3C/svg%3E")}
+.fl select option{color:#111111;background:#FFFFFF}
+/* Valor do crédito: campo grande com prefixo */
+.fl--money input{height:78px;padding-left:56px;font-family:Newsreader,Georgia,serif;font-size:38px;letter-spacing:-.02em}
+.fl--money .fl-prefix{position:absolute;left:18px;top:50%;transform:translateY(-42%);font-family:Newsreader,Georgia,serif;font-size:24px;color:#5E5B55;pointer-events:none}
+.fl--money label{top:0;font-size:12.5px}
+.fl input[type=number]::-webkit-inner-spin-button,.fl input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.fl input[type=number]{-moz-appearance:textfield}
+.v2 .form-title{margin:0;flex:1 1 100%;font-size:14px;color:#5E5B55}
+
+/* Checkbox de autorização */
+.v2 .consent input{appearance:none;-webkit-appearance:none;width:20px;height:20px;flex:0 0 20px;margin:0;border:1.5px solid #8F897D;border-radius:6px;background:#FFFFFF;display:grid;place-content:center;cursor:pointer;transition:background-color .2s,border-color .2s,box-shadow .2s}
+.v2 .consent input::after{content:"";width:10px;height:6px;border-left:2px solid #FFFFFF;border-bottom:2px solid #FFFFFF;transform:rotate(-45deg) scale(0);transition:transform .25s var(--am-ease);margin-top:-2px}
+.v2 .consent input:checked{background:#111111;border-color:#111111}
+.v2 .consent input:checked::after{transform:rotate(-45deg) scale(1)}
+.v2 .consent input:focus-visible{box-shadow:0 0 0 4px rgba(212,175,55,.35);outline:none}
+
+/* Mensagem de sucesso */
+.js-anim [data-show]:not([hidden]) > [role=status]{animation:am-rise .7s var(--am-ease) both}
+@keyframes am-rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* Menu do celular */
+.v2 .mobile-menu:not([hidden]){animation:am-menu .35s var(--am-ease) both;transform-origin:top right}
+@keyframes am-menu{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+
+/* ---------- Barra de rolagem personalizada ---------- */
+html.has-sb{scrollbar-width:none}
+html.has-sb::-webkit-scrollbar{width:0;height:0}
+.sb-rail{position:fixed;top:8px;right:4px;bottom:8px;width:12px;z-index:90;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.sb-rail.is-on{opacity:1;pointer-events:auto}
+.sb-thumb{position:absolute;right:2px;width:6px;min-height:40px;border-radius:999px;background:#FFFFFF;mix-blend-mode:difference;opacity:.75;cursor:grab;transition:width .2s ease,opacity .2s ease}
+.sb-rail:hover .sb-thumb,.sb-rail.is-drag .sb-thumb{width:9px;opacity:.95}
+.sb-rail.is-drag .sb-thumb{cursor:grabbing}
+
+/* ---------- Digitação do nome no rodapé ---------- */
+.type-char{opacity:0}
+.type-char.on{opacity:1}
+.type-caret{display:inline-block;width:.06em;height:.72em;margin-left:.04em;background:currentColor;vertical-align:baseline;animation:am-caret 1s steps(1) infinite}
+.type-caret.done{animation:am-caret 1s steps(1) 3,am-fade .6s ease 3s forwards}
+@keyframes am-caret{50%{opacity:0}}
+@keyframes am-fade{to{opacity:0}}
+
+@media (prefers-reduced-motion: reduce){
+ .v2 *,.v2 *::before,.v2 *::after{animation:none!important;transition-duration:.01ms!important}
+ .js-anim .rv,.js-anim .rv-img{opacity:1;transform:none;clip-path:none}
+ .type-char{opacity:1}
+}

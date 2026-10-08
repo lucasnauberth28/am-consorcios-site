@@ -86,3 +86,12 @@ Direção aprovada no canvas de design: clareza, transparência de custos e um c
 - Botão de WhatsApp fixo no canto inferior direito em todas as páginas.
 - Pendências marcadas entre colchetes nas páginas: números da AM, nota e avaliações do Google, administradoras parceiras, nome e foto do Alex, depoimentos, horário, redes sociais e as premissas de taxa. Imagens geradas por IA são ilustrativas; pessoas reais da AM só com foto real.
 - Política de privacidade e termos ainda usam o estilo anterior.
+
+### Movimento e formulários (08/10/2026)
+
+- Rolagem suave com Lenis (`assets/lenis.min.js`) e conteúdo surgindo ao entrar na tela (`.rv` em `site-v2.css`/`site-v2.js`).
+- Barra de rolagem própria em telas com mouse: aparece ao rolar ou ao aproximar o cursor da borda direita e some 0,9 s depois; pode ser arrastada.
+- Campos com rótulo flutuante no estilo "on": o rótulo fica dentro do campo e sobe para a borda ao focar ou preencher. Selects com seta própria; WhatsApp com máscara; valor do crédito formatado.
+- Botões com elevação no hover, brilho no dourado e compressão ao clicar; WhatsApp fixo com entrada e pulso discreto.
+- Nome "AM CONSÓRCIOS" do rodapé digitado quando aparece na tela.
+- Tudo respeita a preferência de movimento reduzido do aparelho.
