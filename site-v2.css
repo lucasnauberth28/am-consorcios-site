@@ -90,3 +90,10 @@ html.has-sb::-webkit-scrollbar{width:0;height:0}
  .js-anim .rv,.js-anim .rv-img{opacity:1;transform:none;clip-path:none}
  .type-char{opacity:1}
 }
+
+/* Alternador "valor do crédito / valor da parcela" */
+.v2 .seg-sm{min-height:40px;border:0;border-radius:999px;font:inherit;font-size:14px;font-weight:500;cursor:pointer;padding:0 10px}
+.v2 .step-panel:not([hidden]){animation:am-step .55s var(--am-ease) both}
+@keyframes am-step{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+.v2 .btn-arrow{display:inline-block;transition:transform .35s var(--am-ease)}
+.v2 button:hover .btn-arrow{transform:translateX(4px)}

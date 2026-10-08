@@ -80,8 +80,9 @@
     document.querySelectorAll('[data-model]').forEach((el) => {
       if (el.closest('template')) return;
       const k = el.dataset.model; if (!(k in v)) return;
-      if (document.activeElement !== el || el.tagName === 'SELECT') el.value = (k === 'credit' && v[k] !== '') ? Number(v[k]).toLocaleString('pt-BR') : v[k];
+      if (document.activeElement !== el || el.tagName === 'SELECT') el.value = ((k === 'credit' || k === 'valor') && v[k] !== '') ? Number(v[k]).toLocaleString('pt-BR') : v[k];
     });
+    document.querySelectorAll('[data-width]').forEach((el) => { const k = el.dataset.width; if (k in v) el.style.width = v[k]; });
     document.querySelectorAll('[data-attr-min],[data-attr-max],[data-attr-aria-label]').forEach((el) => {
       ['min', 'max', 'aria-label'].forEach((a) => {
         const k = el.getAttribute('data-attr-' + a); if (!k) return;
@@ -119,67 +120,86 @@
   const num = (x) => Math.max(0, Number(x) || 0);
   let leadPayload = () => ({});
 
-  if (page === 'home') {
+  /* Simulador em duas etapas (página principal e páginas de produto) */
+  if (page === 'home' || page === 'lance-imovel' || page === 'lance-auto') {
+    const lancePage = page !== 'home';
     const cfgFor = (t) => t === 'imovel'
-      ? { min: 50000, max: 2000000, quick: [200000, 400000, 600000, 1000000], prazos: [120, 150, 180, 200, 240], dflt: 400000, dPrazo: 200, i: Math.pow(1.115, 1 / 12) - 1 }
-      : { min: 30000, max: 400000, quick: [50000, 80000, 120000, 200000], prazos: [48, 60, 72, 80, 100], dflt: 80000, dPrazo: 80, i: 0.0179 };
-    Object.assign(state, { tipo: 'imovel', credit: 400000, prazo: 200 });
-    const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, credit: c.dflt, prazo: c.dPrazo }); render(); };
+      ? { quickC: [200000, 400000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12 }
+      : { quickC: [50000, 80000, 120000, 200000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6 };
+    Object.assign(state, { tipo: page === 'lance-auto' ? 'veiculo' : 'imovel', modo: 'credito', step: 1, lance: 25 });
+    { const c = cfgFor(state.tipo); state.valor = c.dflt; state.prazo = c.dPrazo; }
+    const FATOR = 1 + TAXA_ADM + FUNDO;
+    const nums = () => {
+      const valor = num(state.valor), prazo = state.prazo;
+      const credit = state.modo === 'credito' ? valor : Math.round(valor * prazo / FATOR / 1000) * 1000;
+      const parcela = state.modo === 'credito' ? (prazo ? credit * FATOR / prazo : 0) : valor;
+      return { credit, parcela, prazo };
+    };
+    const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, modo: 'credito', valor: c.dflt, prazo: c.dPrazo }); render(); };
+    const setModo = (m) => {
+      if (state.modo === m) return;
+      const n = nums();
+      state.valor = m === 'credito' ? n.credit : Math.round(n.parcela / 10) * 10;
+      state.modo = m; render();
+    };
     actions.setImovel = () => setTipo('imovel');
     actions.setVeiculo = () => setTipo('veiculo');
-    actions.onCredit = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 9); state.credit = d === '' ? '' : Number(d); e.target.value = d === '' ? '' : Number(d).toLocaleString('pt-BR'); render(); };
+    actions.modoCredito = () => setModo('credito');
+    actions.modoParcela = () => setModo('parcela');
+    actions.onValor = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 9); state.valor = d === '' ? '' : Number(d); e.target.value = d === '' ? '' : Number(d).toLocaleString('pt-BR'); render(); };
     actions.onPrazo = (e) => { state.prazo = Number(e.target.value); render(); };
+    const panel = () => document.querySelector('#simular');
+    actions.next = () => {
+      if (num(state.valor) <= 0) { const el = panel().querySelector('[data-model=valor]'); if (el) el.focus(); return; }
+      state.step = 2; render();
+      const first = panel().querySelector('[data-show=step2] input'); if (first) setTimeout(() => first.focus({ preventScroll: true }), 350);
+      if (lenis && innerWidth < 900) lenis.scrollTo(panel().querySelector('[data-show=step2]'), { offset: -90 });
+    };
+    actions.back = () => { state.step = 1; render(); };
     compute = () => {
-      const c = cfgFor(state.tipo); const credit = num(state.credit); const prazo = state.prazo;
-      const adm = credit * TAXA_ADM, fundo = credit * FUNDO, total = credit + adm + fundo;
-      const fin = price(credit, c.i, prazo);
-      return Object.assign(videoVals(), {
-        cfg: { min: c.min, max: c.max }, credit: state.credit, prazo,
+      const c = cfgFor(state.tipo); const n = nums(); const prazo = n.prazo;
+      const porCredito = state.modo === 'credito';
+      const tipoNome = state.tipo === 'imovel' ? 'Imóvel' : 'Automóvel';
+      const out = Object.assign(videoVals(), {
+        valor: state.valor, prazo, porCredito, porParcela: !porCredito,
         isImovel: state.tipo === 'imovel', isVeiculo: state.tipo === 'veiculo',
-        quick: c.quick.map((v) => ({ label: short(v), on: v === credit, pick: () => { state.credit = v; render(); } })),
+        step1: state.step === 1, step2: state.step === 2,
+        etapaTexto: `Etapa ${state.step} de 2`, etapaNome: state.step === 1 ? 'Sua simulação' : 'Seus dados', progress: state.step === 1 ? '50%' : '100%',
+        valorLabel: porCredito ? (lancePage ? (state.tipo === 'imovel' ? 'Valor do imóvel' : 'Valor do carro') : 'Quanto você precisa?') : 'Quanto quer pagar por mês?',
+        quick: (porCredito ? c.quickC : c.quickP).map((v) => ({ label: porCredito ? short(v) : money.format(v), on: v === num(state.valor), pick: () => { state.valor = v; render(); } })),
         prazos: c.prazos.map((m) => ({ value: m, label: m + ' meses' })),
-        creditFmt: money.format(credit), taxaAdm: money.format(adm), fundo: money.format(fundo),
-        consTotal: money.format(total), consParcela: money.format(prazo ? total / prazo : 0),
-        finParcela: money.format(fin), finTotal: money.format(fin * prazo),
+        resultLabel: porCredito ? 'Sua parcela' : 'Crédito estimado',
+        resultValor: porCredito ? money.format(n.parcela) : money.format(n.credit),
+        resultSufixo: porCredito ? ' /mês' : '',
+        resumoTitulo: `${tipoNome} · ${money.format(n.credit)}`,
+        resumoDetalhe: `${prazo} meses · ${money.format(n.parcela)}/mês`,
+        creditFmt: money.format(n.credit), consParcela: money.format(n.parcela),
       });
+      if (lancePage) {
+        const total = n.credit * FATOR;
+        const restante = Math.max(0, total - n.parcela * c.mes);
+        const lance = state.lance, valorLance = n.credit * lance / 100;
+        const depois = Math.max(0, restante - valorLance) / Math.max(1, prazo - c.mes);
+        Object.assign(out, {
+          parcela: money.format(n.parcela), depois: money.format(lance ? depois : n.parcela),
+          depoisLabel: lance ? 'Parcela depois do lance' : 'Parcela depois de contemplado',
+          lanceFrase: lance
+            ? `Com um lance de ${money.format(valorLance)} (${lance}% do crédito), a parcela cai para cerca de ${money.format(depois)} depois da contemplação.`
+            : 'Sem lance, você concorre só no sorteio e mantém a mesma parcela até o fim.',
+          lances: [0, 15, 25, 30].map((v) => ({ label: v ? v + '%' : 'Sem', on: v === lance, pick: () => { state.lance = v; render(); } })),
+          resumoDetalhe: `${prazo} meses · ${money.format(n.parcela)}/mês${lance ? ` · lance de ${lance}%` : ''}`,
+        });
+      }
+      return out;
     };
     leadPayload = () => {
-      const v = compute(); const credit = num(state.credit);
-      return { interest: state.tipo === 'imovel' ? 'imovel' : 'carro', credit: bucket(credit), source: 'Site · simulador da página principal',
-        note: `Simulação no site: ${state.tipo === 'imovel' ? 'imóvel' : 'automóvel'} de ${v.creditFmt} em ${state.prazo} meses, parcela estimada de ${v.consParcela}.` };
-    };
-  }
-
-  if (page === 'lance-imovel' || page === 'lance-auto') {
-    const imovel = page === 'lance-imovel';
-    const prazos = imovel ? [120, 150, 180, 200, 240] : [48, 60, 72, 80, 100];
-    const mesContemplacao = imovel ? 12 : 6;
-    Object.assign(state, { credit: imovel ? 500000 : 90000, prazo: imovel ? 200 : 80, lance: 25 });
-    actions.onCredit = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 9); state.credit = d === '' ? '' : Number(d); e.target.value = d === '' ? '' : Number(d).toLocaleString('pt-BR'); render(); };
-    actions.onPrazo = (e) => { state.prazo = Number(e.target.value); render(); };
-    compute = () => {
-      const credit = num(state.credit); const { prazo, lance } = state;
-      const adm = credit * TAXA_ADM, fundo = credit * FUNDO, total = credit + adm + fundo;
-      const parcela = prazo ? total / prazo : 0;
-      const restante = Math.max(0, total - parcela * mesContemplacao);
-      const valorLance = credit * lance / 100;
-      const depois = Math.max(0, restante - valorLance) / Math.max(1, prazo - mesContemplacao);
+      const v = compute(); const n = nums();
+      const origem = page === 'home' ? 'Site · simulador da página principal' : page === 'lance-imovel' ? 'Site · página de imóvel' : 'Site · página de automóvel';
       return {
-        credit: state.credit, prazo, creditFmt: money.format(credit),
-        taxaAdm: money.format(adm), fundo: money.format(fundo), consTotal: money.format(total),
-        parcela: money.format(parcela), depois: money.format(lance ? depois : parcela),
-        depoisLabel: lance ? 'Parcela depois do lance' : 'Parcela depois de contemplado',
-        lanceFrase: lance
-          ? `Com um lance de ${money.format(valorLance)} (${lance}% do crédito), a parcela cai de ${money.format(parcela)} para cerca de ${money.format(depois)} depois da contemplação.`
-          : 'Sem lance, você concorre só no sorteio e mantém a mesma parcela até o fim.',
-        prazos: prazos.map((m) => ({ value: m, label: m + ' meses' })),
-        lances: [0, 15, 25, 30].map((v) => ({ label: v ? v + '%' : 'Sem', on: v === lance, pick: () => { state.lance = v; render(); } })),
+        interest: state.tipo === 'imovel' ? 'imovel' : 'carro', credit: bucket(n.credit), source: origem,
+        monthlyBudget: state.modo === 'parcela' ? String(n.parcela) : '',
+        note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${state.tipo === 'imovel' ? 'imóvel' : 'automóvel'}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela estimada de ${v.consParcela}${lancePage ? `, lance de ${state.lance}%` : ''}.`,
       };
-    };
-    leadPayload = () => {
-      const v = compute();
-      return { interest: imovel ? 'imovel' : 'carro', credit: bucket(num(state.credit)), source: imovel ? 'Site · página de imóvel' : 'Site · página de automóvel',
-        note: `Simulação no site: crédito de ${v.creditFmt} em ${state.prazo} meses, lance de ${state.lance}%. Parcela ${v.parcela}; depois do lance, cerca de ${v.depois}.` };
     };
   }
 
@@ -194,6 +214,18 @@
   }
 
   /* ---------- Formulários de lead ---------- */
+  const validCPF = (v) => {
+    if (!/^\d{11}$/.test(v) || /^(\d)\1{10}$/.test(v)) return false;
+    for (let n = 9; n <= 10; n++) {
+      let sum = 0; for (let i = 0; i < n; i++) sum += Number(v[i]) * (n + 1 - i);
+      const d = (sum * 10) % 11; if ((d === 10 ? 0 : d) !== Number(v[n])) return false;
+    }
+    return true;
+  };
+  document.querySelectorAll('input[name=cpf]').forEach((el) => el.addEventListener('input', () => {
+    const d = el.value.replace(/\D/g, '').slice(0, 11);
+    el.value = d.replace(/^(\d{3})(\d)/, '$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1-$2');
+  }));
   const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = crypto.getRandomValues(new Uint8Array(1))[0] % 16; return (c === 'x' ? r : (r & 3) | 8).toString(16);
   }));
@@ -226,9 +258,11 @@
       const phone = (tel ? tel.value : '').replace(/\D/g, '');
       const fail = (m, el) => { err.textContent = m; err.hidden = false; if (el) el.focus(); };
       if (nome.length < 3 || !nome.includes(' ')) return fail('Informe seu nome e sobrenome.', form.elements.nome);
+      const cpfEl = form.elements.cpf; const cpf = cpfEl ? cpfEl.value.replace(/\D/g, '') : '';
+      if (cpfEl && !validCPF(cpf)) return fail('Confira o CPF.', cpfEl);
       if (!/^[1-9]\d{9,10}$/.test(phone)) return fail('Informe um WhatsApp com DDD.', tel);
       if (!form.elements.consent.checked) return fail('Confirme a autorização para a AM entrar em contato.', form.elements.consent);
-      const payload = Object.assign({ requestId, name: nome, phone, consent: true, consentVersion: CONSENT_VERSION, website: form.elements.website.value }, leadPayload(form));
+      const payload = Object.assign({ requestId, name: nome, phone, cpf, consent: true, consentVersion: CONSENT_VERSION, website: form.elements.website.value }, leadPayload(form));
       if (submit) submit.disabled = true;
       try {
         const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), credentials: 'same-origin' });

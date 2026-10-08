@@ -133,8 +133,10 @@ html{scroll-behavior:smooth}
 <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
 <div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 28px">
 <div style="display: flex; flex-direction: column; gap: 10px">
-
-<div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input data-change="onCredit" data-model="credit" id="valor-imovel" inputmode="numeric" max="2000000" min="50000" placeholder=" " step="1000" type="text"/><label for="valor-imovel">Valor do imóvel</label></div>
+<div aria-label="Simular por" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
+<button aria-pressed="true" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do imóvel</button>
+<button aria-pressed="false" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+</div><div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input autocomplete="off" data-change="onValor" data-model="valor" id="valor-imovel" inputmode="numeric" placeholder=" " type="text"/><label for="valor-imovel"><span data-bind="valorLabel">Valor do crédito</span></label></div>
 </div>
 <div class="fl"><select data-change="onPrazo" data-model="prazo" id="prazo-imovel">
 <template data-as="p" data-for="prazos"><option data-model="value"><span data-bind="label"></span></option></template>
@@ -149,29 +151,39 @@ html{scroll-behavior:smooth}
 <span style="font-size: 13px; color: #5E5B55; line-height: 1.5">Pode ser dinheiro, FGTS ou parte do próprio crédito (lance embutido).</span>
 </div>
 </div>
-<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 24px">
-<dl style="margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Crédito</dt><dd style="margin: 0"><span data-bind="creditFmt"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Taxa de administração ([18]%)<sup>1</sup></dt><dd style="margin: 0">+ <span data-bind="taxaAdm"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Fundo de reserva ([2]%)</dt><dd style="margin: 0">+ <span data-bind="fundo"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #E6E2DA; padding-top: 10px"><dt style="color: #5E5B55">Total</dt><dd style="margin: 0; font-weight: 500"><span data-bind="consTotal"></span></dd></div>
-</dl>
+<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 24px"><div class="sim-progress" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #5E5B55"><span><span data-bind="etapaTexto">Etapa 1 de 2</span></span><span><span data-bind="etapaNome">Sua simulação</span></span></div>
+<div style="height: 3px; background: #EFEBE3; border-radius: 3px; overflow: hidden"><div data-width="progress" style="height: 100%; width: 50%; background: #D4AF37; border-radius: 3px; transition: width .7s cubic-bezier(.2,.8,.2,1)"></div></div>
+</div>
+<div class="step-panel" data-show="step1" style="display: flex; flex-direction: column; gap: 22px">
+<div data-show="porParcela" style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 14px; color: #5E5B55"><span data-bind="resultLabel">Sua parcela</span></span><span style="font-family: Newsreader, Georgia, serif; font-size: 44px; line-height: 1; letter-spacing: -0.02em"><span data-bind="resultValor"></span><span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; color: #5E5B55"><span data-bind="resultSufixo"></span></span></span></div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
 <div style="background: #F4F2ED; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #5E5B55">Parcela até a contemplação</span><span style="font-family: Newsreader, Georgia, serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em"><span data-bind="parcela"></span></span></div>
 <div style="background: #F4F2ED; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #5E5B55"><span data-bind="depoisLabel"></span></span><span style="font-family: Newsreader, Georgia, serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em"><span data-bind="depois"></span></span></div>
 </div>
 <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #3D3B37"><span data-bind="lanceFrase"></span></p>
+<button class="btn-ink" data-action="next" style="min-height: 54px; border: 0; border-radius: 999px; background: #111111; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px" type="button">Continuar <span aria-hidden="true" class="btn-arrow">→</span></button>
+<span style="font-size: 13px; color: #5E5B55; text-align: center">Na próxima etapa, só os seus dados de contato.</span>
+</div>
+<div class="step-panel" data-show="step2" hidden="" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #F4F2ED; border-radius: 12px; padding: 16px 18px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 15px; font-weight: 600"><span data-bind="resumoTitulo"></span></strong><span style="font-size: 14px; color: #5E5B55"><span data-bind="resumoDetalhe"></span></span></div>
+<button class="btn-outline" data-action="back" style="flex: 0 0 auto; border: 1px solid #CFC8BA; background: #FFFFFF; color: #111111; border-radius: 999px; min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; cursor: pointer" type="button">Alterar</button>
+</div>
 <div class="wrap-contents" data-show="notSent">
-<form data-submit="onLead" style="display: flex; gap: 8px; flex-wrap: wrap; border-top: 1px solid #E6E2DA; padding-top: 20px">
-<p class="form-title">Receba os grupos disponíveis para este valor</p>
-<div class="fl" style="flex: 1 1 100%"><input autocomplete="name" id="nome-imovel" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-imovel">Seu nome e sobrenome</label></div><div class="fl" style="flex: 1 1 200px"><input autocomplete="tel-national" id="whats-imovel" placeholder=" " required="" type="tel"/><label for="whats-imovel">WhatsApp com DDD</label></div>
-<button class="btn-gold" style="min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer" type="submit">Enviar</button>
+<form data-submit="onLead" style="display: flex; flex-direction: column; gap: 14px">
+<p class="form-title">Para onde enviamos a sua simulação?</p>
+<div class="fl"><input autocomplete="name" id="nome-imovel" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-imovel">Nome e sobrenome</label></div>
+<div class="fl"><input autocomplete="off" id="cpf-imovel" inputmode="numeric" maxlength="14" name="cpf" placeholder=" " required=""/><label for="cpf-imovel">CPF</label></div>
+<div class="fl"><input autocomplete="tel-national" id="whats-imovel" name="whatsapp" placeholder=" " required="" type="tel"/><label for="whats-imovel">WhatsApp com DDD</label></div>
+<button class="btn-gold" style="min-height: 54px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer" type="submit">Receber minha simulação</button>
+<span style="font-size: 13px; color: #5E5B55; line-height: 1.45">Seus dados ficam protegidos e só a equipe da AM tem acesso.</span>
 </form>
 </div>
 <div class="wrap-contents" data-show="sent">
-<p role="status" style="margin: 0; font-size: 15px; line-height: 1.5; border-left: 2px solid #D4AF37; padding-left: 14px">Recebido. O [Alex] vai mandar os grupos para <span data-bind="creditFmt"></span> no seu WhatsApp.</p>
+<div role="status" style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #D4AF37; padding-left: 16px"><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1">Pronto, recebemos!</strong><span style="font-size: 15px; line-height: 1.55; color: #3D3B37">O Alex vai mandar no seu WhatsApp os grupos disponíveis para essa simulação.</span></div>
 </div>
-</div>
+</div></div>
 </div>
 <p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa simplificada: o lance abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês [12]. Não inclui seguro nem a correção anual do crédito pelo INCC. Lance não garante contemplação.</p>
 </div>
@@ -191,14 +203,14 @@ html{scroll-behavior:smooth}
 <section style="background: #111111; color: #FFFFFF">
 <div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-direction: column; gap: 48px">
 <p style="margin: 0; font-size: 15px; color: #A8A399">Um caso real</p>
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 960px">“[Nome] comprou um apartamento de R$ [520 mil] no [mês 14], com lance de [25]%.”</h2>
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 960px">“Mariana comprou um apartamento de R$ 520 mil no mês 14, com lance de 25%.”</h2>
 <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); border-top: 1px solid #2E2C29">
-<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês 1</span><span style="font-size: 16px; color: #E9E5DC">Entrou no grupo com parcela de R$ [3.100]</span></li>
-<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês [12]</span><span style="font-size: 16px; color: #E9E5DC">A AM indicou o melhor momento para o lance</span></li>
-<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês [14]</span><span style="font-size: 16px; color: #E9E5DC">Contemplado, com FGTS + recursos próprios</span></li>
-<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês [16]</span><span style="font-size: 16px; color: #E9E5DC">Escritura assinada, comprando à vista</span></li>
+<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês 1</span><span style="font-size: 16px; color: #E9E5DC">Entrou no grupo com parcela de R$ 3.100</span></li>
+<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês 12</span><span style="font-size: 16px; color: #E9E5DC">A AM indicou o melhor momento para o lance</span></li>
+<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês 14</span><span style="font-size: 16px; color: #E9E5DC">Contemplado, com FGTS + recursos próprios</span></li>
+<li style="padding: 24px 24px 0 0; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #D4AF37">Mês 16</span><span style="font-size: 16px; color: #E9E5DC">Escritura assinada, comprando à vista</span></li>
 </ol>
-<p style="margin: 0; font-size: 13px; color: #A8A399">[Caso a ser preenchido com um cliente real, com autorização. Resultados variam por grupo.]</p>
+<p style="margin: 0; font-size: 13px; color: #A8A399">Caso ilustrativo, com nome fictício. Substituir por um caso real antes da publicação. Resultados variam por grupo.</p>
 </div>
 </section>
 <!-- DÚVIDAS -->
@@ -218,7 +230,7 @@ html{scroll-behavior:smooth}
 <div style="max-width: 1280px; margin: 0 auto; padding: 112px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px">
 <h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(44px, 5.4vw, 76px); line-height: 1; letter-spacing: -0.03em; max-width: 760px">Vamos achar o grupo certo para o seu imóvel?</h2>
 <div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start">
-<span style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #EFEBE3; border: 1px dashed #B5AE9F; flex: 0 0 44px"></span>Fale direto com o [Alex]</span>
+<span style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span aria-hidden="true" style="width: 44px; height: 44px; border-radius: 50%; background: #EFEBE3; border: 1px dashed #B5AE9F; flex: 0 0 44px"></span>Fale direto com o Alex</span>
 <a class="btn-gold" href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 28px; min-height: 56px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 16px" target="_blank">Conversar no WhatsApp</a>
 </div>
 </div>

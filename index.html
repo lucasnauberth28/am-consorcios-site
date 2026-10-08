@@ -119,55 +119,60 @@ html{scroll-behavior:smooth}
 </dl>
 <a href="#consultor" style="display: flex; align-items: center; gap: 14px; text-decoration: none; max-width: 520px; color: #FFFFFF">
 <span aria-hidden="true" style="width: 52px; height: 52px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px dashed rgba(255,255,255,0.4); flex: 0 0 52px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #CFCAC0">foto</span>
-<span style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; line-height: 1.4"><span><strong style="font-weight: 600">Atendimento direto com o [Alex]</strong>, consultor da AM.</span><span style="color: #CFCAC0">[4,9] no Google<sup>2</sup> · [120] avaliações</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; line-height: 1.4"><span><strong style="font-weight: 600">Atendimento direto com o Alex</strong>, consultor da AM.</span><span style="color: #CFCAC0">[4,9] no Google<sup>2</sup> · [120] avaliações</span></span>
 </a>
 </div>
 <!-- CALCULADORA TRANSPARENTE -->
-<div id="simular" style="flex: 0 1 470px; width: 100%; min-width: 0; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 20px; background: #FFFFFF; color: #111111; box-shadow: 0 30px 80px rgba(0,0,0,0.4)">
+<div id="simular" style="flex: 0 1 470px; width: 100%; min-width: 0; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 20px; background: #FFFFFF; color: #111111; box-shadow: 0 30px 80px rgba(0,0,0,0.4)"><div class="sim-progress" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #5E5B55"><span><span data-bind="etapaTexto">Etapa 1 de 2</span></span><span><span data-bind="etapaNome">Sua simulação</span></span></div>
+<div style="height: 3px; background: #EFEBE3; border-radius: 3px; overflow: hidden"><div data-width="progress" style="height: 100%; width: 50%; background: #D4AF37; border-radius: 3px; transition: width .7s cubic-bezier(.2,.8,.2,1)"></div></div>
+</div>
+<div class="step-panel" data-show="step1" style="display: flex; flex-direction: column; gap: 18px">
 <div aria-label="Tipo de consórcio" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
 <button aria-pressed="false" class="seg" data-action="setImovel" data-pressed="isImovel" style="min-height: 42px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer" type="button">Imóvel</button>
 <button aria-pressed="false" class="seg" data-action="setVeiculo" data-pressed="isVeiculo" style="min-height: 42px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer" type="button">Automóvel</button>
 </div>
-<div style="display: flex; flex-direction: column; gap: 10px">
-
-<div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input data-attr-max="cfg.max" data-attr-min="cfg.min" data-change="onCredit" data-model="credit" id="valor" inputmode="numeric" placeholder=" " step="1000" type="text"/><label for="valor">Quanto você precisa?</label></div>
-<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<div aria-label="Simular por" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
+<button aria-pressed="true" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do crédito</button>
+<button aria-pressed="false" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px"><div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input autocomplete="off" data-change="onValor" data-model="valor" id="valor-index" inputmode="numeric" placeholder=" " type="text"/><label for="valor-index"><span data-bind="valorLabel">Valor do crédito</span></label></div><div style="display: flex; flex-wrap: wrap; gap: 6px">
 <template data-as="q" data-for="quick">
 <button data-action="pick" style="min-height: 36px; padding: 0 12px; border-radius: 999px; color: #111111; font: inherit; font-size: 13px; cursor: pointer" type="button"><span data-bind="label"></span></button>
 </template>
-</div>
-</div>
+</div></div>
 <div class="fl"><select data-change="onPrazo" data-model="prazo" id="prazo-index">
 <template data-as="p" data-for="prazos">
 <option data-model="value"><span data-bind="label"></span></option>
 </template>
 </select><label for="prazo-index">Prazo</label></div>
-<dl style="margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px; border-top: 1px solid #E6E2DA; padding-top: 18px">
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Crédito</dt><dd style="margin: 0"><span data-bind="creditFmt"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Taxa de administração ([18]%)<sup>3</sup></dt><dd style="margin: 0">+ <span data-bind="taxaAdm"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Fundo de reserva ([2]%)</dt><dd style="margin: 0">+ <span data-bind="fundo"></span></dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Juros</dt><dd style="margin: 0">R$ 0</dd></div>
-<div style="display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #E6E2DA; padding-top: 10px"><dt style="color: #5E5B55">Total em <span data-bind="prazo"></span> parcelas</dt><dd style="margin: 0; font-weight: 500"><span data-bind="consTotal"></span></dd></div>
-</dl>
-<div style="background: #F4F2ED; border-radius: 12px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px">
-<span style="font-size: 14px; color: #5E5B55">Sua parcela</span>
-<span style="font-family: Newsreader, Georgia, serif; font-size: 48px; line-height: 1; letter-spacing: -0.02em"><span data-bind="consParcela"></span><span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; color: #5E5B55"> /mês</span></span>
-<span style="font-size: 14px; color: #3D3B37; line-height: 1.45">No financiamento, seria <span data-bind="finParcela"></span>/mês e <span data-bind="finTotal"></span> no total.<sup>4</sup></span>
+<div style="background: #F4F2ED; border-radius: 12px; padding: 20px 22px; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 14px; color: #5E5B55"><span data-bind="resultLabel">Sua parcela</span></span>
+<span style="font-family: Newsreader, Georgia, serif; font-size: 48px; line-height: 1; letter-spacing: -0.02em"><span data-bind="resultValor"></span><span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; color: #5E5B55"><span data-bind="resultSufixo"></span></span></span>
+<span style="font-size: 14px; color: #3D3B37">Sem juros e sem entrada. Valor estimado.</span>
+</div>
+<button class="btn-ink" data-action="next" style="min-height: 54px; border: 0; border-radius: 999px; background: #111111; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px" type="button">Continuar <span aria-hidden="true" class="btn-arrow">→</span></button>
+<span style="font-size: 13px; color: #5E5B55; text-align: center">Na próxima etapa, só os seus dados de contato.</span>
+</div>
+<div class="step-panel" data-show="step2" hidden="" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #F4F2ED; border-radius: 12px; padding: 16px 18px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 15px; font-weight: 600"><span data-bind="resumoTitulo"></span></strong><span style="font-size: 14px; color: #5E5B55"><span data-bind="resumoDetalhe"></span></span></div>
+<button class="btn-outline" data-action="back" style="flex: 0 0 auto; border: 1px solid #CFC8BA; background: #FFFFFF; color: #111111; border-radius: 999px; min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; cursor: pointer" type="button">Alterar</button>
 </div>
 <div class="wrap-contents" data-show="notSent">
-<form data-submit="onLead" style="display: flex; flex-direction: column; gap: 10px">
-<p class="form-title">Receba esta simulação no WhatsApp</p>
-<div style="display: flex; gap: 8px; flex-wrap: wrap">
-<div class="fl" style="flex: 1 1 100%"><input autocomplete="name" id="nome-index" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-index">Seu nome e sobrenome</label></div><div class="fl" style="flex: 1 1 200px"><input autocomplete="tel-national" id="whats" placeholder=" " required="" type="tel"/><label for="whats">WhatsApp com DDD</label></div>
-<button class="btn-gold" style="flex: 0 0 auto; min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer" type="submit">Enviar</button>
-</div>
-<span style="font-size: 13px; color: #5E5B55; line-height: 1.45">Só o seu WhatsApp. O [Alex] responde em até [1 hora útil].</span>
+<form data-submit="onLead" style="display: flex; flex-direction: column; gap: 14px">
+<p class="form-title">Para onde enviamos a sua simulação?</p>
+<div class="fl"><input autocomplete="name" id="nome-index" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-index">Nome e sobrenome</label></div>
+<div class="fl"><input autocomplete="off" id="cpf-index" inputmode="numeric" maxlength="14" name="cpf" placeholder=" " required=""/><label for="cpf-index">CPF</label></div>
+<div class="fl"><input autocomplete="tel-national" id="whats-index" name="whatsapp" placeholder=" " required="" type="tel"/><label for="whats-index">WhatsApp com DDD</label></div>
+<button class="btn-gold" style="min-height: 54px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer" type="submit">Receber minha simulação</button>
+<span style="font-size: 13px; color: #5E5B55; line-height: 1.45">Seus dados ficam protegidos e só a equipe da AM tem acesso.</span>
 </form>
 </div>
 <div class="wrap-contents" data-show="sent">
-<p role="status" style="margin: 0; font-size: 15px; line-height: 1.5; border-left: 2px solid #D4AF37; padding-left: 14px">Recebido. O [Alex] vai mandar no seu WhatsApp os grupos disponíveis para <span data-bind="creditFmt"></span> em <span data-bind="prazo"></span> meses.</p>
+<div role="status" style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #D4AF37; padding-left: 16px"><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1">Pronto, recebemos!</strong><span style="font-size: 15px; line-height: 1.55; color: #3D3B37">O Alex vai chamar você no WhatsApp com os grupos disponíveis para essa simulação.</span></div>
 </div>
-</div>
+</div></div>
 </div>
 <div style="position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 32px 28px; display: flex; align-items: center; gap: 12px">
 <button aria-label="Pausar vídeo" data-action="toggleVideo" data-attr-aria-label="videoLabel" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,10,10,0.3); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer" type="button">
@@ -191,7 +196,7 @@ html{scroll-behavior:smooth}
 <div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-wrap: wrap; gap: 72px">
 <div style="flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
 <h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Consórcio em quatro frases.</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37; max-width: 380px">Sem termos técnicos. Se ficar alguma dúvida, o [Alex] explica por telefone.</p>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37; max-width: 380px">Sem termos técnicos. Se ficar alguma dúvida, o Alex explica por telefone.</p>
 </div>
 <ol style="flex: 2 1 600px; min-width: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid #111111">
 <li style="display: flex; gap: 28px; padding: 28px 0; border-bottom: 1px solid #E6E2DA"><span style="font-size: 14px; color: #8A6408; font-weight: 600; padding-top: 6px; min-width: 20px">1</span><p style="margin: 0; font-size: clamp(20px, 2vw, 26px); line-height: 1.4">Você entra em um grupo de pessoas que querem comprar o mesmo tipo de bem.</p></li>
@@ -271,7 +276,7 @@ html{scroll-behavior:smooth}
 </ul>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: auto">
 <a class="btn-gold" href="contempladas.html" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 24px; min-height: 52px; display: inline-flex; align-items: center; border-radius: 999px">Ver cartas disponíveis</a>
-<a href="#consultor" style="color: #FFFFFF; font-size: 15px; padding: 14px 0">ou fale com o [Alex]</a>
+<a href="#consultor" style="color: #FFFFFF; font-size: 15px; padding: 14px 0">ou fale com o Alex</a>
 </div>
 </div>
 </article>
@@ -283,12 +288,12 @@ html{scroll-behavior:smooth}
 <section class="on-dark" id="consultor" style="background: #111111; color: #FFFFFF">
 <div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-wrap: wrap; gap: 72px; align-items: center">
 <div style="flex: 1 1 420px; min-width: 0; aspect-ratio: 4 / 5; max-height: 600px; border-radius: 16px; border: 1px dashed #4A4844; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #A8A399; text-align: center; padding: 24px">
-<span style="font-size: 16px">[Retrato do Alex]</span>
+<span style="font-size: 16px">[Retrato do Alex Ferreira]</span>
 <span style="font-size: 13px">Foto profissional, luz natural, no escritório</span>
 </div>
 <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
 <p style="margin: 0; font-size: 15px; color: #A8A399">Seu consultor</p>
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.6vw, 64px); line-height: 1; letter-spacing: -0.03em">[Nome do Alex]</h2>
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.6vw, 64px); line-height: 1; letter-spacing: -0.03em">Alex Ferreira</h2>
 <blockquote style="margin: 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 26px; line-height: 1.4; color: #E9E5DC">“[Uma frase do Alex, em primeira pessoa, sobre como ele atende e por que faz isso.]”</blockquote>
 <ul style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #2E2C29; font-size: 16px; color: #E9E5DC">
 <li style="padding: 16px 0; border-bottom: 1px solid #2E2C29">Atende pessoalmente, do primeiro contato até a compra.</li>
@@ -319,13 +324,14 @@ html{scroll-behavior:smooth}
 <section style="background: #F7F5F0">
 <div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-wrap: wrap; gap: 48px 72px">
 <figure style="flex: 2 1 560px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 32px">
-<blockquote style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.2; letter-spacing: -0.015em">“[Depoimento real de um cliente contemplado, com autorização. Idealmente uma frase concreta: quanto tempo levou, o que comprou.]”</blockquote>
-<figcaption style="display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #E6E2DA; border: 1px dashed #B5AE9F; flex: 0 0 56px"></span><span style="display: flex; flex-direction: column; gap: 2px; font-size: 15px"><strong style="font-weight: 600">[Nome do cliente]</strong><span style="color: #5E5B55">[Comprou apartamento na Zona Sul · 2025]</span></span></figcaption>
+<blockquote style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.2; letter-spacing: -0.015em">“Em 14 meses eu estava com a chave do apartamento na mão. O Alex explicou cada parcela antes de eu assinar e me avisou o melhor momento para dar o lance.”</blockquote>
+<figcaption style="display: flex; align-items: center; gap: 14px"><span aria-hidden="true" style="width: 56px; height: 56px; border-radius: 50%; background: #E6E2DA; border: 1px dashed #B5AE9F; flex: 0 0 56px"></span><span style="display: flex; flex-direction: column; gap: 2px; font-size: 15px"><strong style="font-weight: 600">Mariana Souza</strong><span style="color: #5E5B55">Apartamento na Zona Sul · 2025</span></span></figcaption>
 </figure>
 <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; border-top: 1px solid #111111">
 <div style="padding: 24px 0; border-bottom: 1px solid #DDD8CC; display: flex; flex-direction: column; gap: 6px"><span style="font-family: Newsreader, Georgia, serif; font-size: 48px; line-height: 1">[4,9]</span><span style="font-size: 14px; color: #5E5B55">nota média no Google, [120] avaliações<sup>2</sup></span></div>
-<figure style="margin: 0; padding: 24px 0; border-bottom: 1px solid #DDD8CC; display: flex; flex-direction: column; gap: 10px"><blockquote style="margin: 0; font-size: 16px; line-height: 1.55">“[Trecho curto de outra avaliação real.]”</blockquote><figcaption style="font-size: 14px; color: #5E5B55">[Nome] · [Carro via carta contemplada]</figcaption></figure>
-<figure style="margin: 0; padding: 24px 0; border-bottom: 1px solid #DDD8CC; display: flex; flex-direction: column; gap: 10px"><blockquote style="margin: 0; font-size: 16px; line-height: 1.55">“[Trecho curto de outra avaliação real.]”</blockquote><figcaption style="font-size: 14px; color: #5E5B55">[Nome] · [Vendeu a cota]</figcaption></figure>
+<figure style="margin: 0; padding: 24px 0; border-bottom: 1px solid #DDD8CC; display: flex; flex-direction: column; gap: 10px"><blockquote style="margin: 0; font-size: 16px; line-height: 1.55">“Comprei meu carro com uma carta contemplada em poucas semanas, sem burocracia.”</blockquote><figcaption style="font-size: 14px; color: #5E5B55">Ricardo Almeida · Carro via carta contemplada</figcaption></figure>
+<figure style="margin: 0; padding: 24px 0; border-bottom: 1px solid #DDD8CC; display: flex; flex-direction: column; gap: 10px"><blockquote style="margin: 0; font-size: 16px; line-height: 1.55">“Precisei vender minha cota e a AM cuidou de tudo, com transparência do começo ao fim.”</blockquote><figcaption style="font-size: 14px; color: #5E5B55">Fernanda Lima · Vendeu a cota</figcaption></figure>
+<p style="margin: 0; flex: 1 1 100%; font-size: 13px; color: #8A6408">Depoimentos ilustrativos, com nomes fictícios. Substituir por avaliações reais de clientes antes da publicação.</p>
 </div>
 </div>
 </section>
@@ -350,7 +356,7 @@ html{scroll-behavior:smooth}
 <h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(44px, 5.4vw, 76px); line-height: 1; letter-spacing: -0.03em">Quanto fica a sua parcela?</h2>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
 <a class="btn-gold" href="#simular" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 28px; min-height: 56px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 16px">Simular agora</a>
-<span style="font-size: 16px; color: #E2DED6">ou fale com o [Alex]: <a href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" style="color: #FFFFFF" target="_blank">(11) 99608-6204</a></span>
+<span style="font-size: 16px; color: #E2DED6">ou fale com o Alex: <a href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" style="color: #FFFFFF" target="_blank">(11) 99608-6204</a></span>
 </div>
 </div>
 </section>
