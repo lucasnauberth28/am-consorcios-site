@@ -1,1 +1,32 @@
-*{box-sizing:border-box}body{margin:0;background:#f4f2ed;color:#20201d;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px}.login{width:min(100%,440px);padding:38px;border-radius:22px;background:white;box-shadow:0 20px 70px #201d1410}.login img{border-radius:50%}.eyebrow{font-size:11px;letter-spacing:.2em;color:#8b713f;margin-top:24px}h1{font-size:34px;line-height:1.15;font-weight:500;letter-spacing:-1px}p{color:#69675f;line-height:1.6}label{display:block;margin:18px 0;font-size:13px}input{display:block;margin-top:8px;width:100%;border:1px solid #dad6cb;background:#faf9f5;border-radius:10px;padding:14px;font-size:16px}button{width:100%;border:0;border-radius:10px;background:#24241f;color:#fff;padding:16px;cursor:pointer;font-size:14px}a{display:block;text-align:center;margin-top:22px;color:#736141;font-size:13px}small{display:block;margin-top:24px;color:#8c887e;font-size:11px;text-align:center}.error{color:#a12d2d}input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #bca069;outline-offset:3px}@media(prefers-reduced-motion:no-preference){.login{animation:enter .45s ease-out}@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;flex-wrap:wrap;background:#111111;color:#111111;font:400 15px/1.5 'Instrument Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #B8860B;outline-offset:2px}
+.side{flex:1 1 420px;min-width:0;padding:56px;display:flex;flex-direction:column;justify-content:space-between;gap:48px;color:#fff;background:radial-gradient(circle at 80% 10%,rgba(212,175,55,.18),transparent 55%),#111111}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-weight:600;font-size:16px}
+.brand img{display:block}
+.eyebrow{margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D4AF37}
+h1{margin:0;max-width:520px;font-family:Newsreader,Georgia,serif;font-weight:400;font-size:clamp(36px,4.4vw,56px);line-height:1.02;letter-spacing:-.025em}
+.lead{margin:18px 0 0;max-width:520px;font-size:16px;line-height:1.6;color:#CFCAC0}
+.small{margin:0;font-size:13px;color:#8E897F}
+.form-side{flex:1 1 420px;min-width:0;background:#F7F5F0;display:flex;align-items:center;justify-content:center;padding:48px 24px}
+.login{width:100%;max-width:400px;display:flex;flex-direction:column;gap:16px;animation:enter .45s cubic-bezier(.2,.8,.2,1)}
+h2{margin:0 0 4px;font-family:Newsreader,Georgia,serif;font-weight:400;font-size:34px;line-height:1.1}
+.intro{margin:0 0 6px;color:#5E5B55}
+.error{margin:0;padding:12px 14px;border-radius:12px;background:#F7ECE8;color:#7E3322;font-size:14px}
+.fl{position:relative}
+.fl input{width:100%;height:56px;padding:22px 14px 6px;border:1px solid #CFC8BA;border-radius:12px;background:#fff;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+#pass{padding-right:56px}
+.fl label{position:absolute;left:15px;top:18px;font-size:15px;color:#5E5B55;pointer-events:none;transform-origin:left top;transition:transform .2s cubic-bezier(.2,.8,.2,1),color .2s}
+.fl input:focus{border-color:#111;box-shadow:0 0 0 3px rgba(212,175,55,.25)}
+.fl input:focus+label,.fl input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}
+.fl input:focus+label{color:#8A6408}
+.eye{position:absolute;right:6px;top:6px;width:44px;height:44px;border:0;background:transparent;color:#5E5B55;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:10px}
+.eye svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.eye[aria-pressed=true]{color:#111}
+.enter{min-height:54px;margin-top:4px;border:0;border-radius:999px;background:#111;color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:background .25s}
+.enter:hover{background:#2A2A2A}
+.note{margin:4px 0 0;font-size:13px;line-height:1.5;color:#5E5B55}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media (max-width:760px){.side{padding:28px 20px;gap:28px;flex-basis:100%}.form-side{padding:32px 16px 48px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

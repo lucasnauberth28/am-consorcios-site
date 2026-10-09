@@ -198,6 +198,8 @@
       return {
         interest: state.tipo === 'imovel' ? 'imovel' : 'carro', credit: bucket(n.credit), source: origem,
         monthlyBudget: state.modo === 'parcela' ? String(n.parcela) : '',
+        simCredit: String(Math.round(n.credit)), simTerm: String(n.prazo), simInstallment: (Math.round(n.parcela * 100) / 100).toFixed(2),
+        simMode: state.modo, simBid: lancePage ? String(state.lance) : '',
         note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${state.tipo === 'imovel' ? 'imóvel' : 'automóvel'}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela estimada de ${v.consParcela}${lancePage ? `, lance de ${state.lance}%` : ''}.`,
       };
     };

@@ -1,12 +1,76 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Contatos | AM Consórcios</title><meta name="description" content="Área restrita de atendimento da AM Consórcios."><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/design-tokens.css"><link rel="stylesheet" href="leads.css"><script src="leads.js" defer></script></head><body>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Contatos | AM Consórcios</title><meta name="description" content="Área restrita de atendimento da AM Consórcios."><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="leads.css"><script src="leads.js" defer></script></head><body>
 <a class="skip" href="#conteudo">Ir para os contatos</a>
-<header class="topbar"><a class="brand" href="/" aria-label="Voltar ao site AM"><span class="mark"><img src="/assets/am-logo.jpeg" alt="" width="148" height="148"></span><span>AM Consórcios<small>Área da equipe</small></span></a><div class="top-actions"><span class="demo"><i></i>Acesso protegido</span><a href="/admin/simulador/" class="site-link">Simulador</a><a href="/" class="site-link">Ver site</a><span class="avatar team" aria-label="Equipe AM">AM</span></div></header>
-<main id="conteudo" class="wrap"><div class="page-heading"><div><p class="eyebrow">UM CONTATO. UM PRÓXIMO PASSO.</p><h1>Boas conversas começam aqui.</h1><p class="subtitle">Veja quem chegou pelo site e inicie o atendimento com contexto.</p></div><button class="button primary" id="refresh">Atualizar contatos</button></div>
-<section class="overview" aria-label="Resumo dos contatos"><button class="metric" data-filter="Novo"><span class="metric-label"><i class="dot new"></i>Novos contatos</span><span class="metric-number" id="count-new">—</span><span class="metric-foot">Prontos para a primeira conversa</span></button><button class="metric" data-filter="Em contato"><span class="metric-label"><i class="dot talking"></i>Em atendimento</span><span class="metric-number" id="count-talking">—</span><span class="metric-foot">Conversas que já começaram</span></button><button class="metric" data-filter="Concluído"><span class="metric-label"><i class="dot done"></i>Concluídos</span><span class="metric-number" id="count-done">—</span><span class="metric-foot">Atendimentos finalizados</span></button></section>
-<section class="contacts" aria-labelledby="list-title"><div class="list-top"><div><h2 id="list-title">Seus contatos</h2><p id="result-count">Os mais recentes aparecem primeiro.</p></div><button id="load-more" class="button quiet" hidden>Carregar mais</button></div><div class="toolbar"><div class="tabs" role="group" aria-label="Filtrar por situação"><button data-filter="Todos" class="active" aria-pressed="true">Todos</button><button data-filter="Novo" aria-pressed="false">Novos</button><button data-filter="Em contato" aria-pressed="false">Em atendimento</button><button data-filter="Concluído" aria-pressed="false">Concluídos</button></div><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Buscar nome ou interesse</span><input id="search" type="search" placeholder="Buscar nome ou interesse" autocomplete="off"></label></div><div class="table-wrap"><table><thead><tr><th>Contato</th><th>Interesse</th><th>Crédito desejado</th><th>Recebido</th><th>Situação</th><th><span class="sr-only">Abrir contato</span></th></tr></thead><tbody id="rows"></tbody></table><div id="empty" class="empty" hidden><h3>Nenhum contato por aqui.</h3><p>Tente outro nome, interesse ou situação.</p><button id="clear" class="button quiet">Limpar filtros</button></div></div></section>
-<div class="demo-note"><p><strong>Contatos recebidos pelo formulário.</strong> Dados mantidos por até 30 dias. As contagens refletem os contatos carregados. Visitantes anônimos não são identificados.</p><form method="post" action="logout.php" id="logout-form"><input type="hidden" name="csrf" id="logout-csrf"><button>Sair da conta</button></form></div>
-</main><footer class="bottom"><span>AM Consórcios e Investimentos</span><span>Planejamento. Estratégia. Clareza.</span></footer>
-<dialog id="contact-dialog" class="drawer" aria-labelledby="contact-title"><div class="drawer-top"><span class="eyebrow">DETALHES DO CONTATO</span><button class="icon-button close" aria-label="Fechar detalhes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><div class="drawer-person"><span id="detail-avatar" class="avatar large"></span><div><h2 id="contact-title"></h2><p id="detail-reference"></p></div></div><span id="detail-status" class="status"></span><div class="intent"><span>O que quer conquistar</span><h3 id="detail-goal"></h3><p id="detail-summary"></p></div><dl class="details" id="details"></dl><div class="message-box"><p class="eyebrow">PRIMEIRA CONVERSA</p><p id="message"></p></div><div class="drawer-bottom"><button class="button primary" id="whatsapp-open"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l1.5-5.2A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8 7c0 4 2 6 6 7l2-2-2-1-1 1-3-3 1-1-1-2Z"/></svg>Abrir WhatsApp</button><label class="status-edit">Situação do atendimento<select id="status-select"><option>Novo</option><option>Em contato</option><option>Concluído</option></select></label><p class="hint">O WhatsApp abre uma mensagem pronta; você decide quando enviar.</p><button class="button quiet" id="delete-lead">Excluir este contato</button></div></dialog>
+<header class="top">
+  <a class="brand" href="/" aria-label="Ver o site da AM"><img src="/assets/am-logo-dourado.svg" alt="" width="40" height="30"><span>AM Consórcios<small>Área da equipe</small></span></a>
+  <nav class="top-nav" aria-label="Área da equipe"><a href="/admin/leads/" aria-current="page">Contatos</a><a href="/admin/simulador/">Simulador</a></nav>
+  <div class="top-actions">
+    <span class="secure"><i></i><span>Acesso protegido</span></span>
+    <form method="post" action="logout.php" id="logout-form"><input type="hidden" name="csrf" id="logout-csrf"><button class="tbtn">Sair</button></form>
+  </div>
+</header>
 
+<main id="conteudo" class="wrap">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Um contato. Um próximo passo.</p>
+      <h1>Boas conversas começam aqui.</h1>
+      <p class="sub">Veja quem chegou pelo site e comece o atendimento já sabendo o que a pessoa simulou.</p>
+    </div>
+    <button class="btn ink" id="refresh" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>Atualizar contatos</button>
+  </div>
+
+  <section class="metrics" aria-label="Resumo dos contatos">
+    <button class="metric" type="button" data-filter="Novo" aria-pressed="false"><span class="m-label"><i class="dot new"></i>Novos contatos</span><span class="m-num" id="count-new">—</span><span class="m-foot">Prontos para a primeira conversa</span></button>
+    <button class="metric" type="button" data-filter="Em contato" aria-pressed="false"><span class="m-label"><i class="dot talking"></i>Em atendimento</span><span class="m-num" id="count-talking">—</span><span class="m-foot">Conversas que já começaram</span></button>
+    <button class="metric" type="button" data-filter="Concluído" aria-pressed="false"><span class="m-label"><i class="dot done"></i>Concluídos</span><span class="m-num" id="count-done">—</span><span class="m-foot">Atendimentos finalizados</span></button>
+    <button class="metric" type="button" data-filter="Semana" aria-pressed="false"><span class="m-label"><i class="dot week"></i>Últimos 7 dias</span><span class="m-num" id="count-week">—</span><span class="m-foot">Chegaram pelo site nesta semana</span></button>
+  </section>
+
+  <section class="list" aria-labelledby="list-title">
+    <div class="list-head">
+      <div><h2 id="list-title">Seus contatos</h2><p id="result-count">Os mais recentes aparecem primeiro.</p></div>
+      <div class="tools">
+        <div class="tabs" role="group" aria-label="Filtrar por situação">
+          <button type="button" data-filter="Todos" aria-pressed="true">Todos</button>
+          <button type="button" data-filter="Novo" aria-pressed="false">Novos</button>
+          <button type="button" data-filter="Em contato" aria-pressed="false">Em atendimento</button>
+          <button type="button" data-filter="Concluído" aria-pressed="false">Concluídos</button>
+        </div>
+        <div class="fl search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder=" " autocomplete="off"><label for="search">Buscar nome ou interesse</label></div>
+      </div>
+    </div>
+
+    <div class="table-wrap only-desk"><table>
+      <thead><tr><th>Contato</th><th>Interesse</th><th>Simulou</th><th>Recebido</th><th>Situação</th><th><span class="sr-only">Abrir contato</span></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <div class="cards only-mobile" id="cards"></div>
+
+    <div id="empty" class="empty" hidden><h3>Nenhum contato por aqui.</h3><p>Tente outro nome, interesse ou situação.</p><button id="clear" class="btn ghost" type="button">Limpar filtros</button></div>
+    <div class="more"><button id="load-more" class="btn ghost" type="button" hidden>Carregar mais</button></div>
+  </section>
+
+  <p class="foot-note"><strong>Contatos recebidos pelos formulários do site.</strong> Cada contato fica guardado por até 30 dias e depois é excluído automaticamente. Visitantes que não enviaram o formulário não são identificados.</p>
+</main>
+
+<dialog id="contact-dialog" class="drawer" aria-labelledby="contact-title">
+  <div class="d-top"><span class="eyebrow">Detalhes do contato</span><button class="icon-btn close" type="button" aria-label="Fechar detalhes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="d-person"><span id="detail-avatar" class="avatar large"></span><div><h2 id="contact-title"></h2><p id="detail-reference"></p></div></div>
+  <span id="detail-status" class="status"></span>
+  <div class="goal"><span>O que quer conquistar</span><strong id="detail-goal"></strong><p id="detail-summary"></p></div>
+  <dl class="details" id="details"></dl>
+  <div class="message"><span class="eyebrow">Primeira conversa</span><p id="message"></p></div>
+  <div class="d-actions">
+    <button class="btn whats" id="whatsapp-open" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.7 7.4L3 21l1.5-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg>Abrir WhatsApp</button>
+    <a class="btn gold" id="simulate" href="/admin/simulador/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17 10 11l4 4 6-7"/><path d="M15 8h5v5"/></svg>Simular para o contato</a>
+  </div>
+  <p class="hint" id="actions-hint">O WhatsApp abre com a mensagem pronta; você decide quando enviar. O simulador abre já com o crédito e o prazo que a pessoa escolheu no site.</p>
+  <div class="fl"><select id="status-select"><option>Novo</option><option>Em contato</option><option>Concluído</option></select><label for="status-select">Situação do atendimento</label></div>
+  <button class="link danger" id="delete-lead" type="button">Excluir este contato</button>
+  <div class="confirm" id="delete-confirm" role="alertdialog" aria-labelledby="confirm-text" hidden>
+    <p id="confirm-text"></p>
+    <div><button class="btn red" id="delete-yes" type="button">Sim, excluir</button><button class="btn ghost" id="delete-no" type="button">Manter contato</button></div>
+  </div>
+</dialog>
 
 <div id="toast" class="toast" role="status" aria-live="polite"></div></body></html>

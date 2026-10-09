@@ -22,6 +22,14 @@ Fica em `/admin/simulador/`, com o mesmo login do painel de contatos (`hostinger
 - **Pendências:** prazo e taxa de automóvel na tabela Servopa (hoje: 100 meses com as premissas da planilha), índice de reajuste e rendimento de aplicação que a AM quer usar como padrão.
 - Testes do cálculo: `node --test tests/simulador-calc.test.mjs` (compara com a planilha Servopa e com os anúncios Santander).
 
+## Painel de contatos
+
+Fica em `/admin/leads/` (`hostinger/public/admin/leads/`), no mesmo visual do simulador. Cartões por situação e dos últimos 7 dias (clicáveis como filtro), busca, tabela no computador e cartões no celular, detalhe lateral com a simulação completa, CPF mascarado (com botão para mostrar), mensagem pronta para o WhatsApp, troca de situação e exclusão com confirmação no próprio painel.
+
+O formulário de simulação do site agora envia também `simCredit`, `simTerm`, `simInstallment`, `simMode` e `simBid`. O servidor descarta valores inválidos desses campos sem bloquear o envio. Contatos antigos, sem esses campos, continuam aparecendo com as faixas de crédito.
+
+"Simular para o contato" abre `/admin/simulador/` com o tipo, o crédito e o prazo no endereço; o nome do cliente vai pela sessão do navegador, nunca pela URL.
+
 ## Validação local
 
 Node.js 22. Executar `npm ci`, `npm test` e `npm run build`.

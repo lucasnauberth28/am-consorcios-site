@@ -10,4 +10,8 @@ $p=['requestId'=>'11111111-1111-4111-8111-111111111111','name'=>'Contato Teste',
 [$d,$e]=validate_lead(array_replace($p,['interest'=>'unknown']));check(isset($e['interest']),'enum');
 [$d,$e]=validate_lead(array_diff_key($p,['timing'=>1,'experience'=>1])+['note'=>'Simulação no site','source'=>'Site · simulador']);check(!$e,'simulator lead without planning questions');
 [$d,$e]=validate_lead(array_replace($p,['timing'=>'qualquer']));check(isset($e['timing']),'timing enum when present');
-echo "8 verificações de validação PHP aprovadas.\n";
+$sim=['simCredit'=>'300000','simTerm'=>'240','simInstallment'=>'962.37','simMode'=>'credito','simBid'=>'20'];
+[$d,$e]=validate_lead($p+$sim);check(!$e && $d['simCredit']==='300000' && $d['simTerm']==='240' && $d['simInstallment']==='962.37' && $d['simBid']==='20','simulation fields kept');
+[$d,$e]=validate_lead($p+['simCredit'=>'abc','simTerm'=>'999','simMode'=>'x']);check(!$e && $d['simCredit']==='' && $d['simTerm']==='' && $d['simMode']==='','invalid simulation fields dropped without blocking');
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'mentoria','company'=>'Empresa Teste','businessStage'=>'iniciar','teamSize'=>'1'])+$sim);check(!$e && $d['simCredit']==='','simulation fields cleared for business leads');
+echo "11 verificações de validação PHP aprovadas.\n";
