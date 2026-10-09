@@ -188,6 +188,7 @@
   }
 
   var COLORS = { venda: '#D4AF37', pago: '#111111', aplic: '#9A958C', patr: '#2F6B4F' };
+  var PRINT = { venda: '#B8901F', pago: '#111111', aplic: '#8A857C', patr: '#2F6B4F' };
   var LABELS = { venda: 'Valor de venda da carta', patr: 'Patrimônio na cota', pago: 'Total pago', aplic: 'Mesmo valor aplicado' };
   var PH = { financeira: ['ph-financeira', 'Venda supera o pago', 'rgba(212,175,55,.08)'], patrimonial: ['ph-patrimonial', 'Usar ou manter', 'rgba(47,107,79,.06)'], previdenciaria: ['ph-previdenciaria', 'Reta final', 'rgba(77,69,102,.07)'] };
 
@@ -408,7 +409,8 @@
     $('#btn-whats').addEventListener('click', openWhats);
     $('#whats-copy').addEventListener('click', function () {
       var t = $('#whats-text').value;
-      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast('Texto copiado.'); }, function () { $('#whats-text').select(); document.execCommand('copy'); toast('Texto copiado.'); });
+      var btn = this, ok = function () { btn.textContent = 'Copiado'; clearTimeout(btn._h); btn._h = setTimeout(function () { btn.textContent = 'Copiar texto'; }, 2000); };
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(ok, function () { $('#whats-text').select(); document.execCommand('copy'); ok(); });
     });
     $('#whats-num').addEventListener('input', function (e) {
       var d = e.target.value.replace(/\D/g, '').slice(0, 11);
@@ -442,7 +444,7 @@
     linhas.push('', 'Valores estimados, sujeitos às regras do grupo e à análise de crédito.', 'Alex Ferreira · AM Consórcios');
     return linhas.join('\n');
   }
-  function openWhats() { $('#whats-text').value = resumoTexto(); var d = $('#dlg-whats'); if (d.showModal) d.showModal(); else d.setAttribute('open', ''); }
+  function openWhats() { $('#whats-copy').textContent = 'Copiar texto'; $('#whats-text').value = resumoTexto(); var d = $('#dlg-whats'); if (d.showModal) d.showModal(); else d.setAttribute('open', ''); }
 
   /* ---------- Proposta para impressão ---------- */
   function buildPrint() {
@@ -472,9 +474,9 @@
       '<footer class="pr-foot"><span><b>Alex Ferreira</b> · AM Consórcios e Investimentos · CNPJ 50.315.065/0001-02</span><span>WhatsApp (11) 99608-6204 · amconsorcios.com</span></footer>';
     var pc = $('#pr-chart'); pc.style.width = '680px';
     var tmp = document.createElement('div'); tmp.style.width = '680px'; tmp.style.position = 'absolute'; tmp.style.left = '-9999px'; document.body.appendChild(tmp);
-    lineChart(tmp, { n: S.prazo, cursor: t, height: 250, label: 'Evolução da cota', series: ['venda', 'patr', 'pago', 'aplic'].map(function (k) { return { color: COLORS[k], dash: k === 'aplic', cap: k === 'aplic', capLabel: 'Aplicação', hidden: !!S.hidden[k], values: c.serie.map(function (s) { return s[k]; }) }; }) });
-    pc.innerHTML = tmp.innerHTML + '<p class="pr-legal pr-leg">' + ['venda', 'patr', 'pago', 'aplic'].filter(function (k) { return !S.hidden[k]; }).map(function (k) { return '<span data-c="' + k + '">■</span> ' + LABELS[k]; }).join(' · ') + '</p>';
-    $$('[data-c]', pc).forEach(function (x) { x.style.color = COLORS[x.dataset.c]; });
+    lineChart(tmp, { n: S.prazo, cursor: t, height: 250, label: 'Evolução da cota', series: ['venda', 'patr', 'pago', 'aplic'].map(function (k) { return { color: PRINT[k], dash: k === 'aplic', cap: k === 'aplic', capLabel: 'Aplicação', hidden: !!S.hidden[k], values: c.serie.map(function (s) { return s[k]; }) }; }) });
+    pc.innerHTML = tmp.innerHTML + '<p class="pr-legal pr-leg">' + ['venda', 'patr', 'pago', 'aplic'].filter(function (k) { return !S.hidden[k]; }).map(function (k) { return '<span data-c="' + k + '">' + (k === 'aplic' ? '┅' : '━') + '</span> ' + LABELS[k]; }).join(' · ') + '. Linha pontilhada: mês ' + t + '.</p>';
+    $$('[data-c]', pc).forEach(function (x) { x.style.color = PRINT[x.dataset.c]; x.style.fontWeight = '600'; });
     tmp.remove(); pc.style.width = '';
     var tip = pc.querySelector('.tip'); if (tip) tip.remove();
   }
