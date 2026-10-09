@@ -17,9 +17,9 @@ $domain=$root;
 while(basename($domain)!=='public_html' && dirname($domain)!==$domain) $domain=dirname($domain);
 $configPath=getenv('AM_CONFIG_PATH') ?: dirname($domain).'/am-private/config.php';
 if(!is_file($configPath)) {
- if(str_contains($_SERVER['SCRIPT_NAME']??'', '/admin/leads/')) {
-  http_response_code(503);header('Content-Type: text/html; charset=utf-8');
-  echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Área protegida | AM</title><link rel="stylesheet" href="login.css"></head><body><main class="login"><p class="eyebrow">AM CONSÓRCIOS · ÁREA DA EQUIPE</p><h1>Acesso protegido.</h1><p>A configuração de acesso está sendo preparada. Os contatos só ficarão disponíveis após a ativação do servidor.</p><a href="../../">Voltar ao site</a></main></body></html>';exit;
+ if(str_contains($_SERVER['SCRIPT_NAME']??'', '/admin/')) {
+  http_response_code(503);header('Content-Type: text/html; charset=utf-8');header('Cache-Control: no-store');
+  echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Área protegida | AM Consórcios</title><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#111;color:#fff;font:400 16px/1.6 system-ui,sans-serif}main{max-width:520px}p.e{margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D4AF37}h1{margin:0;font:400 44px/1.05 Georgia,serif;letter-spacing:-.02em}p{color:#CFCAC0}a{color:#D4AF37}</style></head><body><main><p class="e">AM Consórcios · Área da equipe</p><h1>Acesso em preparação.</h1><p>Os contatos e o simulador ficam disponíveis assim que o acesso da equipe for ativado no servidor.</p><p><a href="../../">Voltar ao site</a></p></main></body></html>';exit;
  }
  respond(['error'=>'Área protegida. A configuração do servidor ainda não foi concluída.'],503);
 }
