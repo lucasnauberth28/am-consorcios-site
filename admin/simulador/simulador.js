@@ -485,6 +485,8 @@
 
   /* ---------- Início ---------- */
   if (!loadHash()) reset('imovel');
+  // Vindo do painel de contatos: o nome do cliente chega pela sessão do navegador, nunca pela URL.
+  try { var veio = sessionStorage.getItem('am-sim-cliente'); if (veio) { S.cliente = veio; sessionStorage.removeItem('am-sim-cliente'); } } catch (e) { /* sem armazenamento: segue sem o nome */ }
   bind();
   render();
 })();
