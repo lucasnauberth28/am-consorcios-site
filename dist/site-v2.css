@@ -128,3 +128,17 @@ html.has-sb::-webkit-scrollbar{width:0;height:0}
 .js-anim .v2 .dep-hero figcaption{opacity:0;transform:translateY(18px);transition:opacity 1s ease .7s,transform 1.2s var(--am-ease) .7s}
 .js-anim .v2 .dep-hero.rv.in figcaption{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){.js-anim .v2 .dep-hero.rv{clip-path:none}.js-anim .v2 .dep-hero figcaption{opacity:1;transform:none}}
+
+/* Topo sem filme (celular): esconde o botão de pausar e mostra só a foto */
+.no-video [data-action=toggleVideo]{display:none!important}
+video[data-video]{opacity:0;transition:opacity .8s ease}
+video[data-video].is-playing{opacity:1}
+
+/* Celular: links do rodapé com área de toque maior e alternador mais compacto */
+@media (max-width:760px){
+ .v2 footer nav{gap:0!important}
+ .v2 footer nav a{display:block;padding:10px 0}
+}
+@media (max-width:400px){
+ .v2 .seg-sm{font-size:13px;padding:0 6px}
+}
