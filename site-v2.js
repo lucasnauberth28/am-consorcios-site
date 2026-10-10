@@ -103,9 +103,15 @@
 
   /* ---------- Vídeo do topo ---------- */
   const video = document.querySelector('video[data-video]');
-  if (video) {
+  const conn = navigator.connection || {};
+  // No celular (ou com economia de dados) o filme não carrega: a foto do topo já está na tela.
+  const wantsVideo = video && !reduceMotion && !conn.saveData && window.matchMedia('(min-width: 761px)').matches;
+  if (video && !wantsVideo) { document.documentElement.classList.add('no-video'); state.playing = false; }
+  if (wantsVideo) {
     video.muted = true;
-    if (reduceMotion) video.pause(); else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+    video.src = video.dataset.src; video.preload = 'auto';
+    video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
+    { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
     actions.toggleVideo = () => {
       if (state.playing) video.pause(); else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
       state.playing = !state.playing; render();
@@ -369,6 +375,8 @@
     };
     const sameKind = (el) => el.children.length >= 3 && Array.from(el.children).every((c) => c.tagName === el.children[0].tagName);
     document.querySelectorAll('.v2 > section, .v2 > footer').forEach((sec, sIdx) => {
+      // O topo aparece de imediato: animar a primeira tela atrasa o carregamento percebido.
+      if (sIdx === 0) return;
       const boxes = sec.querySelectorAll(':scope > div[style*="max-width"]');
       boxes.forEach((box) => {
         let i = 0;
