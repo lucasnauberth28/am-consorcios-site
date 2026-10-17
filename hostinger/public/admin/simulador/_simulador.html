@@ -97,6 +97,7 @@
       <button role="tab" id="tab-evolucao" aria-controls="view-evolucao" aria-selected="true">Evolução da cota</button>
       <button role="tab" id="tab-contemplacao" aria-controls="view-contemplacao" aria-selected="false" tabindex="-1">Contemplação e lance</button>
       <button role="tab" id="tab-comparativo" aria-controls="view-comparativo" aria-selected="false" tabindex="-1">Consórcio × financiamento</button>
+      <button role="tab" id="tab-fim" aria-controls="view-fim" aria-selected="false" tabindex="-1">Levando até o fim</button>
       <button role="tab" id="tab-tabela" aria-controls="view-tabela" aria-selected="false" tabindex="-1">Ano a ano</button>
     </div>
 
@@ -128,6 +129,16 @@
         <div class="seg seg-sm" role="group" aria-label="Sistema do financiamento"><button type="button" data-sis="sac" aria-pressed="true">SAC</button><button type="button" data-sis="price" aria-pressed="false">Price</button></div></div>
       <div class="compare" id="compare"></div>
       <p class="note" id="comp-note"></p>
+    </section>
+
+    <section class="view" id="view-fim" role="tabpanel" aria-labelledby="tab-fim" hidden>
+      <div class="view-head"><div><h2>Quanto ganha levando o plano até o fim</h2><p id="fim-sub"></p></div></div>
+      <div class="cont-grid" id="fim-grid"></div>
+      <figure class="chart-card">
+        <div class="legend" id="legend-fim"></div>
+        <div class="chart" id="chart-fim"></div>
+      </figure>
+      <div class="table-wrap"><table class="tbl" id="fim-tabela"></table></div>
     </section>
 
     <section class="view" id="view-tabela" role="tabpanel" aria-labelledby="tab-tabela" hidden>

@@ -179,6 +179,7 @@
     renderContemplacao(c);
     renderComparativo(c);
     renderTabela(c);
+    renderFim(c);
     $('#disclaimer').textContent = 'Simulação ilustrativa, não é proposta. ' + b.razao + '. ' + b.fonte +
       ' Reajuste estimado de ' + P(S.reajusteTaxa) + ' ' + (+S.reajustePeriodo === 6 ? 'por semestre' : 'por ano') + ' (' + b.reajusteIndice + '); o índice real do grupo pode variar. ' +
       'Contemplação por sorteio ou lance, sem data garantida. Valor de venda da carta estimado em ' + P(S.venda, 0) + ' do crédito; depende do mercado e da aprovação da administradora. ' +
@@ -315,6 +316,42 @@
       '<div class="saving"><span>' + (win ? 'Diferença a favor do consórcio' : 'Diferença a favor do financiamento') + '</span><strong>' + R0(Math.abs(f.total - cons)) + '</strong></div>';
     requestAnimationFrame(function () { $$('#compare .bar i').forEach(function (i) { i.style.width = i.dataset.w + '%'; }); });
     $('#comp-note').textContent = 'Valores do consórcio em reais de hoje: parcelas e crédito são corrigidos pelo índice do grupo ao longo do plano. No financiamento o bem vem na hora; no consórcio, na contemplação. O cálculo do financiamento não inclui TR, seguros e tarifas.';
+  }
+
+  /* Levando até o fim (aba "Patrimônio construído" da planilha da AM): a carta só é contemplada no último mês.
+     Ganho acumulado = quanto a carta valorizou com os reajustes menos o total pago, ano a ano. */
+  function renderFim(c) {
+    var sr = c.serie, n = S.prazo, C = S.credito, ult = sr[n - 1];
+    var valoriz = function (s) { return s.credito - C; };
+    var ganho = valoriz(ult) - ult.pago;
+    var mini = function (a, b, s, cls) { return '<div class="mini"><span>' + a + '</span><strong' + (cls ? ' class="' + cls + '"' : '') + '>' + b + '</strong>' + (s ? '<small>' + s + '</small>' : '') + '</div>'; };
+    $('#fim-sub').textContent = 'Mesmo sendo o último contemplado, a carta continua sendo reajustada (' + P(S.reajusteTaxa) + ' a cada ' + S.reajustePeriodo + ' meses, pelo ' + base().reajusteIndice + ') e constrói patrimônio ao longo de ' + n + ' meses.';
+    $('#fim-grid').innerHTML = [
+      mini('Crédito inicial', R0(C), 'hoje'),
+      mini('Crédito no fim', R0(ult.credito), 'no mês ' + n + ', com os reajustes'),
+      mini('Valorização da carta', R0(valoriz(ult)), 'crédito no fim menos o inicial'),
+      mini('Total pago', R0(ult.pago), 'em ' + n + ' parcelas'),
+      mini('Ganho acumulado', signed(ganho), 'valorização menos o total pago', ganho >= 0 ? 'pos' : 'neg'),
+      mini('Parcela inicial', R(sr[0].parcela), c.r0.parcelaReduzidaPct < c.r0.parcelaIntegralPct ? 'reduzida' : ''),
+      mini('Parcela do último ano', R(ult.parcela), 'com os reajustes'),
+      mini('Taxa total', P(S.taxaAdm + S.fundoReserva), 'sem juros')
+    ].join('');
+    var cores = { val: '#D4AF37', pago: '#111111', ganho: '#2F6B4F' }, nomes = { val: 'Valorização da carta', pago: 'Total pago', ganho: 'Ganho acumulado' };
+    $('#legend-fim').innerHTML = ['val', 'pago', 'ganho'].map(function (k) { return '<span><i data-k="' + k + '"></i>' + nomes[k] + '</span>'; }).join('');
+    $$('#legend-fim i').forEach(function (i) { i.style.background = cores[i.dataset.k]; }); // CSP: cor aplicada pelo script
+    lineChart($('#chart-fim'), { n: n, animate: animateNext, label: 'Ganho acumulado levando o plano até o fim', series: [
+      { key: 'val', color: cores.val, values: sr.map(valoriz) },
+      { key: 'pago', color: cores.pago, values: sr.map(function (s) { return s.pago; }) },
+      { key: 'ganho', color: cores.ganho, values: sr.map(function (s) { return valoriz(s) - s.pago; }) }
+    ] });
+    var rows = [], ant = { credito: C, pago: 0 };
+    for (var t = 12; t <= n + 11; t += 12) {
+      var s = sr[Math.min(t, n) - 1], ga = s.credito - ant.credito, pa = s.pago - ant.pago, acc = valoriz(s) - s.pago;
+      rows.push('<tr><td>' + Math.ceil(s.t / 12) + 'º ano</td><td>' + R0(s.credito) + '</td><td>' + R0(ga) + '</td><td>' + R(s.parcela) + '</td><td>' + R0(pa) +
+        '</td><td class="' + (ga - pa >= 0 ? 'pos' : 'neg') + '">' + signed(ga - pa) + '</td><td class="' + (acc >= 0 ? 'pos' : 'neg') + '">' + signed(acc) + '</td></tr>');
+      ant = s; if (t >= n) break;
+    }
+    $('#fim-tabela').innerHTML = '<thead><tr><th>Ano</th><th>Crédito atualizado</th><th>Ganho do reajuste</th><th>Parcela</th><th>Pago no ano</th><th>Diferença do ano</th><th>Ganho acumulado</th></tr></thead><tbody>' + rows.join('') + '</tbody>';
   }
 
   function renderTabela(c) {
