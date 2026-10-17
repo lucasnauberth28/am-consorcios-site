@@ -39,7 +39,7 @@
     var o = OBJ[obj], b = B[o.base];
     var cliente = keep ? S.cliente : '';
     S = { obj: obj, cliente: cliente, credito: o.credito, prazo: o.prazo, grupo: o.grupo, mes: 12, lanceTipo: 'nenhum', lancePct: b.lancePct,
-      abatimento: 'parcela', embutido: true, finTaxa: o.finTaxa, finPrazo: o.finPrazo, sistema: o.sistema, tab: S.tab || 'evolucao',
+      abatimento: 'parcela', embutido: b.lanceEmbutido !== false, finTaxa: o.finTaxa, finPrazo: o.finPrazo, sistema: o.sistema, tab: S.tab || 'evolucao',
       hidden: {} };
     PREM.forEach(function (k) { S[k] = b[k]; });
     if (o.grupo) applyGrupo(o.grupo);

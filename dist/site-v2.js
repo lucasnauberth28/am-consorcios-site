@@ -141,20 +141,20 @@
     const base = (id) => { const b = AM.BASES[id]; return { taxaAdm: b.taxaAdm, fundoReserva: b.fundoReserva, reducao: b.reducao, reducaoBase: b.reducaoBase, reducaoAte: b.reducaoAte }; };
     const SANTANDER = base('santander'), VEICULOS = base('santanderVeiculos');
     const CFG = {
-      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, interest: 'imovel', origem: 'página de imóvel' },
-      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: VEICULOS, interest: 'carro', origem: 'página de automóvel' },
-      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 120, mes: 6, base: VEICULOS, interest: 'pesados', origem: 'página de veículos pesados' },
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [20, 30, 50], lanceBase: 'plano', interest: 'imovel', origem: 'página de imóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'carro', origem: 'página de automóvel' },
+      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 120, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'pesados', origem: 'página de veículos pesados' },
     };
     const cfgFor = (t) => CFG[t];
     // A simulação abre pelo valor da parcela, que é o que mais chama a atenção de quem chega.
-    Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'parcela', step: 1, lance: 25 });
-    { const c = cfgFor(state.tipo); state.valor = c.dParcela; state.prazo = c.dPrazo; }
+    Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'parcela', step: 1 });
+    { const c = cfgFor(state.tipo); state.valor = c.dParcela; state.prazo = c.dPrazo; state.lance = c.lances.includes(25) ? 25 : c.lances[0]; }
     // A parcela informada é a integral (100% + taxas, dividido pelo prazo); a reduzida aparece à parte.
     const totalPct = (c) => 100 + c.base.taxaAdm + c.base.fundoReserva;
     const nums = () => {
       const c = cfgFor(state.tipo), valor = num(state.valor), prazo = state.prazo, f = totalPct(c) / 100;
       const credit = state.modo === 'credito' ? valor : Math.round(valor * prazo / f / 1000) * 1000;
-      const sim = (lance, mes) => AM.simular(Object.assign({ credito: credit, prazo, reajusteTaxa: 0, contemplacao: mes || 0, lanceTipo: lance ? 'livre' : 'nenhum', lancePct: lance, lanceBase: 'credito', abatimento: 'parcela' }, c.base));
+      const sim = (lance, mes) => AM.simular(Object.assign({ credito: credit, prazo, reajusteTaxa: 0, contemplacao: mes || 0, lanceTipo: lance ? 'livre' : 'nenhum', lancePct: lance, lanceBase: c.lanceBase, abatimento: 'parcela' }, c.base));
       const r = sim(0);
       return { credit, parcela: r.parcelaIntegralHoje, reduzida: r.primeiraParcela, prazo, sim };
     };
@@ -209,9 +209,9 @@
           parcela: money.format(n.reduzida), depois: money.format(depois),
           depoisLabel: lance ? 'Parcela depois do lance' : 'Parcela depois de contemplado',
           lanceFrase: lance
-            ? `Com um lance de ${money.format(valorLance)} (${lance}% do crédito) no ${c.mes}º mês, a parcela fica em cerca de ${money.format(depois)} até o fim. A parcela integral, sem redução, é de ${money.format(n.parcela)}.`
+            ? `Com um lance de ${money.format(valorLance)} (${lance}% ${c.lanceBase === 'plano' ? 'do crédito mais as taxas' : 'do crédito'}) no ${c.mes}º mês, a parcela fica em cerca de ${money.format(depois)} até o fim. A parcela integral, sem redução, é de ${money.format(n.parcela)}.`
             : `Sem lance, você concorre no sorteio. Se for contemplado no ${c.mes}º mês, a parcela passa para cerca de ${money.format(depois)}, porque a diferença da parcela reduzida é diluída no restante do prazo.`,
-          lances: [0, 15, 25, 30].map((v) => ({ label: v ? v + '%' : 'Sem', on: v === lance, pick: () => { state.lance = v; render(); } })),
+          lances: c.lances.map((v) => ({ label: v ? v + '%' : 'Sem', on: v === lance, pick: () => { state.lance = v; render(); } })),
           resumoDetalhe: `${prazo} meses · ${money.format(n.reduzida)}/mês até a contemplação${lance ? ` · lance de ${lance}%` : ''}`,
         });
       }
