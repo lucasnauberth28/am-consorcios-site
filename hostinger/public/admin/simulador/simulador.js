@@ -27,8 +27,8 @@
   var OBJ = {
     imovel: { base: 'santander', nome: 'Consórcio de imóvel', credito: 300000, prazo: 240, grupo: '3216', chips: [120000, 200000, 300000, 500000],
       finTaxa: 11.5, finUnidade: 'aa', finPrazo: 240, sistema: 'sac', bem: 'o imóvel' },
-    automovel: { base: 'servopa', nome: 'Consórcio de automóvel', credito: 100000, prazo: 100, grupo: '', chips: [60000, 80000, 100000, 150000],
-      finTaxa: 1.79, finUnidade: 'am', finPrazo: 60, sistema: 'price', bem: 'o carro', aviso: 'Prazo de automóvel a confirmar na tabela Servopa. As demais premissas vêm da planilha "Plano de investimento v6".' },
+    automovel: { base: 'santanderVeiculos', nome: 'Consórcio de automóvel', credito: 100000, prazo: 100, grupo: '', chips: [60000, 80000, 100000, 150000],
+      finTaxa: 1.79, finUnidade: 'am', finPrazo: 60, sistema: 'price', bem: 'o carro', aviso: 'Taxa de administração mínima anunciada; confirme a do grupo escolhido.' },
     investimento: { base: 'servopa', nome: 'Consórcio como investimento', credito: 100000, prazo: 240, grupo: '', chips: [100000, 200000, 300000, 500000],
       finTaxa: 11.5, finUnidade: 'aa', finPrazo: 240, sistema: 'sac', bem: 'o bem' }
   };

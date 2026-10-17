@@ -135,19 +135,20 @@
   if (page === 'home' || page in LANCE_PAGES) {
     const lancePage = page !== 'home';
     /* Bases reais das administradoras (assets/am-calc.js, a mesma conta do simulador da equipe).
-       Valores de hoje, sem reajuste. Imóvel, pesados e agro: Santander; automóvel: Servopa. */
+       Valores de hoje, sem reajuste. Imóvel: Santander imóveis; automóvel, pesados e agro: Santander veículos e pesados. */
     const AM = window.AMCalc;
     const base = (id) => { const b = AM.BASES[id]; return { taxaAdm: b.taxaAdm, fundoReserva: b.fundoReserva, reducao: b.reducao, reducaoBase: b.reducaoBase, reducaoAte: b.reducaoAte }; };
-    const SANTANDER = base('santander'), SERVOPA = base('servopa'); // [pesados e agro: taxa a confirmar na tabela do Santander]
+    const SANTANDER = base('santander'), VEICULOS = base('santanderVeiculos');
     const CFG = {
-      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, base: SANTANDER, interest: 'imovel', origem: 'página de imóvel' },
-      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, base: SERVOPA, interest: 'carro', origem: 'página de automóvel' },
-      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, base: SANTANDER, interest: 'pesados', origem: 'página de veículos pesados' },
-      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, base: SANTANDER, interest: 'agro', origem: 'página do agronegócio' },
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, interest: 'imovel', origem: 'página de imóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: VEICULOS, interest: 'carro', origem: 'página de automóvel' },
+      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 100, mes: 6, base: VEICULOS, interest: 'pesados', origem: 'página de veículos pesados' },
+      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 100, mes: 6, base: VEICULOS, interest: 'agro', origem: 'página do agronegócio' },
     };
     const cfgFor = (t) => CFG[t];
-    Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'credito', step: 1, lance: 25 });
-    { const c = cfgFor(state.tipo); state.valor = c.dflt; state.prazo = c.dPrazo; }
+    // A simulação abre pelo valor da parcela, que é o que mais chama a atenção de quem chega.
+    Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'parcela', step: 1, lance: 25 });
+    { const c = cfgFor(state.tipo); state.valor = c.dParcela; state.prazo = c.dPrazo; }
     // A parcela informada é a integral (100% + taxas, dividido pelo prazo); a reduzida aparece à parte.
     const totalPct = (c) => 100 + c.base.taxaAdm + c.base.fundoReserva;
     const nums = () => {
@@ -157,7 +158,7 @@
       const r = sim(0);
       return { credit, parcela: r.parcelaIntegralHoje, reduzida: r.primeiraParcela, prazo, sim };
     };
-    const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, modo: 'credito', valor: c.dflt, prazo: c.dPrazo }); render(); };
+    const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, modo: 'parcela', valor: c.dParcela, prazo: c.dPrazo }); render(); };
     const setModo = (m) => {
       if (state.modo === m) return;
       const n = nums();

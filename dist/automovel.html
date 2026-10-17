@@ -134,8 +134,8 @@ html{scroll-behavior:smooth}
 <div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 28px">
 <div style="display: flex; flex-direction: column; gap: 10px">
 <div aria-label="Simular por" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
-<button aria-pressed="true" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do carro</button>
-<button aria-pressed="false" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+<button aria-pressed="true" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+<button aria-pressed="false" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do carro</button>
 </div><div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input autocomplete="off" data-change="onValor" data-model="valor" id="valor-automovel" inputmode="numeric" placeholder=" " type="text"/><label for="valor-automovel"><span data-bind="valorLabel">Valor do crédito</span></label></div>
 </div>
 <div class="fl"><select data-change="onPrazo" data-model="prazo" id="prazo-automovel">
@@ -185,7 +185,7 @@ html{scroll-behavior:smooth}
 </div>
 </div></div>
 </div>
-<p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa simplificada: o lance abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês [6]. Não inclui seguro nem a correção anual do crédito. Lance não garante contemplação.</p>
+<p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa com as condições de veículos e pesados do Santander (taxa de administração a partir de 16%, fundo de reserva de 3,5% e parcela reduzida em 30% até o 36º mês ou a contemplação): o lance abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês 6. Não inclui seguro nem a correção anual do crédito. Lance não garante contemplação.</p>
 </div>
 </section>
 <!-- USOS -->
