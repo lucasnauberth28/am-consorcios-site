@@ -132,16 +132,15 @@
   let leadPayload = () => ({});
 
   /* Simulador em duas etapas (página principal e páginas de produto) */
-  const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados', 'lance-agro': 'agro', 'lance-empresas': 'empresa' };
+  const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados', 'lance-agro': 'agro' };
   if (page === 'home' || page in LANCE_PAGES) {
     const lancePage = page !== 'home';
     const FATOR = 1 + TAXA_ADM + FUNDO, FATOR_PESADOS = 1 + 0.16 + FUNDO; // [taxa de pesados a confirmar na tabela do Santander]
     const CFG = {
-      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [200000, 400000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, fator: FATOR, interest: 'imovel', origem: 'página de imóvel' },
-      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 200000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, fator: FATOR, interest: 'carro', origem: 'página de automóvel' },
-      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [250000, 450000, 700000, 1000000], quickP: [3000, 5000, 8000, 12000], prazos: [60, 80, 100, 120], dflt: 450000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'pesados', origem: 'página de veículos pesados' },
-      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [300000, 600000, 1000000, 1500000], quickP: [4000, 7000, 10000, 15000], prazos: [60, 80, 100, 120], dflt: 600000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'agro', origem: 'página do agronegócio' },
-      empresa: { nome: 'Empresa', label: 'Valor do bem', quickC: [300000, 800000, 1500000, 3000000], quickP: [4000, 8000, 15000, 30000], prazos: [60, 80, 100, 120, 180], dflt: 800000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'empresa', origem: 'página para empresas' },
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, fator: FATOR, interest: 'imovel', origem: 'página de imóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, fator: FATOR, interest: 'carro', origem: 'página de automóvel' },
+      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 72, 80, 100], dflt: 300000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'pesados', origem: 'página de veículos pesados' },
+      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [300000, 600000, 1000000, 1500000], quickP: [4000, 7000, 10000, 15000], prazos: [60, 72, 80, 100], dflt: 600000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'agro', origem: 'página do agronegócio' },
     };
     const cfgFor = (t) => CFG[t];
     Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'credito', step: 1, lance: 25 });
@@ -223,11 +222,9 @@
   }
 
   /* Formulário da página para empresas: o pedido vai com o que a empresa quer comprar */
-  if (page === 'lance-empresas') {
-    const simLead = leadPayload;
+  if (page === 'empresas') {
     const faixa = { 'Até R$ 300 mil': '100-300k', 'R$ 300 mil a R$ 1 milhão': '600k-1m', 'R$ 1 a 3 milhões': 'mais-1m', 'Acima de R$ 3 milhões': 'mais-1m' };
     leadPayload = (form) => {
-      if (form.dataset.submit !== 'onBriefing') return simLead(form);
       const el = form.elements;
       return {
         interest: 'empresa', company: el.empresa.value.trim(), credit: faixa[el.valor.value] || 'nao-sei',
