@@ -16,8 +16,9 @@
       reducao: 50,
       reducaoBase: 'fc',      // reduz só o fundo comum
       reducaoAte: 60,         // até a 60ª assembleia ou a contemplação
-      lancePct: 20,
-      lanceBase: 'credito',
+      lancePct: 20,           // lance fixo
+      lanceBase: 'plano',     // sobre crédito + taxas (valor de categoria)
+      lanceEmbutido: false,   // no imóvel o lance não pode sair do próprio crédito
       reajusteTaxa: 6.5,      // % por período, estimativa editável (índice do grupo)
       reajustePeriodo: 12,
       reajusteIndice: 'INCC',

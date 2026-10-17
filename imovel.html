@@ -62,7 +62,7 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 .v2 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
-<script defer="" src="assets/lenis.min.js?v=53195c9797"></script><script defer="" src="assets/am-calc.js?v=9294c3e571"></script><script defer="" src="site-v2.js?v=071f78fc9e"></script>
+<script defer="" src="assets/lenis.min.js?v=53195c9797"></script><script defer="" src="assets/am-calc.js?v=7eaf17d999"></script><script defer="" src="site-v2.js?v=7ea345f3f2"></script>
 <link href="assets/lenis.css?v=2f668ae84a" rel="stylesheet"/><link href="site-v2.css?v=edfcf90971" rel="stylesheet"/><script>if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("js-anim")</script><meta name="robots" content="noindex,nofollow"></head>
 <body data-calc="lance-imovel">
 <div class="v2" style="font-family: 'Instrument Sans', system-ui, sans-serif; color: #111111; background: #FFFFFF; width: 100%; min-width: 0; font-size: 16px">
@@ -142,13 +142,13 @@ html{scroll-behavior:smooth}
 <template data-as="p" data-for="prazos"><option data-model="value"><span data-bind="label"></span></option></template>
 </select><label for="prazo-imovel">Prazo</label></div>
 <div style="display: flex; flex-direction: column; gap: 10px">
-<span id="lance-label" style="font-size: 14px; color: #5E5B55">Lance que você pode dar</span>
-<div aria-labelledby="lance-label" role="group" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<span id="lance-label" style="font-size: 14px; color: #5E5B55">Lance que você pode dar (fixo de 20% ou livre)</span>
+<div aria-labelledby="lance-label" role="group" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
 <template data-as="l" data-for="lances">
 <button aria-pressed="false" data-action="pick" data-pressed="on" style="min-height: 44px; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer" type="button"><span data-bind="label"></span></button>
 </template>
 </div>
-<span style="font-size: 13px; color: #5E5B55; line-height: 1.5">Pode ser dinheiro, FGTS ou parte do próprio crédito (lance embutido).</span>
+<span style="font-size: 13px; color: #5E5B55; line-height: 1.5">Dinheiro ou FGTS, calculado sobre o crédito mais as taxas. No imóvel, o lance não pode sair do próprio crédito.</span>
 </div>
 </div>
 <div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 24px"><div class="sim-progress" style="display: flex; flex-direction: column; gap: 10px">
@@ -185,7 +185,7 @@ html{scroll-behavior:smooth}
 </div>
 </div></div>
 </div>
-<p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa com as condições de imóveis do Santander (taxa de administração de 24,99%, fundo de reserva de 2% e parcela reduzida em 50% até a 60ª assembleia ou a contemplação): o lance abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês 12. Não inclui seguro nem a correção anual do crédito pelo INCC. Lance não garante contemplação.</p>
+<p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa com as condições de imóveis do Santander (taxa de administração de 24,99%, fundo de reserva de 2% e parcela reduzida em 50% até a 60ª assembleia ou a contemplação): o lance é calculado sobre o crédito mais as taxas, abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês 12. Não inclui seguro nem a correção anual do crédito pelo INCC. Lance não garante contemplação.</p>
 </div>
 </section>
 <!-- USOS -->
@@ -211,7 +211,7 @@ html{scroll-behavior:smooth}
 <h2 style="flex: 1 1 320px; min-width: 0; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Três jeitos de receber antes.</h2>
 <dl style="flex: 2 1 600px; min-width: 0; margin: 0; border-top: 1px solid #111111">
 <div style="display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 28px 0; border-bottom: 1px solid #E6E2DA"><dt style="flex: 0 0 220px; font-family: Newsreader, Georgia, serif; font-size: 28px; letter-spacing: -0.015em">Lance livre</dt><dd style="flex: 1 1 320px; margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37">Você oferece um valor com dinheiro próprio. Quem oferece o maior percentual no mês é contemplado.</dd></div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 28px 0; border-bottom: 1px solid #E6E2DA"><dt style="flex: 0 0 220px; font-family: Newsreader, Georgia, serif; font-size: 28px; letter-spacing: -0.015em">Lance embutido</dt><dd style="flex: 1 1 320px; margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37">Você usa até [30]% do próprio crédito como lance. Sai menos dinheiro do bolso, e o crédito final fica menor.</dd></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 28px 0; border-bottom: 1px solid #E6E2DA"><dt style="flex: 0 0 220px; font-family: Newsreader, Georgia, serif; font-size: 28px; letter-spacing: -0.015em">Lance fixo</dt><dd style="flex: 1 1 320px; margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37">Você oferece 20% do valor da carta (crédito mais taxas), com dinheiro próprio ou FGTS. No imóvel, o lance não pode sair do próprio crédito.</dd></div>
 <div style="display: flex; flex-wrap: wrap; gap: 8px 40px; padding: 28px 0; border-bottom: 1px solid #E6E2DA"><dt style="flex: 0 0 220px; font-family: Newsreader, Georgia, serif; font-size: 28px; letter-spacing: -0.015em">FGTS</dt><dd style="flex: 1 1 320px; margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37">O saldo do FGTS pode entrar no lance, seguindo as regras da Caixa para compra de imóvel.</dd></div>
 </dl>
 </div>
