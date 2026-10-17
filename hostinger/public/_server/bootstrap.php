@@ -12,8 +12,8 @@ function respond(array $data, int $status=200): never {
 }
 set_exception_handler(function(Throwable $e): void {error_log('AM: serviço indisponível, sem registro de dados pessoais.');respond(['error'=>'Serviço indisponível. Tente novamente ou converse com a AM pelo WhatsApp.'],503);});
 // Configuration must be outside public_html, including when installed in /homologacao.
-$root=realpath(__DIR__.'/../..');
-$domain=$root;
+// Sobe a partir de _server até achar public_html: vale na raiz (public_html/_server) e na homologação (public_html/homologacao/_server).
+$domain=realpath(__DIR__);
 while(basename($domain)!=='public_html' && dirname($domain)!==$domain) $domain=dirname($domain);
 $configPath=getenv('AM_CONFIG_PATH') ?: dirname($domain).'/am-private/config.php';
 if(!is_file($configPath)) {
