@@ -6,9 +6,11 @@ $message='';
 if($_SERVER['REQUEST_METHOD']==='POST'){
  same_origin();csrf();rate('login',8,900);
  $password=$_POST['password']??'';$user=$_POST['username']??'';
- $valid=is_string($password)&&strlen($password)<=1024&&password_verify($password,$cfg['password_hash']);
+ $valid=is_string($password)&&strlen($password)<=1024&&check_password($password);
  if($valid&&is_string($user)&&hash_equals($cfg['username']??'AM',$user)){
-  session_regenerate_id(true);$_SESSION=['auth'=>true,'started'=>time(),'last'=>time(),'csrf'=>bin2hex(random_bytes(32)),'version'=>hash('sha256',$cfg['password_hash'])];audit('login-success');redirect_to($dest);
+  if($plainConfig)save_password($password);
+  session_regenerate_id(true);$_SESSION=['auth'=>true,'started'=>time(),'last'=>time(),'csrf'=>bin2hex(random_bytes(32)),'version'=>hash('sha256',$cfg['password_hash'])];audit('login-success');
+  redirect_to($dest);
  }
  audit('login-failed');$message='Confira o usuário e a senha.';
 }

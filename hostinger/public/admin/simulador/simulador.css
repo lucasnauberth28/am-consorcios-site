@@ -290,3 +290,4 @@ input[type=range]:focus-visible{outline-offset:4px;border-radius:8px}
 @media (max-width:560px){.chart .axis text{font-size:10px}}
 @media (max-width:560px){.range--big label{flex-direction:column;align-items:flex-start;gap:2px}.range--big output{font-size:20px}}
 body.present .panel .row2{grid-template-columns:1fr}
+a.tbtn{text-decoration:none}

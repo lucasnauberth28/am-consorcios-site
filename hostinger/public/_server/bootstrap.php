@@ -29,6 +29,18 @@ if(!is_array($cfg)||strlen($key?:'')!==32||empty($cfg['password_hash'])||empty($
 $private=dirname($configPath);
 $state=$private.'/state';
 if(!is_dir($state)&&!mkdir($state,0700,true)&&!is_dir($state)) throw new RuntimeException('state');
+// Senha: a definida pela própria equipe (senha.json) vale sobre a do config.php.
+// Se o config.php tiver a senha em texto, o primeiro acesso a guarda protegida (hash) em senha.json.
+$passwordFile=$private.'/senha.json';
+$plainConfig=password_get_info($cfg['password_hash'])['algo']===null;
+if(is_file($passwordFile)){$o=json_decode((string)file_get_contents($passwordFile),true);if(is_array($o)&&is_string($o['hash']??null)&&password_get_info($o['hash'])['algo']!==null){$cfg['password_hash']=$o['hash'];$plainConfig=false;}}
+function check_password(string $pw): bool {global $cfg,$plainConfig;return $plainConfig?hash_equals($cfg['password_hash'],$pw):password_verify($pw,$cfg['password_hash']);}
+function save_password(string $pw): void {
+ global $cfg,$plainConfig,$passwordFile;
+ $h=password_hash($pw,PASSWORD_DEFAULT);$tmp=$passwordFile.'.tmp';
+ if(file_put_contents($tmp,json_encode(['hash'=>$h,'changed'=>gmdate('c')]),LOCK_EX)===false||!chmod($tmp,0600)||!rename($tmp,$passwordFile))throw new RuntimeException('password');
+ $cfg['password_hash']=$h;$plainConfig=false;
+}
 $base=rtrim($cfg['base_path']??'', '/');
 if(!preg_match('~^(?:/[a-zA-Z0-9_-]+)*$~',$base)) throw new RuntimeException('base');
 $isLocal=($cfg['environment']??'production')==='test' && in_array($_SERVER['REMOTE_ADDR']??'',['127.0.0.1','::1'],true);

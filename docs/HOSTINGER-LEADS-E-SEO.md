@@ -68,3 +68,9 @@ Próximos pontos que influenciam desempenho:
 - Google, guia SEO: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
 - Google, noindex: https://developers.google.com/search/docs/crawling-indexing/block-indexing
 - Open Graph: https://ogp.me/
+
+## Trocar a senha da equipe
+
+- Pela tela: área da equipe → "Trocar senha" (pede a senha atual). A nova senha vale para contatos e simulador e derruba as outras sessões abertas.
+- Pelo servidor: em `am-private/config.php`, coloque a senha desejada em texto em `password_hash` e apague `am-private/senha.json` se existir. No primeiro login, o sistema grava o hash em `am-private/senha.json`, que passa a valer sobre o config. Depois, troque o texto do config por qualquer valor que não seja a senha.
+- Esqueceu a senha: apague `am-private/senha.json` e use a do config.

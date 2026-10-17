@@ -178,3 +178,4 @@ td.right{text-align:right}
   .drawer{padding:18px 16px 28px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+a.tbtn{display:inline-flex;align-items:center;text-decoration:none}
