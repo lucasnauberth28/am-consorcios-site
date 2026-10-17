@@ -5,12 +5,12 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#0a0a0a" name="theme-color"/>
-<title>Para empresas | Cursos e encontros presenciais | AM Consórcios</title>
-<meta content="Cursos e encontros presenciais com a AM para empresas que querem vender consórcio ou desenvolver sua operação." name="description"/>
+<title>Consórcio para empresas pelo CNPJ | AM Consórcios</title>
+<meta content="Frota, sede e equipamentos comprados pelo CNPJ, sem juros, em grupos do Santander e da Servopa. Simule e conte o que a sua empresa precisa." name="description"/>
 <link href="assets/favicon.svg" rel="icon" type="image/svg+xml"/>
 <link href="https://amconsorcios.com/empresas.html" rel="canonical"/>
 <meta content="website" property="og:type"/><meta content="AM Consórcios e Investimentos" property="og:site_name"/><meta content="pt_BR" property="og:locale"/>
-<meta content="Para empresas | Cursos e encontros presenciais | AM Consórcios" property="og:title"/><meta content="Cursos e encontros presenciais com a AM para empresas que querem vender consórcio ou desenvolver sua operação." property="og:description"/>
+<meta content="Consórcio para empresas pelo CNPJ | AM Consórcios" property="og:title"/><meta content="Frota, sede e equipamentos comprados pelo CNPJ, sem juros, em grupos do Santander e da Servopa. Simule e conte o que a sua empresa precisa." property="og:description"/>
 <meta content="https://amconsorcios.com/empresas.html" property="og:url"/><meta content="https://amconsorcios.com/assets/hero-poster.jpg" property="og:image"/>
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -64,119 +64,220 @@ html{scroll-behavior:smooth}
 </style>
 <script defer="" src="assets/lenis.min.js"></script><script defer="" src="site-v2.js"></script>
 <link href="assets/lenis.css" rel="stylesheet"/><link href="site-v2.css" rel="stylesheet"/><script>if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("js-anim")</script></head>
-<body data-calc="empresas">
+<body data-calc="lance-empresas">
 <div class="v2" style="font-family: 'Instrument Sans', system-ui, sans-serif; color: #111111; background: #FFFFFF; width: 100%; min-width: 0; font-size: 16px">
-<header style="border-bottom: 1px solid #E6E2DA; background: #FFFFFF">
+<!-- TOPO DE PONTA A PONTA: filme ao fundo, título e cartões -->
+<section class="on-dark hero-full" id="inicio" style="position: relative; background: #0A0A0A; color: #FFFFFF; overflow: hidden; display: flex; flex-direction: column">
+<img alt="" aria-hidden="true" decoding="async" fetchpriority="high" height="1080" sizes="100vw" src="assets/videos/empresas-fundo-1280.webp" srcset="assets/videos/empresas-fundo-640.webp 640w, assets/videos/empresas-fundo-1280.webp 1280w, assets/videos/empresas-fundo-1920.webp 1920w" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center" width="1920"/>
+<!-- Os filmes só carregam em telas largas (ver site-v2.js); no celular fica a foto, mais leve. -->
+<video aria-hidden="true" data-src="assets/videos/empresas-fundo.mp4" data-video="" loop="" muted="" playsinline="" preload="none" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center"></video>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.1) 30%, rgba(10,10,10,0.25) 55%, rgba(10,10,10,0.88) 100%)"></div>
+<header style="position: relative; z-index: 3; border-bottom: 1px solid rgba(255,255,255,0.14)">
 <div style="max-width: 1280px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px">
 <a aria-label="AM Consórcios e Investimentos, início" href="index.html" style="display: flex; align-items: center; gap: 12px; text-decoration: none">
-<img width="40" height="30" alt="" src="assets/am-logo-dourado-escuro.svg" style="width: 40px; height: 30px; display: block"/>
-<span style="font-family: Cinzel, Georgia, serif; font-weight: 600; font-size: 16px; letter-spacing: 0.08em; color: #111111">AM CONSÓRCIOS</span>
+<img width="40" height="30" alt="" src="assets/am-logo-dourado.svg" style="width: 40px; height: 30px; display: block"/>
+<span style="font-family: Cinzel, Georgia, serif; font-weight: 600; font-size: 16px; letter-spacing: 0.08em; color: #FFFFFF">AM CONSÓRCIOS</span>
 </a>
-<nav aria-label="Navegação principal" class="nav-links" style="align-items: center; gap: 32px; font-size: 15px">
-<a href="imovel.html" style="color: #111111; text-decoration: none">Imóvel</a>
-<a href="automovel.html" style="color: #111111; text-decoration: none">Automóvel</a>
-<a href="contempladas.html" style="color: #111111; text-decoration: none">Contempladas</a>
-<a aria-current="page" href="empresas.html" style="color: #111111; text-decoration: underline; text-underline-offset: 6px">Para empresas</a>
-<a href="index.html#consultor" style="color: #111111; text-decoration: none">Sobre</a>
+<nav aria-label="Navegação principal" class="nav-links" style="align-items: center; gap: 26px; font-size: 15px">
+<a href="imovel.html" style="color: #F2EFE8; text-decoration: none">Imóvel</a>
+<a href="automovel.html" style="color: #F2EFE8; text-decoration: none">Automóvel</a>
+<a href="pesados.html" style="color: #F2EFE8; text-decoration: none">Pesados</a>
+<a href="agro.html" style="color: #F2EFE8; text-decoration: none">Agro</a>
+<a href="contempladas.html" style="color: #F2EFE8; text-decoration: none">Contempladas</a>
+<a aria-current="page" href="empresas.html" style="color: #FFFFFF; text-decoration: underline; text-underline-offset: 6px">Para empresas</a>
+<a href="index.html#consultor" style="color: #F2EFE8; text-decoration: none">Sobre</a>
 </nav>
 <div style="display: flex; align-items: center; gap: 20px">
-<a class="nav-links" href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" style="font-size: 15px; text-decoration: none; color: #5E5B55" target="_blank">(11) 99608-6204</a>
-<a class="btn-ink" href="#simular" style="background: #111111; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 500; padding: 0 20px; min-height: 44px; display: inline-flex; align-items: center; border-radius: 999px">Simular</a>
-<button aria-label="Abrir menu" class="nav-menu" style="background: transparent; border: 1px solid #E6E2DA; border-radius: 999px; min-height: 44px; padding: 0 16px; align-items: center; font: inherit; color: #111111" type="button">Menu</button>
+<a class="nav-links" href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" target="_blank" style="font-size: 15px; text-decoration: none; color: #CFCAC0">(11) 99608-6204</a>
+<a class="btn-glass glass" href="#simular" style="color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 500; padding: 0 8px 0 20px; min-height: 44px; display: inline-flex; align-items: center; gap: 12px; border-radius: 999px">Simular<span aria-hidden="true" style="width: 30px; height: 30px; border-radius: 50%; background: #D4AF37; color: #111111; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4l6 6-6 6"></path></svg></span></a>
+<button aria-label="Abrir menu" class="nav-menu" style="background: transparent; border: 1px solid rgba(255,255,255,0.35); border-radius: 999px; min-height: 44px; padding: 0 16px; align-items: center; font: inherit; color: #FFFFFF" type="button">Menu</button>
 </div>
 </div>
 </header>
-<!-- HERO -->
-<section class="on-dark" style="position: relative; background: #0A0A0A; color: #FFFFFF; overflow: hidden">
-<img srcset="assets/empresas-encontro-640.webp 640w, assets/empresas-encontro-960.webp 960w, assets/empresas-encontro-1280.webp 1280w, assets/empresas-encontro-1600.webp 1600w, assets/empresas-encontro.webp 1672w" sizes="100vw" width="1672" height="941" decoding="async" fetchpriority="high" alt="" src="assets/empresas-encontro.webp" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; opacity: 0.7"/>
-<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.6) 55%, rgba(10,10,10,0.3) 100%)"></div>
-<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 152px 32px 136px; display: flex; flex-direction: column; gap: 32px">
+<div class="hero-body" style="position: relative; z-index: 2; flex: 1 1 auto; width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 32px 32px; display: flex; flex-direction: column; justify-content: flex-end; gap: 32px">
+<div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-end; justify-content: space-between">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
 <nav aria-label="Você está em" style="font-size: 14px; color: #CFCAC0"><a href="index.html" style="color: #CFCAC0">Início</a> <span aria-hidden="true">/</span> <span style="color: #FFFFFF">Para empresas</span></nav>
-<h1 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(48px, 6.4vw, 96px); line-height: 0.98; letter-spacing: -0.035em; max-width: 980px">Para empresas que querem vender consórcio melhor.</h1>
-<p style="margin: 0; font-size: 20px; line-height: 1.55; color: #E2DED6; max-width: 620px">Cursos e encontros presenciais com a AM, para quem está começando no mercado de consórcios ou quer desenvolver uma operação que já existe.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 12px">
-<a class="btn-gold" href="#encontro" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 26px; min-height: 54px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 16px">Agendar um encontro</a>
-<a href="#formatos" style="border: 1px solid rgba(255,255,255,0.45); color: #FFFFFF; text-decoration: none; font-weight: 500; padding: 0 26px; min-height: 54px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 16px">Ver formatos</a>
+<h1 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(44px, 6vw, 88px); line-height: 0.98; letter-spacing: -0.03em; color: #FFFFFF; max-width: 720px">Consórcio para empresas.</h1>
+<p style="margin: 0; font-size: 19px; line-height: 1.55; color: #E2DED6; max-width: 560px">Frota, sede e equipamentos comprados pelo CNPJ, sem juros. A AM planeja com você o crescimento da empresa em grupos do Santander e da Servopa.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px">
+<a class="btn-glass glass" href="#simular" style="color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 500; padding: 0 8px 0 24px; min-height: 52px; display: inline-flex; align-items: center; gap: 14px; border-radius: 999px">Simular agora<span aria-hidden="true" style="width: 36px; height: 36px; border-radius: 50%; background: #D4AF37; color: #111111; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 14L14 6M7 6h7v7"></path></svg></span></a>
+<a href="index.html#consultor" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: #FFFFFF">
+<img alt="" height="44" src="assets/alex-avatar.webp" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.5)" width="44"/>
+<span style="display: flex; flex-direction: column; font-size: 14px; line-height: 1.35"><strong style="font-size: 17px; font-weight: 600">300+ clientes</strong><span style="color: #CFCAC0">atendidos pelo Alex</span></span>
+</a>
 </div>
-<p style="margin: 0; font-size: 13px; color: #A8A399">Imagem ilustrativa.</p>
+</div>
+<div class="hero-cards" style="display: flex; gap: 20px; align-items: flex-start">
+<div class="hero-card" style="position: relative; flex: 0 0 240px; height: 300px; margin-top: 0px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.28); box-shadow: 0 24px 60px rgba(0,0,0,0.45); background: #1B1A18; display: block; color: #FFFFFF; text-decoration: none"><img alt="" decoding="async" loading="lazy" width="540" height="960" src="assets/videos/empresas-card-sede.webp" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"/><video aria-hidden="true" data-src="assets/videos/empresas-card-sede.mp4" loop="" muted="" playsinline="" preload="none" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></video><span class="glass" style="position: absolute; left: 12px; bottom: 12px; border-radius: 999px; padding: 6px 12px; font-size: 13px; color: #FFFFFF">Sede própria</span></div>
+<div class="hero-card" style="position: relative; flex: 0 0 210px; height: 250px; margin-top: 50px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,0.28); box-shadow: 0 24px 60px rgba(0,0,0,0.45); background: #1B1A18; display: block; color: #FFFFFF; text-decoration: none"><img alt="" decoding="async" loading="lazy" width="540" height="960" src="assets/videos/empresas-card-equipamento.webp" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"/><video aria-hidden="true" data-src="assets/videos/empresas-card-equipamento.mp4" loop="" muted="" playsinline="" preload="none" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover"></video><span class="glass" style="position: absolute; left: 12px; bottom: 12px; border-radius: 999px; padding: 6px 12px; font-size: 13px; color: #FFFFFF">Equipamentos</span></div>
+</div>
+</div>
+<dl class="hero-facts glass" style="margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-radius: 16px; overflow: hidden"><div style="padding: 18px 22px; display: flex; flex-direction: column; gap: 4px"><dt style="font-size: 13px; color: #CFCAC0">Para</dt><dd style="margin: 0; font-size: 17px; font-weight: 500; color: #FFFFFF">empresas de todos os portes</dd></div><div style="padding: 18px 22px; border-left: 1px solid rgba(255,255,255,0.18); display: flex; flex-direction: column; gap: 4px"><dt style="font-size: 13px; color: #CFCAC0">Bens</dt><dd style="margin: 0; font-size: 17px; font-weight: 500; color: #FFFFFF">imóvel, veículos e equipamentos</dd></div><div style="padding: 18px 22px; border-left: 1px solid rgba(255,255,255,0.18); display: flex; flex-direction: column; gap: 4px"><dt style="font-size: 13px; color: #CFCAC0">Juros</dt><dd style="margin: 0; font-size: 17px; font-weight: 500; color: #FFFFFF">zero</dd></div><div style="padding: 18px 22px; border-left: 1px solid rgba(255,255,255,0.18); display: flex; flex-direction: column; gap: 4px"><dt style="font-size: 13px; color: #CFCAC0">Administradoras</dt><dd style="margin: 0; font-size: 17px; font-weight: 500; color: #FFFFFF">Santander e Servopa</dd></div></dl>
+<div style="display: flex; align-items: center; gap: 12px">
+<button aria-label="Pausar vídeo" data-action="toggleVideo" data-attr-aria-label="videoLabel" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); background: rgba(10,10,10,0.3); color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer" type="button">
+<span class="wrap-contents" data-show="playing"><svg aria-hidden="true" fill="currentColor" height="14" viewbox="0 0 20 20" width="14"><path d="M5 3h3v14H5zm7 0h3v14h-3z"></path></svg></span>
+<span class="wrap-contents" data-show="paused"><svg aria-hidden="true" fill="currentColor" height="14" viewbox="0 0 20 20" width="14"><path d="M6 3.5v13l11-6.5z"></path></svg></span>
+</button>
+<span style="font-size: 13px; color: #CFCAC0">Imagens ilustrativas</span>
+</div>
 </div>
 </section>
-<!-- PARA QUEM -->
-<section style="background: #FFFFFF">
-<div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-wrap: wrap; gap: 72px">
-<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Para quem é.</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37; max-width: 360px">Um ponto de partida para cada momento da sua empresa.</p>
-</div>
-<ul style="flex: 2 1 640px; min-width: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid #111111">
-<li style="padding: 28px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-wrap: wrap; gap: 8px 40px"><strong style="flex: 1 1 320px; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em">Empresas que querem começar</strong><span style="flex: 1 1 360px; font-size: 17px; line-height: 1.6; color: #3D3B37">Organizar o conhecimento, os papéis da equipe e os primeiros passos para vender consórcio.</span></li>
-<li style="padding: 28px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-wrap: wrap; gap: 8px 40px"><strong style="flex: 1 1 320px; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em">Operações que já vendem</strong><span style="flex: 1 1 360px; font-size: 17px; line-height: 1.6; color: #3D3B37">Revisar a abordagem, achar pontos de melhoria e ganhar consistência no atendimento.</span></li>
-<li style="padding: 28px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-wrap: wrap; gap: 8px 40px"><strong style="flex: 1 1 320px; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em">Gestores formando equipe</strong><span style="flex: 1 1 360px; font-size: 17px; line-height: 1.6; color: #3D3B37">Alinhar processo, discurso e rotina para que a operação não dependa de um único vendedor.</span></li>
-</ul>
-</div>
-</section>
-<!-- O QUE TRABALHAMOS -->
-<section class="on-dark" style="background: #111111; color: #FFFFFF">
-<div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-direction: column; gap: 48px">
+<!-- SIMULADOR COM LANCE -->
+<section id="simular" style="background: #F7F5F0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-direction: column; gap: 48px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4.4vw, 64px); line-height: 1; letter-spacing: -0.03em; max-width: 720px">Mais do que ensinar a vender.</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0; max-width: 420px">Consórcio pede uma operação que entende o cliente, explica o compromisso e acompanha depois da venda.</p>
-</div>
-<ol style="margin: 0; padding: 0; list-style: none; border-top: 1px solid #FFFFFF">
-<li style="display: flex; flex-wrap: wrap; gap: 8px 48px; padding: 36px 0; border-bottom: 1px solid #2E2C29"><span style="flex: 0 0 64px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 28px; color: #D4AF37">01</span><h3 style="flex: 1 1 320px; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 40px); letter-spacing: -0.02em; line-height: 1.1">Conhecimento de produto</h3><p style="flex: 1 1 360px; margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0">Grupos, propostas e contratos. Taxas, reajustes, lances e contemplação explicados com segurança.</p></li>
-<li style="display: flex; flex-wrap: wrap; gap: 8px 48px; padding: 36px 0; border-bottom: 1px solid #2E2C29"><span style="flex: 0 0 64px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 28px; color: #D4AF37">02</span><h3 style="flex: 1 1 320px; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 40px); letter-spacing: -0.02em; line-height: 1.1">Estrutura comercial</h3><p style="flex: 1 1 360px; margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0">Público, abordagem e fluxo de atendimento. Entender o objetivo do cliente antes de apresentar a proposta.</p></li>
-<li style="display: flex; flex-wrap: wrap; gap: 8px 48px; padding: 36px 0; border-bottom: 1px solid #2E2C29"><span style="flex: 0 0 64px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 28px; color: #D4AF37">03</span><h3 style="flex: 1 1 320px; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 40px); letter-spacing: -0.02em; line-height: 1.1">Desenvolvimento da equipe</h3><p style="flex: 1 1 360px; margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0">Repertório, rotina e análise de casos reais, para a equipe explicar as condições com clareza.</p></li>
-<li style="display: flex; flex-wrap: wrap; gap: 8px 48px; padding: 36px 0; border-bottom: 1px solid #2E2C29"><span style="flex: 0 0 64px; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 28px; color: #D4AF37">04</span><h3 style="flex: 1 1 320px; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(28px, 2.8vw, 40px); letter-spacing: -0.02em; line-height: 1.1">Processos e acompanhamento</h3><p style="flex: 1 1 360px; margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0">Registro de oportunidades, acompanhamento comercial e cuidado com a permanência dos contratos.</p></li>
-</ol>
-</div>
-</section>
-<!-- FORMATOS -->
-<section id="formatos" style="background: #F7F5F0">
-<div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-direction: column; gap: 48px">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Formatos.</h2>
-<p style="margin: 0; font-size: 15px; color: #5E5B55">Todos presenciais, com data e local combinados com a equipe da AM.</p>
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em; max-width: 640px">Simule pela empresa.</h2>
+<p style="margin: 0; font-size: 15px; color: #5E5B55; max-width: 420px">Mexa nos valores. Tudo é recalculado na hora, sem cadastro.</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
-<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 18px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 34px; letter-spacing: -0.02em; line-height: 1.05">Encontro presencial</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Uma conversa sobre o momento da sua empresa e o que vale desenvolver primeiro.</p><dl style="margin: auto 0 0; border-top: 1px solid #E6E2DA; padding-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px"><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Duração</dt><dd style="margin: 0">[2 horas]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Para</dt><dd style="margin: 0">[gestores e sócios]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Investimento</dt><dd style="margin: 0">[a definir]</dd></div></dl></article>
-<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 18px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 34px; letter-spacing: -0.02em; line-height: 1.05">Curso para equipes</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Formação prática para a equipe comercial vender consórcio com segurança e clareza.</p><dl style="margin: auto 0 0; border-top: 1px solid #E6E2DA; padding-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px"><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Duração</dt><dd style="margin: 0">[1 ou 2 dias]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Para</dt><dd style="margin: 0">[até 20 pessoas]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Investimento</dt><dd style="margin: 0">[a definir]</dd></div></dl></article>
-<article style="flex: 1 1 320px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 18px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 34px; letter-spacing: -0.02em; line-height: 1.05">Acompanhamento</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Encontros periódicos para colocar o plano em prática e ajustar o caminho.</p><dl style="margin: auto 0 0; border-top: 1px solid #E6E2DA; padding-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px"><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Duração</dt><dd style="margin: 0">[3 a 6 meses]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Para</dt><dd style="margin: 0">[gestor + equipe]</dd></div><div style="display: flex; justify-content: space-between; gap: 12px"><dt style="color: #5E5B55">Investimento</dt><dd style="margin: 0">[a definir]</dd></div></dl></article>
+<div style="flex: 1 1 420px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div aria-label="Simular por" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
+<button aria-pressed="true" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do bem</button>
+<button aria-pressed="false" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+</div><div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input autocomplete="off" data-change="onValor" data-model="valor" id="valor-empresas" inputmode="numeric" placeholder=" " type="text"/><label for="valor-empresas"><span data-bind="valorLabel">Valor do crédito</span></label></div>
+</div>
+<div class="fl"><select data-change="onPrazo" data-model="prazo" id="prazo-empresas">
+<template data-as="p" data-for="prazos"><option data-model="value"><span data-bind="label"></span></option></template>
+</select><label for="prazo-empresas">Prazo</label></div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span id="lance-label" style="font-size: 14px; color: #5E5B55">Lance que você pode dar</span>
+<div aria-labelledby="lance-label" role="group" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+<template data-as="l" data-for="lances">
+<button aria-pressed="false" data-action="pick" data-pressed="on" style="min-height: 44px; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer" type="button"><span data-bind="label"></span></button>
+</template>
+</div>
+<span style="font-size: 13px; color: #5E5B55; line-height: 1.5">Pode ser dinheiro do caixa, a venda de um bem atual ou parte do próprio crédito (lance embutido).</span>
 </div>
 </div>
-</section>
-<!-- COMO COMEÇA -->
-<section style="background: #FFFFFF">
-<div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-direction: column; gap: 48px">
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Primeiro, entender. Depois, estruturar.</h2>
-<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 32px">
-<li style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 2px solid #D4AF37"><span style="font-size: 13px; letter-spacing: 0.04em; color: #8A6408">01 · Diagnóstico</span><h3 style="margin: 0; font-size: 22px; font-weight: 500">Olhar para o momento atual</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Objetivos, experiência, equipe e principais dificuldades da empresa.</p></li>
-<li style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 2px solid #D4AF37"><span style="font-size: 13px; letter-spacing: 0.04em; color: #8A6408">02 · Prioridades</span><h3 style="margin: 0; font-size: 22px; font-weight: 500">Definir o que desenvolver</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Os temas e processos mais importantes para o estágio da operação.</p></li>
-<li style="flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 2px solid #D4AF37"><span style="font-size: 13px; letter-spacing: 0.04em; color: #8A6408">03 · Plano</span><h3 style="margin: 0; font-size: 22px; font-weight: 500">Organizar os próximos passos</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Formato, datas, condições e acompanhamento acordados com você.</p></li>
-</ol>
+<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 24px"><div class="sim-progress" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #5E5B55"><span><span data-bind="etapaTexto">Etapa 1 de 2</span></span><span><span data-bind="etapaNome">Sua simulação</span></span></div>
+<div style="height: 3px; background: #EFEBE3; border-radius: 3px; overflow: hidden"><div data-width="progress" style="height: 100%; width: 50%; background: #D4AF37; border-radius: 3px; transition: width .7s cubic-bezier(.2,.8,.2,1)"></div></div>
 </div>
-</section>
-<!-- FORMULÁRIO -->
-<section class="on-dark" id="encontro" style="background: #0A0A0A; color: #FFFFFF">
-<div style="max-width: 1280px; margin: 0 auto; padding: 128px 32px; display: flex; flex-wrap: wrap; gap: 72px; align-items: flex-start">
-<div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
-<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(40px, 4.6vw, 64px); line-height: 1; letter-spacing: -0.03em">Vamos marcar um encontro?</h2>
-<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #CFCAC0; max-width: 440px">Conte um pouco sobre a sua empresa. O Alex responde pelo WhatsApp para combinar data e local.</p>
+<div class="step-panel" data-show="step1" style="display: flex; flex-direction: column; gap: 22px">
+<div data-show="porParcela" style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 14px; color: #5E5B55"><span data-bind="resultLabel">Sua parcela</span></span><span style="font-family: Newsreader, Georgia, serif; font-size: 44px; line-height: 1; letter-spacing: -0.02em"><span data-bind="resultValor"></span><span style="font-family: 'Instrument Sans', sans-serif; font-size: 16px; color: #5E5B55"><span data-bind="resultSufixo"></span></span></span></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<div style="background: #F4F2ED; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #5E5B55">Parcela até a contemplação</span><span style="font-family: Newsreader, Georgia, serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em"><span data-bind="parcela"></span></span></div>
+<div style="background: #F4F2ED; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 6px"><span style="font-size: 13px; color: #5E5B55"><span data-bind="depoisLabel"></span></span><span style="font-family: Newsreader, Georgia, serif; font-size: 36px; line-height: 1; letter-spacing: -0.02em"><span data-bind="depois"></span></span></div>
 </div>
-<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; color: #111111; border-radius: 16px; padding: 36px">
+<p style="margin: 0; font-size: 15px; line-height: 1.55; color: #3D3B37"><span data-bind="lanceFrase"></span></p>
+<button class="btn-ink" data-action="next" style="min-height: 54px; border: 0; border-radius: 999px; background: #111111; color: #FFFFFF; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px" type="button">Continuar <span aria-hidden="true" class="btn-arrow">→</span></button>
+<span style="font-size: 13px; color: #5E5B55; text-align: center">Na próxima etapa, só os seus dados de contato.</span>
+</div>
+<div class="step-panel" data-show="step2" hidden="" style="display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #F4F2ED; border-radius: 12px; padding: 16px 18px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><strong style="font-size: 15px; font-weight: 600"><span data-bind="resumoTitulo"></span></strong><span style="font-size: 14px; color: #5E5B55"><span data-bind="resumoDetalhe"></span></span></div>
+<button class="btn-outline" data-action="back" style="flex: 0 0 auto; border: 1px solid #CFC8BA; background: #FFFFFF; color: #111111; border-radius: 999px; min-height: 40px; padding: 0 16px; font: inherit; font-size: 14px; cursor: pointer" type="button">Alterar</button>
+</div>
 <div class="wrap-contents" data-show="notSent">
-<form data-submit="onLead" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
-<div class="fl"><input autocomplete="name" id="emp-nome" name="nome" placeholder=" " required=""/><label for="emp-nome">Seu nome</label></div>
-<div class="fl"><input autocomplete="organization" id="emp-empresa" name="empresa" placeholder=" " required=""/><label for="emp-empresa">Empresa</label></div>
-<div class="fl"><input autocomplete="tel-national" id="emp-whatsapp" name="whatsapp" placeholder=" " required="" type="tel"/><label for="emp-whatsapp">WhatsApp</label></div>
-<div class="fl"><select id="emp-equipe" name="equipe"><option>Só eu</option><option>2 a 5 pessoas</option><option>6 a 20 pessoas</option><option>Mais de 20</option></select><label for="emp-equipe">Tamanho da equipe</label></div>
-<div class="fl" style="grid-column: 1 / -1"><select id="emp-momento" name="momento"><option>Quero começar a vender consórcio</option><option>Já vendo e quero melhorar</option><option>Estou formando uma equipe</option></select><label for="emp-momento">Em que momento a empresa está?</label></div>
-<button class="btn-gold" style="grid-column: 1 / -1; min-height: 54px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer" type="submit">Quero agendar um encontro</button>
-<p style="grid-column: 1 / -1; margin: 0; font-size: 13px; color: #5E5B55">Ao enviar, você concorda com a <a href="politica-de-privacidade.html">Política de Privacidade</a>.</p>
+<form data-submit="onLead" style="display: flex; flex-direction: column; gap: 14px">
+<p class="form-title">Para onde enviamos a sua simulação?</p>
+<div class="fl"><input autocomplete="name" id="nome-empresas" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-empresas">Nome e sobrenome</label></div>
+<div class="fl"><input autocomplete="off" id="cpf-empresas" inputmode="numeric" maxlength="14" name="cpf" placeholder=" "/><label for="cpf-empresas">CPF (opcional)</label></div>
+<div class="fl"><input autocomplete="tel-national" id="whats-empresas" name="whatsapp" placeholder=" " required="" type="tel"/><label for="whats-empresas">WhatsApp com DDD</label></div>
+<button class="btn-gold" style="min-height: 54px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer" type="submit">Receber minha simulação</button>
+<span style="font-size: 13px; color: #5E5B55; line-height: 1.45">Seus dados ficam protegidos e só a equipe da AM tem acesso.</span>
 </form>
 </div>
 <div class="wrap-contents" data-show="sent">
-<div role="status" style="display: flex; flex-direction: column; gap: 8px"><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px">Recebido.</strong><span style="font-size: 16px; color: #3D3B37; line-height: 1.55">O Alex vai chamar você no WhatsApp para combinar o encontro.</span></div>
+<div role="status" style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #D4AF37; padding-left: 16px"><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1">Pronto, recebemos!</strong><span style="font-size: 15px; line-height: 1.55; color: #3D3B37">O Alex vai mandar no seu WhatsApp os grupos disponíveis para essa simulação.</span></div>
 </div>
+</div></div>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5E5B55; max-width: 840px; line-height: 1.6">Estimativa simplificada com taxa e prazos de exemplo [a confirmar por tipo de bem e administradora]: o lance abate o saldo e o restante é dividido pelos meses que faltam, considerando contemplação no mês 6. Não inclui seguro nem a correção do crédito. Lance não garante contemplação.</p>
+</div>
+</section>
+<!-- USOS -->
+<section style="background: #FFFFFF">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-wrap: wrap; gap: 72px">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">O que a empresa pode comprar.</h2>
+<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #5E5B55">Pelo CNPJ, com análise de crédito da administradora na contemplação.</p>
+</div>
+<ul style="flex: 2 1 600px; min-width: 0; margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); column-gap: 40px; border-top: 1px solid #111111">
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Imóvel comercial</strong><span style="font-size: 15px; color: #5E5B55">Sede, sala, loja, galpão ou terreno para construir.</span></li>
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Frota leve</strong><span style="font-size: 15px; color: #5E5B55">Carros e utilitários para vendas, entregas e serviços.</span></li>
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Veículos pesados</strong><span style="font-size: 15px; color: #5E5B55">Caminhões, ônibus e implementos. <a href="pesados.html" style="color: #111111">Ver pesados →</a></span></li>
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Máquinas e equipamentos</strong><span style="font-size: 15px; color: #5E5B55">Linha amarela, empilhadeiras e equipamentos industriais.</span></li>
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Equipamentos médicos</strong><span style="font-size: 15px; color: #5E5B55">Para clínicas e consultórios, apenas novos.</span></li>
+<li style="padding: 22px 0; border-bottom: 1px solid #E6E2DA; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; font-weight: 500">Máquinas agrícolas</strong><span style="font-size: 15px; color: #5E5B55">Para empresas do agro. <a href="agro.html" style="color: #111111">Ver agronegócio →</a></span></li>
+</ul>
+</div>
+</section>
+<!-- POR QUE -->
+<section style="background: #F7F5F0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-direction: column; gap: 48px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em; max-width: 760px">Por que consórcio no CNPJ.</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+<article style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 16px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em">Crescer sem juros</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">O custo é a taxa de administração. O caixa da empresa não fica preso a juros de financiamento.</p></article>
+<article style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 16px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em">Planejamento</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Parcelas previsíveis para a renovação da frota e a compra da sede, no prazo que a empresa define.</p></article>
+<article style="flex: 1 1 300px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 36px; display: flex; flex-direction: column; gap: 16px"><h3 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em">Poder de compra</h3><p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3D3B37">Com a carta contemplada, a empresa compra à vista e negocia melhor com o fornecedor.</p></article>
+</div>
+</div>
+</section>
+<!-- PASSOS -->
+<section class="on-dark" style="background: #111111; color: #FFFFFF">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-direction: column; gap: 48px">
+<p style="margin: 0; font-size: 15px; color: #A8A399">Como a AM trabalha com empresas</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.03em; max-width: 760px">Primeiro, o plano. Depois, os grupos.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #CFCAC0; max-width: 420px">Uma conversa para entender o que a empresa precisa comprar e quando.</p>
+</div>
+<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); border-top: 1px solid #2E2C29">
+<li style="padding: 28px 28px 0 0; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #D4AF37; font-weight: 600">01</span><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em; color: #FFFFFF">Diagnóstico</strong><span style="font-size: 16px; line-height: 1.6; color: #CFCAC0">O que a empresa precisa comprar nos próximos anos: imóvel, frota ou equipamentos.</span></li>
+<li style="padding: 28px 28px 0 0; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #D4AF37; font-weight: 600">02</span><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em; color: #FFFFFF">Desenho</strong><span style="font-size: 16px; line-height: 1.6; color: #CFCAC0">Valor, prazo e quantos grupos, no Santander ou na Servopa, conforme cada bem.</span></li>
+<li style="padding: 28px 28px 0 0; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #D4AF37; font-weight: 600">03</span><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em; color: #FFFFFF">Lance</strong><span style="font-size: 16px; line-height: 1.6; color: #CFCAC0">Estratégia de lance com caixa ou lance embutido, alinhada ao fluxo da empresa.</span></li>
+<li style="padding: 28px 28px 0 0; display: flex; flex-direction: column; gap: 10px"><span style="font-size: 13px; color: #D4AF37; font-weight: 600">04</span><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; letter-spacing: -0.015em; color: #FFFFFF">Acompanhamento</strong><span style="font-size: 16px; line-height: 1.6; color: #CFCAC0">O Alex acompanha as assembleias e cuida da compra com a administradora.</span></li>
+</ol>
+<p style="margin: 0; font-size: 13px; color: #A8A399">Contemplação por sorteio ou lance, sem data garantida. Crédito sujeito à análise da administradora.</p>
+</div>
+</section>
+<!-- FORMULÁRIO DA EMPRESA -->
+<section id="briefing" style="background: #F7F5F0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-wrap: wrap; gap: 72px">
+<div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Conte o que a sua empresa precisa.</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #3D3B37">O Alex responde no WhatsApp com um primeiro desenho do plano.</p>
+</div>
+<div style="flex: 1 1 520px; min-width: 0; background: #FFFFFF; border-radius: 16px; padding: 32px">
+<div class="wrap-contents" data-show="briefingNotSent">
+<form data-submit="onBriefing" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<div class="fl"><input autocomplete="name" id="nome-briefing" maxlength="100" name="nome" placeholder=" " required=""/><label for="nome-briefing">Seu nome e sobrenome</label></div>
+<div class="fl"><input autocomplete="organization" id="empresa-briefing" maxlength="120" name="empresa" placeholder=" " required=""/><label for="empresa-briefing">Empresa</label></div>
+<div class="fl"><input autocomplete="tel-national" id="whats-briefing" name="whatsapp" placeholder=" " required="" type="tel"/><label for="whats-briefing">WhatsApp com DDD</label></div>
+<div class="fl"><select id="compra-briefing" name="compra"><option>Imóvel comercial</option><option>Frota leve</option><option>Veículos pesados</option><option>Máquinas e equipamentos</option><option>Ainda não sei</option></select><label for="compra-briefing">O que quer comprar</label></div>
+<div class="fl"><select id="valor-briefing" name="valor"><option>Até R$ 300 mil</option><option>R$ 300 mil a R$ 1 milhão</option><option>R$ 1 a 3 milhões</option><option>Acima de R$ 3 milhões</option></select><label for="valor-briefing">Valor aproximado</label></div>
+<div class="fl"><select id="quando-briefing" name="quando"><option>Nos próximos 6 meses</option><option>Em até 1 ano</option><option>Em 1 a 3 anos</option><option>Estou planejando</option></select><label for="quando-briefing">Quando pretende comprar</label></div>
+<button class="btn-gold" style="grid-column: 1 / -1; justify-self: start; min-height: 54px; padding: 0 28px; border: 0; border-radius: 999px; background: #D4AF37; color: #111111; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer" type="submit">Enviar para o Alex</button>
+</form>
+</div>
+<div class="wrap-contents" data-show="briefingSent">
+<div role="status" style="display: flex; flex-direction: column; gap: 8px; border-left: 2px solid #D4AF37; padding-left: 16px"><strong style="font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1">Pronto, recebemos!</strong><span style="font-size: 15px; line-height: 1.55; color: #3D3B37">O Alex vai chamar você no WhatsApp com um primeiro desenho do plano da empresa.</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- DÚVIDAS -->
+<section style="background: #F7F5F0">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 32px; display: flex; flex-wrap: wrap; gap: 72px">
+<h2 style="flex: 1 1 320px; min-width: 0; margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(36px, 4vw, 56px); line-height: 1.05; letter-spacing: -0.025em">Dúvidas de empresas.</h2>
+<div style="flex: 2 1 600px; min-width: 0; border-top: 1px solid #111111">
+<details style="border-bottom: 1px solid #E6E2DA"><summary style="display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 19px; font-weight: 500">Qualquer empresa pode participar?<span class="faq-sign" aria-hidden="true" style="font-size: 22px; transition: transform 200ms">+</span></summary><p style="margin: 0 0 24px; font-size: 16px; line-height: 1.65; color: #3D3B37; max-width: 640px">Sim, de MEI a grande empresa, com análise de crédito da administradora na contemplação.</p></details>
+<details style="border-bottom: 1px solid #E6E2DA"><summary style="display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 19px; font-weight: 500">O bem fica no nome da empresa?<span class="faq-sign" aria-hidden="true" style="font-size: 22px; transition: transform 200ms">+</span></summary><p style="margin: 0 0 24px; font-size: 16px; line-height: 1.65; color: #3D3B37; max-width: 640px">Sim. Até a quitação, ele fica alienado ao consórcio como garantia.</p></details>
+<details style="border-bottom: 1px solid #E6E2DA"><summary style="display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 19px; font-weight: 500">Dá para comprar mais de um bem?<span class="faq-sign" aria-hidden="true" style="font-size: 22px; transition: transform 200ms">+</span></summary><p style="margin: 0 0 24px; font-size: 16px; line-height: 1.65; color: #3D3B37; max-width: 640px">Sim. A empresa pode ter cotas em grupos diferentes, uma para cada compra planejada.</p></details>
+<details style="border-bottom: 1px solid #E6E2DA"><summary style="display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 19px; font-weight: 500">Qual a diferença entre Santander e Servopa?<span class="faq-sign" aria-hidden="true" style="font-size: 22px; transition: transform 200ms">+</span></summary><p style="margin: 0 0 24px; font-size: 16px; line-height: 1.65; color: #3D3B37; max-width: 640px">Cada administradora tem grupos, prazos e taxas próprios. A AM compara os dois e indica o melhor para cada bem.</p></details>
+<details style="border-bottom: 1px solid #E6E2DA"><summary style="display: flex; justify-content: space-between; gap: 20px; padding: 24px 0; font-size: 19px; font-weight: 500">Dá para trocar o aluguel pela sede própria?<span class="faq-sign" aria-hidden="true" style="font-size: 22px; transition: transform 200ms">+</span></summary><p style="margin: 0 0 24px; font-size: 16px; line-height: 1.65; color: #3D3B37; max-width: 640px">Sim. Com uma carta de imóvel, a empresa compra sala, loja ou galpão e passa a pagar a parcela no lugar do aluguel.</p></details>
+</div>
+</div>
+</section>
+<!-- CTA -->
+<section id="contato" style="background: #FFFFFF; border-top: 1px solid #E6E2DA">
+<div style="max-width: 1280px; margin: 0 auto; padding: 112px 32px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 40px">
+<h2 style="margin: 0; font-family: Newsreader, Georgia, serif; font-weight: 400; font-size: clamp(44px, 5.4vw, 76px); line-height: 1; letter-spacing: -0.03em; max-width: 760px">Vamos planejar as próximas compras da sua empresa?</h2>
+<div style="display: flex; flex-direction: column; gap: 16px; align-items: flex-start">
+<span style="display: flex; align-items: center; gap: 12px; font-size: 15px"><img src="assets/alex-avatar.webp" alt="" width="44" height="44" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex: 0 0 44px">Fale direto com o Alex</span>
+<a href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" target="_blank" class="btn-gold" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 28px; min-height: 56px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 16px">Conversar no WhatsApp</a>
 </div>
 </div>
 </section>
@@ -189,14 +290,13 @@ html{scroll-behavior:smooth}
 <p style="margin: 0; font-family: Newsreader, Georgia, serif; font-size: 34px; line-height: 1.15; letter-spacing: -0.015em; color: #FFFFFF">Consórcio com clareza, do primeiro contato à chave na mão.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
 <a class="btn-gold" href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" style="background: #D4AF37; color: #111111; text-decoration: none; font-weight: 600; padding: 0 22px; min-height: 50px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 15px" target="_blank">Conversar no WhatsApp</a>
-<a href="index.html" style="border: 1px solid #3A3834; color: #FFFFFF; text-decoration: none; font-weight: 500; padding: 0 22px; min-height: 50px; display: inline-flex; align-items: center; border-radius: 999px; font-size: 15px">Agendar visita</a>
 </div>
 </div>
 <div style="flex: 2 1 560px; min-width: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 48px 40px; font-size: 15px; line-height: 1.5">
-<nav aria-label="Soluções" style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Soluções</strong><a href="imovel.html" style="color: #A8A399; text-decoration: none">Imóvel</a><a href="automovel.html" style="color: #A8A399; text-decoration: none">Automóvel</a><a href="contempladas.html" style="color: #A8A399; text-decoration: none">Cartas contempladas</a><a href="index.html" style="color: #A8A399; text-decoration: none">Vender cota</a><a href="empresas.html" style="color: #A8A399; text-decoration: none">Para empresas</a></nav>
+<nav aria-label="Soluções" style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Soluções</strong><a href="imovel.html" style="color: #A8A399; text-decoration: none">Imóvel</a><a href="automovel.html" style="color: #A8A399; text-decoration: none">Automóvel</a><a href="pesados.html" style="color: #A8A399; text-decoration: none">Veículos pesados</a><a href="agro.html" style="color: #A8A399; text-decoration: none">Agronegócio</a><a href="contempladas.html" style="color: #A8A399; text-decoration: none">Cartas contempladas</a><a href="index.html#solucoes" style="color: #A8A399; text-decoration: none">Vender cota</a><a href="empresas.html" style="color: #A8A399; text-decoration: none">Para empresas</a></nav>
 <nav aria-label="A AM" style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">A AM</strong><a href="index.html" style="color: #A8A399; text-decoration: none">Quem somos</a><a href="index.html" style="color: #A8A399; text-decoration: none">Dúvidas</a><a href="politica-de-privacidade.html" style="color: #A8A399; text-decoration: none">Política de privacidade</a><a href="termos-de-uso.html" style="color: #A8A399; text-decoration: none">Termos de uso</a></nav>
-<div style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Contato</strong><span>(11) 99608-6204</span><span>adm@amconsorcios.com</span><span>Rua Anthemios de Tralles, 343<br/>São Paulo, SP</span><span>[Seg. a sex., 9h às 18h]</span></div>
-<nav aria-label="Redes" style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Redes</strong><a href="https://www.instagram.com/_samuraim/" rel="noopener noreferrer" style="color: #A8A399; text-decoration: none" target="_blank">Instagram</a><a data-pending="true" href="#" style="color: #A8A399; text-decoration: none">Avaliações no Google</a></nav>
+<div style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Contato</strong><a href="https://wa.me/5511996086204?text=Ol%C3%A1%2C%20AM!%20Vim%20pelo%20site%20e%20quero%20conversar%20sobre%20cons%C3%B3rcio." rel="noopener noreferrer" target="_blank" style="color: #A8A399; text-decoration: none">(11) 99608-6204 (WhatsApp)</a><a href="mailto:adm@amconsorcios.com" style="color: #A8A399; text-decoration: none">adm@amconsorcios.com</a><span>Seg. a sex., 8h às 19h</span></div>
+<nav aria-label="Redes" style="display: flex; flex-direction: column; gap: 14px"><strong style="color: #FFFFFF; font-weight: 500; font-size: 14px; padding-bottom: 6px">Redes</strong><a href="https://www.instagram.com/solucoesfinanceiras.am/" rel="noopener noreferrer" style="color: #A8A399; text-decoration: none" target="_blank">Instagram · @solucoesfinanceiras.am</a></nav>
 </div>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 24px 72px; border-top: 1px solid #2E2C29; padding-top: 40px; font-size: 12px; line-height: 1.75; color: #8F8A80">

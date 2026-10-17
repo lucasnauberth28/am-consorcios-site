@@ -69,7 +69,7 @@
   }
 
   function render() {
-    const v = Object.assign({ sent: state.sent, notSent: !state.sent }, compute());
+    const v = Object.assign({ sent: state.sent, notSent: !state.sent, briefingSent: !!state.briefingSent, briefingNotSent: !state.briefingSent }, compute());
     renderLists(v);
     document.querySelectorAll('[data-bind]').forEach((el) => {
       if (el.closest('template') || el.closest('[data-clone]')) return;
@@ -101,19 +101,24 @@
     const fn = actions[el.dataset.change]; if (fn) fn(e);
   });
 
-  /* ---------- Vídeo do topo ---------- */
+  /* ---------- Vídeos do topo (fundo e cartões) ---------- */
   const video = document.querySelector('video[data-video]');
   const conn = navigator.connection || {};
-  // No celular (ou com economia de dados) o filme não carrega: a foto do topo já está na tela.
+  // No celular (ou com economia de dados) os filmes não carregam: a foto do topo já está na tela.
   const wantsVideo = video && !reduceMotion && !conn.saveData && window.matchMedia('(min-width: 761px)').matches;
   if (video && !wantsVideo) { document.documentElement.classList.add('no-video'); state.playing = false; }
   if (wantsVideo) {
-    video.muted = true;
-    video.src = video.dataset.src; video.preload = 'auto';
-    video.addEventListener('playing', () => video.classList.add('is-playing'), { once: true });
-    { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+    // Os cartões só existem em telas acima de 900px (CSS); abaixo disso não baixam nada.
+    const wide = window.matchMedia('(min-width: 901px)').matches;
+    const films = Array.from(document.querySelectorAll('video[data-src]')).filter((v) => v === video || wide);
+    const play = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    films.forEach((v) => {
+      v.muted = true; v.src = v.dataset.src; v.preload = v === video ? 'auto' : 'metadata';
+      v.addEventListener('playing', () => v.classList.add('is-playing'), { once: true });
+      play(v);
+    });
     actions.toggleVideo = () => {
-      if (state.playing) video.pause(); else { const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+      films.forEach((v) => (state.playing ? v.pause() : play(v)));
       state.playing = !state.playing; render();
     };
   }
@@ -127,18 +132,24 @@
   let leadPayload = () => ({});
 
   /* Simulador em duas etapas (página principal e páginas de produto) */
-  if (page === 'home' || page === 'lance-imovel' || page === 'lance-auto') {
+  const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados', 'lance-agro': 'agro', 'lance-empresas': 'empresa' };
+  if (page === 'home' || page in LANCE_PAGES) {
     const lancePage = page !== 'home';
-    const cfgFor = (t) => t === 'imovel'
-      ? { quickC: [200000, 400000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12 }
-      : { quickC: [50000, 80000, 120000, 200000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6 };
-    Object.assign(state, { tipo: page === 'lance-auto' ? 'veiculo' : 'imovel', modo: 'credito', step: 1, lance: 25 });
+    const FATOR = 1 + TAXA_ADM + FUNDO, FATOR_PESADOS = 1 + 0.16 + FUNDO; // [taxa de pesados a confirmar na tabela do Santander]
+    const CFG = {
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [200000, 400000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, fator: FATOR, interest: 'imovel', origem: 'página de imóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 200000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, fator: FATOR, interest: 'carro', origem: 'página de automóvel' },
+      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [250000, 450000, 700000, 1000000], quickP: [3000, 5000, 8000, 12000], prazos: [60, 80, 100, 120], dflt: 450000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'pesados', origem: 'página de veículos pesados' },
+      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [300000, 600000, 1000000, 1500000], quickP: [4000, 7000, 10000, 15000], prazos: [60, 80, 100, 120], dflt: 600000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'agro', origem: 'página do agronegócio' },
+      empresa: { nome: 'Empresa', label: 'Valor do bem', quickC: [300000, 800000, 1500000, 3000000], quickP: [4000, 8000, 15000, 30000], prazos: [60, 80, 100, 120, 180], dflt: 800000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'empresa', origem: 'página para empresas' },
+    };
+    const cfgFor = (t) => CFG[t];
+    Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'credito', step: 1, lance: 25 });
     { const c = cfgFor(state.tipo); state.valor = c.dflt; state.prazo = c.dPrazo; }
-    const FATOR = 1 + TAXA_ADM + FUNDO;
     const nums = () => {
-      const valor = num(state.valor), prazo = state.prazo;
-      const credit = state.modo === 'credito' ? valor : Math.round(valor * prazo / FATOR / 1000) * 1000;
-      const parcela = state.modo === 'credito' ? (prazo ? credit * FATOR / prazo : 0) : valor;
+      const valor = num(state.valor), prazo = state.prazo, f = cfgFor(state.tipo).fator;
+      const credit = state.modo === 'credito' ? valor : Math.round(valor * prazo / f / 1000) * 1000;
+      const parcela = state.modo === 'credito' ? (prazo ? credit * f / prazo : 0) : valor;
       return { credit, parcela, prazo };
     };
     const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, modo: 'credito', valor: c.dflt, prazo: c.dPrazo }); render(); };
@@ -165,13 +176,13 @@
     compute = () => {
       const c = cfgFor(state.tipo); const n = nums(); const prazo = n.prazo;
       const porCredito = state.modo === 'credito';
-      const tipoNome = state.tipo === 'imovel' ? 'Imóvel' : 'Automóvel';
+      const tipoNome = c.nome;
       const out = Object.assign(videoVals(), {
         valor: state.valor, prazo, porCredito, porParcela: !porCredito,
         isImovel: state.tipo === 'imovel', isVeiculo: state.tipo === 'veiculo',
         step1: state.step === 1, step2: state.step === 2,
         etapaTexto: `Etapa ${state.step} de 2`, etapaNome: state.step === 1 ? 'Sua simulação' : 'Seus dados', progress: state.step === 1 ? '50%' : '100%',
-        valorLabel: porCredito ? (lancePage ? (state.tipo === 'imovel' ? 'Valor do imóvel' : 'Valor do carro') : 'Quanto você precisa?') : 'Quanto quer pagar por mês?',
+        valorLabel: porCredito ? (lancePage ? c.label : 'Quanto você precisa?') : 'Quanto quer pagar por mês?',
         quick: (porCredito ? c.quickC : c.quickP).map((v) => ({ label: porCredito ? short(v) : money.format(v), on: v === num(state.valor), pick: () => { state.valor = v; render(); } })),
         prazos: c.prazos.map((m) => ({ value: m, label: m + ' meses' })),
         resultLabel: porCredito ? 'Sua parcela' : 'Crédito estimado',
@@ -182,7 +193,7 @@
         creditFmt: money.format(n.credit), consParcela: money.format(n.parcela),
       });
       if (lancePage) {
-        const total = n.credit * FATOR;
+        const total = n.credit * c.fator;
         const restante = Math.max(0, total - n.parcela * c.mes);
         const lance = state.lance, valorLance = n.credit * lance / 100;
         const depois = Math.max(0, restante - valorLance) / Math.max(1, prazo - c.mes);
@@ -199,26 +210,31 @@
       return out;
     };
     leadPayload = () => {
-      const v = compute(); const n = nums();
-      const origem = page === 'home' ? 'Site · simulador da página principal' : page === 'lance-imovel' ? 'Site · página de imóvel' : 'Site · página de automóvel';
+      const v = compute(); const n = nums(); const c = cfgFor(state.tipo);
+      const origem = page === 'home' ? 'Site · simulador da página principal' : 'Site · ' + c.origem;
       return {
-        interest: state.tipo === 'imovel' ? 'imovel' : 'carro', credit: bucket(n.credit), source: origem,
+        interest: c.interest, credit: bucket(n.credit), source: origem,
         monthlyBudget: state.modo === 'parcela' ? String(n.parcela) : '',
         simCredit: String(Math.round(n.credit)), simTerm: String(n.prazo), simInstallment: (Math.round(n.parcela * 100) / 100).toFixed(2),
         simMode: state.modo, simBid: lancePage ? String(state.lance) : '',
-        note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${state.tipo === 'imovel' ? 'imóvel' : 'automóvel'}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela estimada de ${v.consParcela}${lancePage ? `, lance de ${state.lance}%` : ''}.`,
+        note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${c.nome.toLowerCase()}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela estimada de ${v.consParcela}${lancePage ? `, lance de ${state.lance}%` : ''}.`,
       };
     };
   }
 
-  if (page === 'empresas') {
-    const stage = { 'Quero começar a vender consórcio': 'iniciar', 'Já vendo e quero melhorar': 'organizar', 'Estou formando uma equipe': 'desenvolver' };
-    const team = { 'Só eu': '1', '2 a 5 pessoas': '2-5', '6 a 20 pessoas': '6-20', 'Mais de 20': 'mais-20' };
-    leadPayload = (form) => ({
-      interest: 'mentoria', company: form.elements.empresa.value.trim(),
-      businessStage: stage[form.elements.momento.value] || 'iniciar', teamSize: team[form.elements.equipe.value] || 'definir',
-      source: 'Site · página para empresas',
-    });
+  /* Formulário da página para empresas: o pedido vai com o que a empresa quer comprar */
+  if (page === 'lance-empresas') {
+    const simLead = leadPayload;
+    const faixa = { 'Até R$ 300 mil': '100-300k', 'R$ 300 mil a R$ 1 milhão': '600k-1m', 'R$ 1 a 3 milhões': 'mais-1m', 'Acima de R$ 3 milhões': 'mais-1m' };
+    leadPayload = (form) => {
+      if (form.dataset.submit !== 'onBriefing') return simLead(form);
+      const el = form.elements;
+      return {
+        interest: 'empresa', company: el.empresa.value.trim(), credit: faixa[el.valor.value] || 'nao-sei',
+        source: 'Site · página para empresas (formulário)',
+        note: `Pedido da empresa: quer comprar ${el.compra.value.toLowerCase()}, valor aproximado ${el.valor.value.replace(/^Até/, 'até').replace(/^Acima/, 'acima')}, ${el.quando.value.toLowerCase()}.`,
+      };
+    };
   }
 
   /* ---------- Formulários de lead ---------- */
@@ -279,7 +295,7 @@
           const fields = body.fields ? Object.values(body.fields).join(' ') : '';
           throw new Error(fields || body.error || 'Não foi possível enviar agora. Fale com a AM pelo WhatsApp.');
         }
-        state.sent = true; requestId = uuid(); render();
+        state[form.dataset.submit === 'onBriefing' ? 'briefingSent' : 'sent'] = true; requestId = uuid(); render();
       } catch (ex) {
         fail(ex.message || 'Não foi possível enviar agora. Fale com a AM pelo WhatsApp.');
       } finally { if (submit) submit.disabled = false; }

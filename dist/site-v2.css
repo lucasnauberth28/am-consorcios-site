@@ -131,8 +131,8 @@ html.has-sb::-webkit-scrollbar{width:0;height:0}
 
 /* Topo sem filme (celular): esconde o botão de pausar e mostra só a foto */
 .no-video [data-action=toggleVideo]{display:none!important}
-video[data-video]{opacity:0;transition:opacity .8s ease}
-video[data-video].is-playing{opacity:1}
+video[data-src]{opacity:0;transition:opacity .8s ease}
+video[data-src].is-playing{opacity:1}
 
 /* Celular: links do rodapé com área de toque maior e alternador mais compacto */
 @media (max-width:760px){
@@ -141,4 +141,19 @@ video[data-video].is-playing{opacity:1}
 }
 @media (max-width:400px){
  .v2 .seg-sm{font-size:13px;padding:0 6px}
+}
+
+/* ---------- Topo de ponta a ponta: filme, vidro e cartões ---------- */
+.v2 .hero-full{min-height:900px;min-height:clamp(640px,100vh,900px);min-height:clamp(640px,100svh,900px)}
+.v2 .glass{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22)}
+.v2 .btn-glass:hover{background:rgba(255,255,255,.2);color:#FFFFFF}
+.v2 .hero-card{transition:transform .6s var(--am-ease)}
+.v2 .hero-card:hover{transform:translateY(-8px);color:#FFFFFF}
+@media (max-width:900px){.v2 .hero-cards{display:none!important}}
+@media (max-width:760px){
+ .v2 .hero-facts{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .v2 .hero-facts > div:nth-child(3){border-left:0!important}
+ .v2 .hero-facts > div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.18)}
+ .v2 .hero-body{padding:48px 20px 24px!important;gap:24px!important}
+ .v2 .hero-facts > div{padding:14px 16px!important}
 }

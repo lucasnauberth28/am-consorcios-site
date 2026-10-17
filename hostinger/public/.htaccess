@@ -1,4 +1,6 @@
 DirectoryIndex index.html index.php
+# Endereço que não existe: página própria com caminho de volta para o início.
+ErrorDocument 404 /404.html
 Options -Indexes
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"

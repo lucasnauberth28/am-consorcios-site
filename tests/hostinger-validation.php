@@ -14,4 +14,6 @@ $sim=['simCredit'=>'300000','simTerm'=>'240','simInstallment'=>'962.37','simMode
 [$d,$e]=validate_lead($p+$sim);check(!$e && $d['simCredit']==='300000' && $d['simTerm']==='240' && $d['simInstallment']==='962.37' && $d['simBid']==='20','simulation fields kept');
 [$d,$e]=validate_lead($p+['simCredit'=>'abc','simTerm'=>'999','simMode'=>'x']);check(!$e && $d['simCredit']==='' && $d['simTerm']==='' && $d['simMode']==='','invalid simulation fields dropped without blocking');
 [$d,$e]=validate_lead(array_replace($p,['interest'=>'mentoria','company'=>'Empresa Teste','businessStage'=>'iniciar','teamSize'=>'1'])+$sim);check(!$e && $d['simCredit']==='','simulation fields cleared for business leads');
-echo "11 verificações de validação PHP aprovadas.\n";
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'empresa','company'=>'Transportes Teste'])+$sim);check(!$e && $d['company']==='Transportes Teste' && $d['simCredit']!=='','company kept for CNPJ leads');
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'pesados','company'=>'X']));check(!$e && $d['company']==='','new product interests accepted');
+echo "13 verificações de validação PHP aprovadas.\n";

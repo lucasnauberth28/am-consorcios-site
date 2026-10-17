@@ -3,7 +3,7 @@
  const $ = (id) => document.getElementById(id);
  const base = location.pathname.replace(/\/admin\/leads\/(?:index\.php)?$/, '');
  const endpoint = base + '/api/briefings.php';
- const labels = { imovel: 'Imóvel', carro: 'Automóvel', investir: 'Patrimônio', carta: 'Carta contemplada', venda: 'Negociar cota', mentoria: 'Para empresas' };
+ const labels = { imovel: 'Imóvel', carro: 'Automóvel', investir: 'Patrimônio', carta: 'Carta contemplada', venda: 'Negociar cota', mentoria: 'Para empresas', pesados: 'Veículos pesados', agro: 'Agronegócio', empresa: 'Empresa (CNPJ)' };
  const credit = { 'nao-sei': 'A conversar', 'ate-100k': 'Até R$ 100 mil', '100-300k': 'R$ 100–300 mil', '300-600k': 'R$ 300–600 mil', '600k-1m': 'R$ 600 mil–1 milhão', 'mais-1m': 'Acima de R$ 1 milhão' };
  const timing = { planejamento: 'Em planejamento', '12-24': '12 a 24 meses', 'avaliar-agora': 'Avaliar agora' };
  const experience = { primeiro: 'Primeiro contato', conheco: 'Já conhece', 'tenho-cota': 'Já possui cota' };
@@ -20,7 +20,7 @@
  const cls = (s) => ({ 'Novo': 'new', 'Em contato': 'talking', 'Concluído': 'done' })[s];
  const first = (n) => n.trim().split(/\s+/)[0];
  const isEmp = (l) => l.interest === 'mentoria';
- const avatarCls = (l) => (isEmp(l) ? 'empresa' : l.interest === 'imovel' ? 'imovel' : '');
+ const avatarCls = (l) => (isEmp(l) || l.interest === 'empresa' ? 'empresa' : l.interest === 'imovel' ? 'imovel' : '');
  const now = () => Math.floor(Date.now() / 1000);
  const when = (t) => {
   const d = new Date(t * 1000), today = new Date(), y = new Date(); y.setDate(today.getDate() - 1);

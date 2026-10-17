@@ -11,7 +11,7 @@ shutil.copytree(r/'hostinger/public',out,dirs_exist_ok=True)
 for p in out.rglob('*'):
  if not p.is_file() or p.suffix not in ['.html','.js','.css','.txt','.xml']:continue
  s=p.read_text()
- for token in ['href="/','src="/','href=\'/','src=\'/']:s=s.replace(token,token+('homologacao/' if preview else ''))
+ for token in ['action="/','href="/','src="/','href=\'/','src=\'/']:s=s.replace(token,token+('homologacao/' if preview else ''))
  if p.name=='briefing.js':s=s.replace("fetch('/api/briefings'", "fetch('"+base+"/api/briefings.php'")
  if p.suffix=='.html' and preview:
   s=re.sub(r'<meta name="robots" content="[^"]*">','',s)
@@ -38,6 +38,8 @@ if sim.exists():
  for n,v in sv.items():s=s.replace(f'"{n}"',f'"{n}?v={v}"')
  page.write_text(s)
 if preview:
+ # A página de erro precisa do caminho completo da homologação.
+ ht=out/'.htaccess';ht.write_text(ht.read_text().replace('ErrorDocument 404 /404.html','ErrorDocument 404 /homologacao/404.html'))
  # robots.txt only controls the origin root; meta noindex protects this subdirectory.
  (out/'robots.txt').write_text('User-agent: *\nDisallow: /admin/\nDisallow: /api/\n')
  (out/'sitemap.xml').unlink(missing_ok=True)
