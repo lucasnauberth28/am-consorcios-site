@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulador | AM Consórcios</title><meta name="description" content="Simulador de consórcio da equipe AM para apresentações."><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="simulador.css?v=de8d205bde"><script src="calc.js?v=7eaf17d999" defer></script><script src="simulador.js?v=d31cdcb87e" defer></script><meta name="robots" content="noindex,nofollow"></head>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulador | AM Consórcios</title><meta name="description" content="Simulador de consórcio da equipe AM para apresentações."><link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="simulador.css?v=444fed8813"><script src="calc.js?v=7eaf17d999" defer></script><script src="simulador.js?v=5db82e6573" defer></script><meta name="robots" content="noindex,nofollow"></head>
 <body>
 <a class="skip" href="#resultado">Ir para o resultado</a>
 <header class="top">
@@ -97,6 +97,7 @@
       <button role="tab" id="tab-evolucao" aria-controls="view-evolucao" aria-selected="true">Evolução da cota</button>
       <button role="tab" id="tab-contemplacao" aria-controls="view-contemplacao" aria-selected="false" tabindex="-1">Contemplação e lance</button>
       <button role="tab" id="tab-comparativo" aria-controls="view-comparativo" aria-selected="false" tabindex="-1">Consórcio × financiamento</button>
+      <button role="tab" id="tab-fim" aria-controls="view-fim" aria-selected="false" tabindex="-1">Levando até o fim</button>
       <button role="tab" id="tab-tabela" aria-controls="view-tabela" aria-selected="false" tabindex="-1">Ano a ano</button>
     </div>
 
@@ -128,6 +129,16 @@
         <div class="seg seg-sm" role="group" aria-label="Sistema do financiamento"><button type="button" data-sis="sac" aria-pressed="true">SAC</button><button type="button" data-sis="price" aria-pressed="false">Price</button></div></div>
       <div class="compare" id="compare"></div>
       <p class="note" id="comp-note"></p>
+    </section>
+
+    <section class="view" id="view-fim" role="tabpanel" aria-labelledby="tab-fim" hidden>
+      <div class="view-head"><div><h2>Quanto ganha levando o plano até o fim</h2><p id="fim-sub"></p></div></div>
+      <div class="cont-grid" id="fim-grid"></div>
+      <figure class="chart-card">
+        <div class="legend" id="legend-fim"></div>
+        <div class="chart" id="chart-fim"></div>
+      </figure>
+      <div class="table-wrap"><table class="tbl" id="fim-tabela"></table></div>
     </section>
 
     <section class="view" id="view-tabela" role="tabpanel" aria-labelledby="tab-tabela" hidden>

@@ -192,6 +192,8 @@ details.premissas .row2{margin-top:6px}
 .note{margin:0;font-size:13px;color:var(--muted);max-width:760px}
 
 /* Tabela */
+.mini strong.pos{color:var(--pos)}.mini strong.neg{color:var(--neg)}
+#view-fim .chart-card{margin:16px 0}
 .table-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:auto}
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
 .tbl th{position:sticky;top:0;background:#FAF8F4;text-align:right;font-weight:600;font-size:12px;color:var(--muted);padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
