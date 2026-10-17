@@ -27,3 +27,9 @@ test('o total pago (com lance) sempre fecha 100% + taxas, sem reajuste', () => {
     near(r.totalPago + (r.lance ? r.lance.valor : 0), 300000 * 1.2699, 0.5);
   }
 });
+
+test('os simuladores do site usam uma cópia idêntica do motor', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const u = (p) => new URL(p, import.meta.url);
+  assert.equal(await readFile(u('../dist/assets/am-calc.js'), 'utf8'), await readFile(u('../hostinger/public/admin/simulador/calc.js'), 'utf8'));
+});

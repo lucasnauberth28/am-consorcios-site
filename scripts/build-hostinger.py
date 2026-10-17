@@ -8,6 +8,8 @@ out=r/'tmp'/('hostinger-preview' if preview else 'hostinger-production')
 if out.exists():shutil.rmtree(out)
 shutil.copytree(r/'dist',out,ignore=shutil.ignore_patterns('client','server','.openai','briefings-admin.js'))
 shutil.copytree(r/'hostinger/public',out,dirs_exist_ok=True)
+# Os simuladores do site usam o mesmo motor de cálculo do simulador da equipe.
+shutil.copy(r/'hostinger/public/admin/simulador/calc.js',out/'assets'/'am-calc.js')
 for p in out.rglob('*'):
  if not p.is_file() or p.suffix not in ['.html','.js','.css','.txt','.xml']:continue
  s=p.read_text()
@@ -23,7 +25,7 @@ for p in out.rglob('*'):
 # Cache busting: versioned URLs for the site's own CSS/JS so browsers never mix old scripts with new pages.
 import hashlib
 versions={}
-for name in ['site-v2.js','site-v2.css','assets/lenis.min.js','assets/lenis.css']:
+for name in ['site-v2.js','site-v2.css','assets/am-calc.js','assets/lenis.min.js','assets/lenis.css']:
  f=out/name
  if f.exists():versions[name]=hashlib.sha256(f.read_bytes()).hexdigest()[:10]
 for p in out.glob('*.html'):
