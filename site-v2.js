@@ -140,9 +140,10 @@
     const AM = window.AMCalc;
     const base = (id) => { const b = AM.BASES[id]; return { taxaAdm: b.taxaAdm, fundoReserva: b.fundoReserva, reducao: b.reducao, reducaoBase: b.reducaoBase, reducaoAte: b.reducaoAte }; };
     const SANTANDER = base('santander'), VEICULOS = base('santanderVeiculos');
+    const AUTOS = Object.assign({}, VEICULOS, { taxaAdm: 18, fundoReserva: 0.5 }); // taxas da AM para automóveis no site
     const CFG = {
       imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [20, 30, 50], lanceBase: 'plano', interest: 'imovel', origem: 'página de imóvel' },
-      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'carro', origem: 'página de automóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: AUTOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'carro', origem: 'página de automóvel' },
       pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 120, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'pesados', origem: 'página de veículos pesados' },
     };
     const cfgFor = (t) => CFG[t];
