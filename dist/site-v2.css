@@ -157,3 +157,4 @@ video[data-src].is-playing{opacity:1}
  .v2 .hero-body{padding:48px 20px 24px!important;gap:24px!important}
  .v2 .hero-facts > div{padding:14px 16px!important}
 }
+@media (max-width:560px){.v2 header .hdr-cta{display:none!important}}
