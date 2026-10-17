@@ -125,7 +125,6 @@
   const videoVals = () => ({ playing: state.playing, paused: !state.playing, videoLabel: state.playing ? 'Pausar vídeo' : 'Reproduzir vídeo' });
 
   /* ---------- Cálculos ---------- */
-  const TAXA_ADM = 0.18, FUNDO = 0.02; // [premissas a validar com a AM]
   const bucket = (v) => v <= 100000 ? 'ate-100k' : v <= 300000 ? '100-300k' : v <= 600000 ? '300-600k' : v <= 1000000 ? '600k-1m' : 'mais-1m';
   const price = (credit, i, n) => credit > 0 && n > 0 ? credit * i / (1 - Math.pow(1 + i, -n)) : 0;
   const num = (x) => Math.max(0, Number(x) || 0);
@@ -135,21 +134,28 @@
   const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados', 'lance-agro': 'agro' };
   if (page === 'home' || page in LANCE_PAGES) {
     const lancePage = page !== 'home';
-    const FATOR = 1 + TAXA_ADM + FUNDO, FATOR_PESADOS = 1 + 0.16 + FUNDO; // [taxa de pesados a confirmar na tabela do Santander]
+    /* Bases reais das administradoras (assets/am-calc.js, a mesma conta do simulador da equipe).
+       Valores de hoje, sem reajuste. Imóvel, pesados e agro: Santander; automóvel: Servopa. */
+    const AM = window.AMCalc;
+    const base = (id) => { const b = AM.BASES[id]; return { taxaAdm: b.taxaAdm, fundoReserva: b.fundoReserva, reducao: b.reducao, reducaoBase: b.reducaoBase, reducaoAte: b.reducaoAte }; };
+    const SANTANDER = base('santander'), SERVOPA = base('servopa'); // [pesados e agro: taxa a confirmar na tabela do Santander]
     const CFG = {
-      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, fator: FATOR, interest: 'imovel', origem: 'página de imóvel' },
-      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, fator: FATOR, interest: 'carro', origem: 'página de automóvel' },
-      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'pesados', origem: 'página de veículos pesados' },
-      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, fator: FATOR_PESADOS, interest: 'agro', origem: 'página do agronegócio' },
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dPrazo: 200, mes: 12, base: SANTANDER, interest: 'imovel', origem: 'página de imóvel' },
+      veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dPrazo: 80, mes: 6, base: SERVOPA, interest: 'carro', origem: 'página de automóvel' },
+      pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, base: SANTANDER, interest: 'pesados', origem: 'página de veículos pesados' },
+      agro: { nome: 'Agronegócio', label: 'Valor da máquina ou implemento', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dPrazo: 100, mes: 6, base: SANTANDER, interest: 'agro', origem: 'página do agronegócio' },
     };
     const cfgFor = (t) => CFG[t];
     Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'credito', step: 1, lance: 25 });
     { const c = cfgFor(state.tipo); state.valor = c.dflt; state.prazo = c.dPrazo; }
+    // A parcela informada é a integral (100% + taxas, dividido pelo prazo); a reduzida aparece à parte.
+    const totalPct = (c) => 100 + c.base.taxaAdm + c.base.fundoReserva;
     const nums = () => {
-      const valor = num(state.valor), prazo = state.prazo, f = cfgFor(state.tipo).fator;
+      const c = cfgFor(state.tipo), valor = num(state.valor), prazo = state.prazo, f = totalPct(c) / 100;
       const credit = state.modo === 'credito' ? valor : Math.round(valor * prazo / f / 1000) * 1000;
-      const parcela = state.modo === 'credito' ? (prazo ? credit * f / prazo : 0) : valor;
-      return { credit, parcela, prazo };
+      const sim = (lance, mes) => AM.simular(Object.assign({ credito: credit, prazo, reajusteTaxa: 0, contemplacao: mes || 0, lanceTipo: lance ? 'livre' : 'nenhum', lancePct: lance, lanceBase: 'credito', abatimento: 'parcela' }, c.base));
+      const r = sim(0);
+      return { credit, parcela: r.parcelaIntegralHoje, reduzida: r.primeiraParcela, prazo, sim };
     };
     const setTipo = (t) => { const c = cfgFor(t); Object.assign(state, { tipo: t, modo: 'credito', valor: c.dflt, prazo: c.dPrazo }); render(); };
     const setModo = (m) => {
@@ -187,23 +193,25 @@
         resultLabel: porCredito ? 'Sua parcela' : 'Crédito estimado',
         resultValor: porCredito ? money.format(n.parcela) : money.format(n.credit),
         resultSufixo: porCredito ? ' /mês' : '',
+        resultNota: n.reduzida < n.parcela - 0.5
+          ? `${porCredito ? 'Parcela integral' : `Com parcela integral de ${money.format(n.parcela)}`}, taxas incluídas. Com a parcela reduzida, ${money.format(n.reduzida)} até a contemplação.`
+          : 'Parcela integral, taxas incluídas. Sem juros e sem entrada.',
         resumoTitulo: `${tipoNome} · ${money.format(n.credit)}`,
         resumoDetalhe: `${prazo} meses · ${money.format(n.parcela)}/mês`,
         creditFmt: money.format(n.credit), consParcela: money.format(n.parcela),
       });
       if (lancePage) {
-        const total = n.credit * c.fator;
-        const restante = Math.max(0, total - n.parcela * c.mes);
-        const lance = state.lance, valorLance = n.credit * lance / 100;
-        const depois = Math.max(0, restante - valorLance) / Math.max(1, prazo - c.mes);
+        // Contemplação simulada no mês c.mes (12º no imóvel, 6º nos demais), por sorteio ou lance.
+        const lance = state.lance, r = n.sim(lance, c.mes);
+        const valorLance = r.lance ? r.lance.valor : 0, depois = r.lance ? r.lance.parcelaDepois : n.parcela;
         Object.assign(out, {
-          parcela: money.format(n.parcela), depois: money.format(lance ? depois : n.parcela),
+          parcela: money.format(n.reduzida), depois: money.format(depois),
           depoisLabel: lance ? 'Parcela depois do lance' : 'Parcela depois de contemplado',
           lanceFrase: lance
-            ? `Com um lance de ${money.format(valorLance)} (${lance}% do crédito), a parcela cai para cerca de ${money.format(depois)} depois da contemplação.`
-            : 'Sem lance, você concorre só no sorteio e mantém a mesma parcela até o fim.',
+            ? `Com um lance de ${money.format(valorLance)} (${lance}% do crédito) no ${c.mes}º mês, a parcela fica em cerca de ${money.format(depois)} até o fim. A parcela integral, sem redução, é de ${money.format(n.parcela)}.`
+            : `Sem lance, você concorre no sorteio. Se for contemplado no ${c.mes}º mês, a parcela passa para cerca de ${money.format(depois)}, porque a diferença da parcela reduzida é diluída no restante do prazo.`,
           lances: [0, 15, 25, 30].map((v) => ({ label: v ? v + '%' : 'Sem', on: v === lance, pick: () => { state.lance = v; render(); } })),
-          resumoDetalhe: `${prazo} meses · ${money.format(n.parcela)}/mês${lance ? ` · lance de ${lance}%` : ''}`,
+          resumoDetalhe: `${prazo} meses · ${money.format(n.reduzida)}/mês até a contemplação${lance ? ` · lance de ${lance}%` : ''}`,
         });
       }
       return out;
@@ -213,10 +221,10 @@
       const origem = page === 'home' ? 'Site · simulador da página principal' : 'Site · ' + c.origem;
       return {
         interest: c.interest, credit: bucket(n.credit), source: origem,
-        monthlyBudget: state.modo === 'parcela' ? String(n.parcela) : '',
+        monthlyBudget: state.modo === 'parcela' ? String(num(state.valor)) : '',
         simCredit: String(Math.round(n.credit)), simTerm: String(n.prazo), simInstallment: (Math.round(n.parcela * 100) / 100).toFixed(2),
         simMode: state.modo, simBid: lancePage ? String(state.lance) : '',
-        note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${c.nome.toLowerCase()}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela estimada de ${v.consParcela}${lancePage ? `, lance de ${state.lance}%` : ''}.`,
+        note: `Simulação no site (${state.modo === 'credito' ? 'pelo valor do crédito' : 'pelo valor da parcela'}): ${c.nome.toLowerCase()}, crédito de ${v.creditFmt} em ${n.prazo} meses, parcela integral estimada de ${v.consParcela} (${money.format(n.reduzida)} na reduzida, até a contemplação)${lancePage ? `, lance de ${state.lance}%` : ''}.`,
       };
     };
   }
