@@ -31,6 +31,27 @@
       ],
       usos: ['Compra de imóveis', 'Reforma ou construção', 'Quitação de financiamento', 'Compra de terrenos']
     },
+    santanderVeiculos: {
+      id: 'santanderVeiculos',
+      administradora: 'Consórcio Santander',
+      razao: 'Santander Brasil Administradora de Consórcio Ltda. · CNPJ 55.942.312/0001-06',
+      fonte: 'Condições de veículos e pesados divulgadas pelo Santander em outubro de 2026.',
+      prazo: 100,
+      taxaAdm: 16,            // "a partir de 16%" em todo o período
+      fundoReserva: 3.5,
+      reducao: 30,
+      reducaoBase: 'fc',      // reduz só o fundo comum
+      reducaoAte: 36,         // até o 36º mês ou a contemplação
+      lancePct: 20,
+      lanceBase: 'credito',
+      reajusteTaxa: 4.5,      // reajuste anual, estimativa editável
+      reajustePeriodo: 12,
+      reajusteIndice: 'IPCA',
+      venda: 25,
+      aplicacao: 1,
+      grupos: [],
+      usos: ['Carros novos e seminovos', 'Motos', 'Caminhões, ônibus e máquinas']
+    },
     servopa: {
       id: 'servopa',
       administradora: 'Consórcio Servopa',

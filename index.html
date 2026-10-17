@@ -80,7 +80,7 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 .v2 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 </style>
-<script defer="" src="assets/lenis.min.js?v=53195c9797"></script><script defer="" src="assets/am-calc.js?v=271b88951d"></script><script defer="" src="site-v2.js?v=935080142c"></script>
+<script defer="" src="assets/lenis.min.js?v=53195c9797"></script><script defer="" src="assets/am-calc.js?v=9294c3e571"></script><script defer="" src="site-v2.js?v=da39706084"></script>
 <link href="assets/lenis.css?v=2f668ae84a" rel="stylesheet"/><link href="site-v2.css?v=edfcf90971" rel="stylesheet"/><script>if(!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches))document.documentElement.classList.add("js-anim")</script><meta name="robots" content="noindex,nofollow"></head>
 <body data-calc="home">
 <div class="v2" style="font-family: 'Instrument Sans', system-ui, sans-serif; color: #111111; background: #FFFFFF; width: 100%; min-width: 0; font-size: 16px">
@@ -159,8 +159,8 @@ html{scroll-behavior:smooth}
 <button aria-pressed="false" class="seg" data-action="setVeiculo" data-pressed="isVeiculo" style="min-height: 42px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer" type="button">Automóvel</button>
 </div>
 <div aria-label="Simular por" role="group" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; background: #F4F2ED; border-radius: 999px; padding: 4px">
-<button aria-pressed="true" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do crédito</button>
-<button aria-pressed="false" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+<button aria-pressed="true" class="seg seg-sm" data-action="modoParcela" data-pressed="porParcela" type="button">Valor da parcela</button>
+<button aria-pressed="false" class="seg seg-sm" data-action="modoCredito" data-pressed="porCredito" type="button">Valor do crédito</button>
 </div>
 <div style="display: flex; flex-direction: column; gap: 10px"><div class="fl fl--money"><span aria-hidden="true" class="fl-prefix">R$</span><input autocomplete="off" data-change="onValor" data-model="valor" id="valor-index" inputmode="numeric" placeholder=" " type="text"/><label for="valor-index"><span data-bind="valorLabel">Valor do crédito</span></label></div><div style="display: flex; flex-wrap: wrap; gap: 6px">
 <template data-as="q" data-for="quick">
