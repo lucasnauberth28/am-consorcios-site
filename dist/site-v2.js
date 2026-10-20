@@ -132,7 +132,7 @@
   let leadPayload = () => ({});
 
   /* Simulador em duas etapas (página principal e páginas de produto) */
-  const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados' };
+  const LANCE_PAGES = { 'lance-imovel': 'imovel', 'lance-auto': 'veiculo', 'lance-pesados': 'pesados', 'lance-invest': 'investimento' };
   if (page === 'home' || page in LANCE_PAGES) {
     const lancePage = page !== 'home';
     /* Bases reais das administradoras (assets/am-calc.js, a mesma conta do simulador da equipe).
@@ -145,6 +145,8 @@
       imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [20, 30, 50], lanceBase: 'plano', interest: 'imovel', origem: 'página de imóvel' },
       veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [48, 60, 72, 80, 100], dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: AUTOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'carro', origem: 'página de automóvel' },
       pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 120, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'pesados', origem: 'página de veículos pesados' },
+      // Investimento: mesma base de imóveis do Santander; o padrão é sem lance, esperando o sorteio.
+      investimento: { nome: 'Investimento', label: 'Valor da carta', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: 300000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [0, 20, 30], lanceBase: 'plano', interest: 'investir', origem: 'página de investimento' },
     };
     const cfgFor = (t) => CFG[t];
     // A simulação abre pelo valor da parcela, que é o que mais chama a atenção de quem chega.
