@@ -5,7 +5,7 @@ const toB64 = bytes => btoa(String.fromCharCode(...new Uint8Array(bytes)));
 const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
 const clean = (v,max=160) => typeof v==='string' ? v.trim().slice(0,max) : '';
 const choices = {
-  interest:['imovel','carro','investir','carta','venda','mentoria'],
+  interest:['imovel','carro','investir','carta','venda','mentoria','pesados','agro','empresa'],
   credit:['nao-sei','ate-100k','100-300k','300-600k','600k-1m','mais-1m'],
   timing:['planejamento','12-24','avaliar-agora'],
   experience:['primeiro','conheco','tenho-cota'],

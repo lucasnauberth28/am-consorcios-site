@@ -8,4 +8,12 @@ $p=['requestId'=>'11111111-1111-4111-8111-111111111111','name'=>'Contato Teste',
 [$d,$e]=validate_lead($p+['birthDate'=>'2026-02-30']);check(isset($e['birthDate']),'calendar');
 [$d,$e]=validate_lead(array_replace($p,['interest'=>'mentoria','company'=>'Empresa Teste','businessStage'=>'iniciar','teamSize'=>'1','cpf'=>'11111111111']));check(!$e && $d['cpf']==='','business fields');
 [$d,$e]=validate_lead(array_replace($p,['interest'=>'unknown']));check(isset($e['interest']),'enum');
-echo "6 verificações de validação PHP aprovadas.\n";
+[$d,$e]=validate_lead(array_diff_key($p,['timing'=>1,'experience'=>1])+['note'=>'Simulação no site','source'=>'Site · simulador']);check(!$e,'simulator lead without planning questions');
+[$d,$e]=validate_lead(array_replace($p,['timing'=>'qualquer']));check(isset($e['timing']),'timing enum when present');
+$sim=['simCredit'=>'300000','simTerm'=>'240','simInstallment'=>'962.37','simMode'=>'credito','simBid'=>'20'];
+[$d,$e]=validate_lead($p+$sim);check(!$e && $d['simCredit']==='300000' && $d['simTerm']==='240' && $d['simInstallment']==='962.37' && $d['simBid']==='20','simulation fields kept');
+[$d,$e]=validate_lead($p+['simCredit'=>'abc','simTerm'=>'999','simMode'=>'x']);check(!$e && $d['simCredit']==='' && $d['simTerm']==='' && $d['simMode']==='','invalid simulation fields dropped without blocking');
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'mentoria','company'=>'Empresa Teste','businessStage'=>'iniciar','teamSize'=>'1'])+$sim);check(!$e && $d['simCredit']==='','simulation fields cleared for business leads');
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'empresa','company'=>'Transportes Teste'])+$sim);check(!$e && $d['company']==='Transportes Teste' && $d['simCredit']!=='','company kept for CNPJ leads');
+[$d,$e]=validate_lead(array_replace($p,['interest'=>'pesados','company'=>'X']));check(!$e && $d['company']==='','new product interests accepted');
+echo "13 verificações de validação PHP aprovadas.\n";

@@ -12,14 +12,14 @@ function respond(array $data, int $status=200): never {
 }
 set_exception_handler(function(Throwable $e): void {error_log('AM: serviço indisponível, sem registro de dados pessoais.');respond(['error'=>'Serviço indisponível. Tente novamente ou converse com a AM pelo WhatsApp.'],503);});
 // Configuration must be outside public_html, including when installed in /homologacao.
-$root=realpath(__DIR__.'/../..');
-$domain=$root;
+// Sobe a partir de _server até achar public_html: vale na raiz (public_html/_server) e na homologação (public_html/homologacao/_server).
+$domain=realpath(__DIR__);
 while(basename($domain)!=='public_html' && dirname($domain)!==$domain) $domain=dirname($domain);
 $configPath=getenv('AM_CONFIG_PATH') ?: dirname($domain).'/am-private/config.php';
 if(!is_file($configPath)) {
- if(str_contains($_SERVER['SCRIPT_NAME']??'', '/admin/leads/')) {
-  http_response_code(503);header('Content-Type: text/html; charset=utf-8');
-  echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Área protegida | AM</title><link rel="stylesheet" href="login.css"></head><body><main class="login"><p class="eyebrow">AM CONSÓRCIOS · ÁREA DA EQUIPE</p><h1>Acesso protegido.</h1><p>A configuração de acesso está sendo preparada. Os contatos só ficarão disponíveis após a ativação do servidor.</p><a href="../../">Voltar ao site</a></main></body></html>';exit;
+ if(str_contains($_SERVER['SCRIPT_NAME']??'', '/admin/')) {
+  http_response_code(503);header('Content-Type: text/html; charset=utf-8');header('Cache-Control: no-store');
+  echo '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Área protegida | AM Consórcios</title><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#111;color:#fff;font:400 16px/1.6 system-ui,sans-serif}main{max-width:520px}p.e{margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#D4AF37}h1{margin:0;font:400 44px/1.05 Georgia,serif;letter-spacing:-.02em}p{color:#CFCAC0}a{color:#D4AF37}</style></head><body><main><p class="e">AM Consórcios · Área da equipe</p><h1>Acesso em preparação.</h1><p>Os contatos e o simulador ficam disponíveis assim que o acesso da equipe for ativado no servidor.</p><p><a href="../../">Voltar ao site</a></p></main></body></html>';exit;
  }
  respond(['error'=>'Área protegida. A configuração do servidor ainda não foi concluída.'],503);
 }
@@ -29,6 +29,18 @@ if(!is_array($cfg)||strlen($key?:'')!==32||empty($cfg['password_hash'])||empty($
 $private=dirname($configPath);
 $state=$private.'/state';
 if(!is_dir($state)&&!mkdir($state,0700,true)&&!is_dir($state)) throw new RuntimeException('state');
+// Senha: a definida pela própria equipe (senha.json) vale sobre a do config.php.
+// Se o config.php tiver a senha em texto, o primeiro acesso a guarda protegida (hash) em senha.json.
+$passwordFile=$private.'/senha.json';
+$plainConfig=password_get_info($cfg['password_hash'])['algo']===null;
+if(is_file($passwordFile)){$o=json_decode((string)file_get_contents($passwordFile),true);if(is_array($o)&&is_string($o['hash']??null)&&password_get_info($o['hash'])['algo']!==null){$cfg['password_hash']=$o['hash'];$plainConfig=false;}}
+function check_password(string $pw): bool {global $cfg,$plainConfig;return $plainConfig?hash_equals($cfg['password_hash'],$pw):password_verify($pw,$cfg['password_hash']);}
+function save_password(string $pw): void {
+ global $cfg,$plainConfig,$passwordFile;
+ $h=password_hash($pw,PASSWORD_DEFAULT);$tmp=$passwordFile.'.tmp';
+ if(file_put_contents($tmp,json_encode(['hash'=>$h,'changed'=>gmdate('c')]),LOCK_EX)===false||!chmod($tmp,0600)||!rename($tmp,$passwordFile))throw new RuntimeException('password');
+ $cfg['password_hash']=$h;$plainConfig=false;
+}
 $base=rtrim($cfg['base_path']??'', '/');
 if(!preg_match('~^(?:/[a-zA-Z0-9_-]+)*$~',$base)) throw new RuntimeException('base');
 $isLocal=($cfg['environment']??'production')==='test' && in_array($_SERVER['REMOTE_ADDR']??'',['127.0.0.1','::1'],true);

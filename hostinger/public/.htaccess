@@ -1,10 +1,32 @@
 DirectoryIndex index.html index.php
+# Endereço que não existe: página própria com caminho de volta para o início.
+ErrorDocument 404 /404.html
 Options -Indexes
 <IfModule mod_headers.c>
 Header always set X-Content-Type-Options "nosniff"
+<FilesMatch "\.html$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+# Desempenho: compressão e cache dos arquivos estáticos.
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/webp "access plus 30 days"
+ExpiresByType image/jpeg "access plus 30 days"
+ExpiresByType image/svg+xml "access plus 30 days"
+ExpiresByType video/mp4 "access plus 30 days"
+ExpiresByType text/css "access plus 1 day"
+ExpiresByType application/javascript "access plus 1 day"
+</IfModule>
 <FilesMatch "\.(?:sql|log|env|bak)$">
+Require all denied
+</FilesMatch>
+# Telas da área restrita só saem pelos index.php, depois do login.
+<FilesMatch "^_.+\.html$">
 Require all denied
 </FilesMatch>
 <IfModule mod_rewrite.c>

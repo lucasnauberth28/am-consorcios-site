@@ -4,11 +4,32 @@ Código do site institucional, simulador e demonstração de leads. Destino soli
 
 ## Estado desta entrega
 
+- Redesign v2 publicado em homologação (07/10/2026): ver "Redesign v2" no `DESIGN_SYSTEM.md`.
+
 - Política de Privacidade fornecida pela AM, data 05/10/2026, em `dist/politica-de-privacidade.html`.
 - Termos de Uso em `dist/termos-de-uso.html`: **minuta identificada, pendente de aprovação da AM**. Aprovar a redação antes de publicá-la como termos oficiais.
 - Links locais de privacidade e termos nos rodapés institucionais; ciência da política no formulário.
 - WhatsApp atualizado para o número informado pela AM: (11) 99608-6204.
 - CI de testes e build no GitHub; o workflow gera um artefato, **não faz deploy**.
+
+## Simulador da equipe (pitch)
+
+Fica em `/admin/simulador/`, com o mesmo login do painel de contatos (`hostinger/public/admin/simulador/`). Todo o cálculo roda no navegador; nada é gravado no servidor. O estado da simulação fica no endereço da página, para reabrir depois.
+
+- **Bases de preço:** imóvel = Consórcio Santander (grupos 3210, 3213, 3216 e 3217, conforme os anúncios de outubro de 2026); automóvel = Santander veículos e pesados (16% de taxa mínima anunciada, 3,5% de fundo de reserva, redução de 30% até o 36º mês); investimento = Servopa (premissas da planilha "Plano de investimento v6"). Premissas em `calc.js` (`BASES`) e editáveis na tela em "Premissas da administradora".
+- **Conta:** feita em percentual do crédito, como as administradoras fazem. Parcela reduzida até a 60ª assembleia ou a contemplação (Santander, só sobre o fundo comum) ou até a contemplação (Servopa, parcela inteira). Veículos Santander: 30% do fundo comum até o 36º mês ou a contemplação. A diferença reduzida é diluída nas parcelas seguintes, então o total pago sempre fecha 100% + taxas. As planilhas antigas mantinham 50% durante todo o prazo e subestimavam o total pago.
+- **Visões:** evolução da cota mês a mês (usar o crédito × vender a carta × manter como investimento, com pontos de virada), contemplação e lance, consórcio × financiamento, levando até o fim (valorização da carta menos o total pago, como a planilha "Simulador Consórcio — Patrimônio construído" da AM) e tabela ano a ano. Saídas: modo apresentação, proposta em PDF (impressão A4) e resumo pronto para WhatsApp.
+- **Pendências:** taxa exata do grupo de veículos (hoje, a mínima anunciada de 16%), índice de reajuste e rendimento de aplicação que a AM quer usar como padrão.
+- **Simuladores do site:** usam o mesmo motor (`dist/assets/am-calc.js`, cópia de `calc.js` conferida pelos testes), com valores de hoje e sem reajuste. Mostram a parcela integral e a reduzida até a contemplação; nas páginas de produto, a contemplação é simulada no 12º mês (imóvel) ou no 6º (demais). Imóvel usa a base Santander imóveis; automóvel e pesados, a base Santander veículos e pesados. Agro e empresas não têm simulador (contato direto com o Alex). As simulações abrem pelo valor da parcela.
+- Testes do cálculo: `node --test tests/simulador-calc.test.mjs` (compara com a planilha Servopa e com os anúncios Santander).
+
+## Painel de contatos
+
+Fica em `/admin/leads/` (`hostinger/public/admin/leads/`), no mesmo visual do simulador. Cartões por situação e dos últimos 7 dias (clicáveis como filtro), busca, tabela no computador e cartões no celular, detalhe lateral com a simulação completa, CPF mascarado (com botão para mostrar), mensagem pronta para o WhatsApp, troca de situação e exclusão com confirmação no próprio painel.
+
+O formulário de simulação do site agora envia também `simCredit`, `simTerm`, `simInstallment`, `simMode` e `simBid`. O servidor descarta valores inválidos desses campos sem bloquear o envio. Contatos antigos, sem esses campos, continuam aparecendo com as faixas de crédito.
+
+"Simular para o contato" abre `/admin/simulador/` com o tipo, o crédito e o prazo no endereço; o nome do cliente vai pela sessão do navegador, nunca pela URL.
 
 ## Validação local
 
