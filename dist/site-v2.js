@@ -143,26 +143,30 @@
     const AUTOS = Object.assign({}, VEICULOS, { taxaAdm: 16, fundoReserva: 0.5 }); // taxas da AM para automóveis no site: 16% + 0,5%
     // Automóvel: o prazo vem do crédito (80 meses abaixo de R$ 100 mil, 120 meses a partir de R$ 100 mil).
     const PRAZO_AUTO = (credito) => (credito >= 100000 ? 120 : 80);
+    // Imóvel e investimento: taxas da AM por prazo, mais 0,5% de fundo de reserva.
+    const IMOVEIS = Object.assign({}, SANTANDER, { fundoReserva: 0.5 });
+    const TAXA_IMOVEIS = { 180: 18, 200: 20, 240: 25 };
     const CFG = {
-      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [20, 30, 50], lanceBase: 'plano', interest: 'imovel', origem: 'página de imóvel' },
+      imovel: { nome: 'Imóvel', label: 'Valor do imóvel', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [180, 200, 240], taxaPor: TAXA_IMOVEIS, dflt: lancePage ? 500000 : 400000, dParcela: 2500, dPrazo: 240, mes: 12, base: IMOVEIS, lances: [20, 30, 50], lanceBase: 'plano', interest: 'imovel', origem: 'página de imóvel' },
       veiculo: { nome: 'Automóvel', label: 'Valor do carro', quickC: [50000, 80000, 120000, 150000], quickP: [800, 1200, 1800, 2500], prazos: [80, 120], prazoPor: PRAZO_AUTO, prazoNota: { 80: 'crédito abaixo de R$ 100 mil', 120: 'crédito a partir de R$ 100 mil' }, dflt: 90000, dParcela: 1200, dPrazo: 80, mes: 6, base: AUTOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'carro', origem: 'página de automóvel' },
       pesados: { nome: 'Veículo pesado', label: 'Valor do caminhão, ônibus ou máquina', quickC: [150000, 250000, 350000, 500000], quickP: [2000, 3000, 4500, 6000], prazos: [60, 80, 100, 120], dflt: 300000, dParcela: 3000, dPrazo: 120, mes: 6, base: VEICULOS, lances: [0, 15, 25, 30], lanceBase: 'credito', interest: 'pesados', origem: 'página de veículos pesados' },
       // Investimento: mesma base de imóveis do Santander; o padrão é sem lance, esperando o sorteio.
-      investimento: { nome: 'Investimento', label: 'Valor da carta', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [120, 150, 180, 200, 240], dflt: 300000, dParcela: 2500, dPrazo: 200, mes: 12, base: SANTANDER, lances: [0, 20, 30], lanceBase: 'plano', interest: 'investir', origem: 'página de investimento' },
+      investimento: { nome: 'Investimento', label: 'Valor da carta', quickC: [150000, 300000, 600000, 1000000], quickP: [1500, 2500, 4000, 6000], prazos: [180, 200, 240], taxaPor: TAXA_IMOVEIS, dflt: 300000, dParcela: 2500, dPrazo: 240, mes: 12, base: IMOVEIS, lances: [0, 20, 30], lanceBase: 'plano', interest: 'investir', origem: 'página de investimento' },
     };
     const cfgFor = (t) => CFG[t];
     // A simulação abre pelo valor da parcela, que é o que mais chama a atenção de quem chega.
     Object.assign(state, { tipo: LANCE_PAGES[page] || 'imovel', modo: 'parcela', step: 1 });
     { const c = cfgFor(state.tipo); state.valor = c.dParcela; state.prazo = c.dPrazo; state.lance = c.lances.includes(25) ? 25 : c.lances[0]; }
     // A parcela informada é a integral (100% + taxas, dividido pelo prazo); a reduzida aparece à parte.
-    const totalPct = (c) => 100 + c.base.taxaAdm + c.base.fundoReserva;
+    const baseFor = (c, prazo) => (c.taxaPor ? Object.assign({}, c.base, { taxaAdm: c.taxaPor[prazo] }) : c.base);
     const nums = () => {
-      const c = cfgFor(state.tipo), valor = num(state.valor), f = totalPct(c) / 100;
+      const c = cfgFor(state.tipo), valor = num(state.valor);
+      const f = (100 + baseFor(c, state.prazo).taxaAdm + c.base.fundoReserva) / 100;
       const creditoPor = (n) => (state.modo === 'credito' ? valor : Math.round(valor * n / f / 1000) * 1000);
       // Com prazo fixado pelo crédito, vale o menor prazo cuja faixa comporta o crédito resultante.
       const prazo = c.prazoPor ? (c.prazos.find((n) => c.prazoPor(creditoPor(n)) === n) || c.prazos[c.prazos.length - 1]) : state.prazo;
       const credit = creditoPor(prazo);
-      const sim = (lance, mes) => AM.simular(Object.assign({ credito: credit, prazo, reajusteTaxa: 0, contemplacao: mes || 0, lanceTipo: lance ? 'livre' : 'nenhum', lancePct: lance, lanceBase: c.lanceBase, abatimento: 'parcela' }, c.base));
+      const sim = (lance, mes) => AM.simular(Object.assign({ credito: credit, prazo, reajusteTaxa: 0, contemplacao: mes || 0, lanceTipo: lance ? 'livre' : 'nenhum', lancePct: lance, lanceBase: c.lanceBase, abatimento: 'parcela' }, baseFor(c, prazo)));
       const r = sim(0);
       return { credit, parcela: r.parcelaIntegralHoje, reduzida: r.primeiraParcela, prazo, sim };
     };
@@ -198,7 +202,7 @@
         etapaTexto: `Etapa ${state.step} de 2`, etapaNome: state.step === 1 ? 'Sua simulação' : 'Seus dados', progress: state.step === 1 ? '50%' : '100%',
         valorLabel: porCredito ? (lancePage ? c.label : 'Quanto você precisa?') : 'Quanto quer pagar por mês?',
         quick: (porCredito ? c.quickC : c.quickP).map((v) => ({ label: porCredito ? short(v) : money.format(v), on: v === num(state.valor), pick: () => { state.valor = v; render(); } })),
-        prazos: (c.prazoPor ? [prazo] : c.prazos).map((m) => ({ value: m, label: m + ' meses' + (c.prazoNota ? ' · ' + c.prazoNota[m] : '') })),
+        prazos: (c.prazoPor ? [prazo] : c.prazos).map((m) => ({ value: m, label: m + ' meses' + (c.prazoNota ? ' · ' + c.prazoNota[m] : '') + (c.taxaPor ? ` · taxa de ${c.taxaPor[m]}%` : '') })),
         resultLabel: porCredito ? 'Sua parcela' : 'Crédito estimado',
         resultValor: porCredito ? money.format(n.parcela) : money.format(n.credit),
         resultSufixo: porCredito ? ' /mês' : '',
