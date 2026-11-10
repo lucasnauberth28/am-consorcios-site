@@ -1,4 +1,4 @@
-# AM Consórcios e Investimentos
+# AM Assessoria Patrimonial
 
 Código do site institucional, simulador e demonstração de leads. Destino solicitado: repositório GitHub **público**, conforme autorização atual, hospedagem final na Hostinger.
 

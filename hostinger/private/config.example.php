@@ -1,7 +1,7 @@
 <?php
 // Copy to am-private/config.php OUTSIDE public_html. Never commit real values.
 return [
- 'site_origin'=>'https://amconsorcios.com',
+ 'site_origin'=>'https://amassessoriapatrimonial.com.br',
  'base_path'=>'/homologacao', // '' when publishing at the domain root
  'username'=>'AM',
  'password_hash'=>'', // password_hash($chosenPassword, PASSWORD_DEFAULT)

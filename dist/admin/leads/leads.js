@@ -47,11 +47,11 @@
  }
  const origin = (l) => isEmp(l) ? 'Formulário Para empresas' : (l.source ? l.source.replace(/^Site · /, 'Simulação · ').replace('simulador da página principal', 'página principal') : 'Formulário do site');
  const message = (l) => {
-  if (isEmp(l)) return `Olá, ${first(l.name)}! Sou o Alex, da AM Consórcios. Recebi o pedido de encontro${l.company ? ' para a ' + l.company : ''}. Qual o melhor dia para conversarmos?`;
+  if (isEmp(l)) return `Olá, ${first(l.name)}! Sou o Alex, da AM Assessoria Patrimonial. Recebi o pedido de encontro${l.company ? ' para a ' + l.company : ''}. Qual o melhor dia para conversarmos?`;
   const s = sim(l), what = (labels[l.interest] || 'consórcio').toLowerCase();
   return +l.simCredit
-   ? `Olá, ${first(l.name)}! Sou o Alex, da AM Consórcios. Vi sua simulação de ${what} de ${s.credito}${s.prazo ? ' em ' + s.prazo : ''}. Posso te mostrar os grupos disponíveis?`
-   : `Olá, ${first(l.name)}! Sou o Alex, da AM Consórcios. Recebemos seu interesse em ${what} pelo site. Podemos conversar sobre seus planos?`;
+   ? `Olá, ${first(l.name)}! Sou o Alex, da AM Assessoria Patrimonial. Vi sua simulação de ${what} de ${s.credito}${s.prazo ? ' em ' + s.prazo : ''}. Posso te mostrar os grupos disponíveis?`
+   : `Olá, ${first(l.name)}! Sou o Alex, da AM Assessoria Patrimonial. Recebemos seu interesse em ${what} pelo site. Podemos conversar sobre seus planos?`;
  };
  function simulateHref(l) {
   const q = new URLSearchParams({ obj: simObj[l.interest] || 'imovel' });

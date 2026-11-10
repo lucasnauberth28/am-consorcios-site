@@ -478,7 +478,7 @@
     linhas.push('• Crédito para usar: ' + R0(L.creditoLiberado) + (L.valor ? ' (lance de ' + R0(L.valor) + (L.embutido ? ' embutido' : '') + ')' : ''));
     if (L.mesesRestantes) linhas.push('• Parcela depois: ' + R(L.parcelaDepois) + ' por ' + L.mesesRestantes + ' meses');
     linhas.push('• Ou vender a carta: cerca de ' + R0(at.venda) + ', tendo pago ' + R0(at.pago));
-    linhas.push('', 'Valores estimados, sujeitos às regras do grupo e à análise de crédito.', 'Alex Ferreira · AM Consórcios');
+    linhas.push('', 'Valores estimados, sujeitos às regras do grupo e à análise de crédito.', 'Alex Ferreira · AM Assessoria Patrimonial');
     return linhas.join('\n');
   }
   function openWhats() { $('#whats-copy').textContent = 'Copiar texto'; $('#whats-text').value = resumoTexto(); var d = $('#dlg-whats'); if (d.showModal) d.showModal(); else d.setAttribute('open', ''); }
@@ -496,7 +496,7 @@
     var depois = S.reducao > 0 && S.reducaoAte && r0.aposReducao ? kp('A partir do mês ' + r0.aposReducao.t, R(r0.aposReducao.parcela)) : kp('Parcela integral hoje', R(r0.parcelaIntegralHoje));
     var el = $('#print');
     el.innerHTML =
-      '<header class="pr-head"><div class="pr-brand"><img src="' + $('.brand img').getAttribute('src').replace('dourado.svg', 'dourado-escuro.svg') + '" alt=""><span>AM Consórcios e Investimentos<small>Planejamento. Estratégia. Clareza.</small></span></div><div class="pr-meta">Simulação de ' + hoje + '<br>Válida conforme as condições do grupo</div></header>' +
+      '<header class="pr-head"><div class="pr-brand"><img src="' + $('.brand img').getAttribute('src').replace('dourado.svg', 'dourado-escuro.svg') + '" alt=""><span>AM Assessoria Patrimonial<small>Planejamento. Estratégia. Clareza.</small></span></div><div class="pr-meta">Simulação de ' + hoje + '<br>Válida conforme as condições do grupo</div></header>' +
       '<h1>' + (S.cliente ? esc(S.cliente) + ', sua' : 'Sua') + ' simulação de ' + o.nome.charAt(0).toLowerCase() + o.nome.slice(1) + '</h1>' +
       '<p class="pr-sub">' + o.nome + ' · ' + b.administradora + (o.base === 'santander' && g ? ' · Grupo ' + g.id + ' · vencimento dia ' + g.vencimento : '') + '</p>' +
       '<dl class="pr-kpis">' + kp('Crédito', R0(S.credito)) + kp(S.reducao > 0 ? 'Parcela reduzida' : 'Parcela', R(r0.primeiraParcela), true) + depois + kp('Taxa total · sem juros', P(S.taxaAdm + S.fundoReserva) + ' / ' + S.prazo + ' m') + '</dl>' +
@@ -508,7 +508,7 @@
       '<h2>Pontos de virada</h2><table class="pr-marcos"><tbody>' + marcos(c).map(function (m) { return '<tr><td>' + m[0] + '</td><td>' + m[1] + '</td></tr>'; }).join('') + '</tbody></table>' +
       '<div class="pr-page"></div><h2>Ano a ano</h2><table><thead><tr><th>Ano</th><th>Parcela</th><th>Total pago</th><th>Crédito</th><th>Venda da carta</th><th>Mesmo valor aplicado</th><th>Patrimônio na cota</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>' +
       '<p class="pr-legal">' + esc($('#disclaimer').textContent) + '</p>' +
-      '<footer class="pr-foot"><span><b>Alex Ferreira</b> · AM Consórcios e Investimentos · CNPJ 50.315.065/0001-02</span><span>WhatsApp (11) 99608-6204 · amconsorcios.com</span></footer>';
+      '<footer class="pr-foot"><span><b>Alex Ferreira</b> · AM Assessoria Patrimonial · CNPJ 50.315.065/0001-02</span><span>WhatsApp (11) 99608-6204 · amassessoriapatrimonial.com.br</span></footer>';
     var pc = $('#pr-chart'); pc.style.width = '680px';
     var tmp = document.createElement('div'); tmp.style.width = '680px'; tmp.style.position = 'absolute'; tmp.style.left = '-9999px'; document.body.appendChild(tmp);
     lineChart(tmp, { n: S.prazo, cursor: t, height: 250, label: 'Evolução da cota', series: ['venda', 'patr', 'pago', 'aplic'].map(function (k) { return { color: PRINT[k], dash: k === 'aplic', cap: k === 'aplic', capLabel: 'Aplicação', hidden: !!S.hidden[k], values: c.serie.map(function (s) { return s[k]; }) }; }) });

@@ -1,4 +1,4 @@
-/* AM Consórcios — site v2: movimento, campos, botões e barra de rolagem. */
+/* AM Assessoria Patrimonial — site v2: movimento, campos, botões e barra de rolagem. */
 :root{--am-ease:cubic-bezier(.2,.8,.2,1);--am-gold:#D4AF37;--am-ink:#111111;--fl-bg:#FFFFFF}
 html.lenis,html.lenis body{height:auto}
 html.lenis{scroll-behavior:auto!important}
@@ -170,3 +170,5 @@ video[data-src].is-playing{opacity:1}
 @media (max-width:1320px){.v2 header a.nav-links[href^="https://wa.me"]{display:none!important}}
 @media (max-width:1180px){.v2 nav.nav-links{gap:18px!important;font-size:14px!important}}
 @media (max-width:1080px){.v2 .nav-links{display:none!important}.v2 .nav-menu{display:inline-flex!important}}
+/* Nome da marca no topo: no celular quebra em duas linhas para não encostar no menu. */
+@media (max-width:560px){.v2 header a .brand-name{font-size:12px!important;line-height:1.2;letter-spacing:.06em!important;max-width:9.5em;display:block;white-space:normal!important}}

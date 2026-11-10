@@ -10,5 +10,5 @@ function prompt(string $label,bool $secret=false): string {
  return $v;
 }
 $user=prompt('Usuário administrativo');$pw=prompt('Senha administrativa (mínimo 16 caracteres)',true);if(strlen($pw)<16)exit("Senha muito curta.\n");
-$c=['site_origin'=>'https://amconsorcios.com','base_path'=>'/homologacao','username'=>$user,'password_hash'=>password_hash($pw,PASSWORD_DEFAULT),'data_key'=>base64_encode(random_bytes(32)),'db'=>['host'=>prompt('Host MySQL'),'name'=>prompt('Nome completo do banco'),'user'=>prompt('Usuário completo do banco'),'password'=>prompt('Senha MySQL',true)]];
+$c=['site_origin'=>'https://amassessoriapatrimonial.com.br','base_path'=>'/homologacao','username'=>$user,'password_hash'=>password_hash($pw,PASSWORD_DEFAULT),'data_key'=>base64_encode(random_bytes(32)),'db'=>['host'=>prompt('Host MySQL'),'name'=>prompt('Nome completo do banco'),'user'=>prompt('Usuário completo do banco'),'password'=>prompt('Senha MySQL',true)]];
 umask(0077);$h=fopen($path,'x');if(!$h)exit(1);fwrite($h,"<?php\nreturn ".var_export($c,true).";\n");fclose($h);fwrite(STDOUT,"Configuração criada. Guarde-a fora de public_html e do Git.\n");

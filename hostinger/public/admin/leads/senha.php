@@ -19,11 +19,11 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 }
 header("Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'");
 function esc(string $s): string{return htmlspecialchars($s,ENT_QUOTES,'UTF-8');}
-?><!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Trocar senha | AM Consórcios</title><link rel="icon" href="<?=esc($base)?>/assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="login.css"></head><body>
-<section class="side" aria-label="AM Consórcios">
-<a class="brand" href="<?=esc($base)?>/" aria-label="Ver o site da AM"><img src="<?=esc($base)?>/assets/am-logo-dourado.svg" alt="" width="48" height="36"><span>AM Consórcios</span></a>
+?><!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Trocar senha | AM Assessoria Patrimonial</title><link rel="icon" href="<?=esc($base)?>/assets/favicon.svg" type="image/svg+xml"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap"><link rel="stylesheet" href="login.css"></head><body>
+<section class="side" aria-label="AM Assessoria Patrimonial">
+<a class="brand" href="<?=esc($base)?>/" aria-label="Ver o site da AM"><img src="<?=esc($base)?>/assets/am-logo-dourado.svg" alt="" width="48" height="36"><span>AM Assessoria Patrimonial</span></a>
 <div><p class="eyebrow">Área da equipe</p><h1>Uma senha só sua.</h1><p class="lead">A senha nova vale para os contatos e para o simulador. Quem estiver com a sessão aberta em outro aparelho precisa entrar de novo.</p></div>
-<p class="small">Acesso restrito à equipe da AM Consórcios e Investimentos.</p>
+<p class="small">Acesso restrito à equipe da AM Assessoria Patrimonial.</p>
 </section>
 <main class="form-side">
 <?php if($done):?>
