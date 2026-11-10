@@ -1,8 +1,20 @@
-"""Reproducible Hostinger package. Usage: python scripts/build-hostinger.py [--preview]."""
+"""Reproducible Hostinger package.
+Usage: python scripts/build-hostinger.py [--preview] [--dominio=novodominio.com.br] [--email=contato@novodominio.com.br]
+--dominio troca o endereço do site (canonical, Open Graph, sitemap, robots, JSON-LD, rodapé do simulador).
+--email troca o e-mail de contato publicado. Sem as opções, mantém amconsorcios.com e adm@amconsorcios.com."""
 from pathlib import Path
 import re,shutil,sys
 r=Path(__file__).resolve().parents[1]
 preview='--preview' in sys.argv
+def opt(name,default):
+ for a in sys.argv[1:]:
+  if a.startswith('--'+name+'='):return a.split('=',1)[1].strip()
+ return default
+OLD_DOMAIN,OLD_EMAIL='amconsorcios.com','adm@amconsorcios.com'
+domain=opt('dominio',OLD_DOMAIN).removeprefix('https://').removeprefix('http://').removeprefix('www.').strip('/')
+email=opt('email',OLD_EMAIL)
+if not re.fullmatch(r'[a-z0-9-]+(\.[a-z0-9-]+)+',domain):sys.exit('Domínio inválido: '+domain)
+if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+',email):sys.exit('E-mail inválido: '+email)
 base='/homologacao' if preview else ''
 out=r/'tmp'/('hostinger-preview' if preview else 'hostinger-production')
 if out.exists():shutil.rmtree(out)
@@ -21,6 +33,10 @@ for p in out.rglob('*'):
   # Preview sharing image/url must be publicly accessible at this deployment.
   s=s.replace('https://amconsorcios.com/assets/hero-poster.jpg','https://amconsorcios.com/homologacao/assets/hero-poster.jpg')
   s=re.sub(r'(<meta property="og:url" content=")https://amconsorcios.com/',r'\1https://amconsorcios.com/homologacao/',s)
+ # Novo domínio/e-mail: o e-mail primeiro, para não ser alterado pela troca do domínio.
+ s=s.replace(OLD_EMAIL,email)
+ s=s.replace('https://www.'+OLD_DOMAIN,'https://'+domain).replace('https://'+OLD_DOMAIN,'https://'+domain)
+ if p.name=='simulador.js':s=s.replace(OLD_DOMAIN,domain)
  p.write_text(s)
 # Cache busting: versioned URLs for the site's own CSS/JS so browsers never mix old scripts with new pages.
 import hashlib
@@ -39,6 +55,13 @@ if sim.exists():
  page=sim/'_simulador.html';s=page.read_text()
  for n,v in sv.items():s=s.replace(f'"{n}"',f'"{n}?v={v}"')
  page.write_text(s)
+if not preview and domain!=OLD_DOMAIN:
+ # Endereço único no domínio novo: http e www vão para https://dominio, mantendo o caminho.
+ ht=out/'.htaccess'
+ rule=('RewriteEngine On\n# Endereço único: https, sem www.\n'
+  'RewriteCond %{HTTPS} off [OR]\nRewriteCond %{HTTP_HOST} ^www\\. [NC]\n'
+  'RewriteRule ^ https://'+domain+'%{REQUEST_URI} [R=301,L]\n')
+ ht.write_text(ht.read_text().replace('RewriteEngine On\n',rule,1))
 if preview:
  # A página de erro precisa do caminho completo da homologação.
  ht=out/'.htaccess';ht.write_text(ht.read_text().replace('ErrorDocument 404 /404.html','ErrorDocument 404 /homologacao/404.html'))
