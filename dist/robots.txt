@@ -3,4 +3,4 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /_server/
 Disallow: /briefings
-Sitemap: https://amconsorcios.com/sitemap.xml
+Sitemap: https://amassessoriapatrimonial.com.br/sitemap.xml

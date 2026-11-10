@@ -1,7 +1,7 @@
 """Reproducible Hostinger package.
 Usage: python scripts/build-hostinger.py [--preview] [--dominio=novodominio.com.br] [--email=contato@novodominio.com.br]
 --dominio troca o endereço do site (canonical, Open Graph, sitemap, robots, JSON-LD, rodapé do simulador).
---email troca o e-mail de contato publicado. Sem as opções, mantém amconsorcios.com e adm@amconsorcios.com."""
+--email troca o e-mail de contato publicado. Sem as opções, usa amassessoriapatrimonial.com.br e adm@amassessoriapatrimonial.com.br."""
 from pathlib import Path
 import re,shutil,sys
 r=Path(__file__).resolve().parents[1]
@@ -10,7 +10,7 @@ def opt(name,default):
  for a in sys.argv[1:]:
   if a.startswith('--'+name+'='):return a.split('=',1)[1].strip()
  return default
-OLD_DOMAIN,OLD_EMAIL='amconsorcios.com','adm@amconsorcios.com'
+OLD_DOMAIN,OLD_EMAIL='amassessoriapatrimonial.com.br','adm@amassessoriapatrimonial.com.br'
 domain=opt('dominio',OLD_DOMAIN).removeprefix('https://').removeprefix('http://').removeprefix('www.').strip('/')
 email=opt('email',OLD_EMAIL)
 if not re.fullmatch(r'[a-z0-9-]+(\.[a-z0-9-]+)+',domain):sys.exit('Domínio inválido: '+domain)
@@ -31,8 +31,8 @@ for p in out.rglob('*'):
   s=re.sub(r'<meta name="robots" content="[^"]*">','',s)
   s=s.replace('</head>','<meta name="robots" content="noindex,nofollow"></head>')
   # Preview sharing image/url must be publicly accessible at this deployment.
-  s=s.replace('https://amconsorcios.com/assets/hero-poster.jpg','https://amconsorcios.com/homologacao/assets/hero-poster.jpg')
-  s=re.sub(r'(<meta property="og:url" content=")https://amconsorcios.com/',r'\1https://amconsorcios.com/homologacao/',s)
+  s=s.replace('https://amassessoriapatrimonial.com.br/assets/hero-poster.jpg','https://amassessoriapatrimonial.com.br/homologacao/assets/hero-poster.jpg')
+  s=re.sub(r'(<meta property="og:url" content=")https://amassessoriapatrimonial.com.br/',r'\1https://amassessoriapatrimonial.com.br/homologacao/',s)
  # Novo domínio/e-mail: o e-mail primeiro, para não ser alterado pela troca do domínio.
  s=s.replace(OLD_EMAIL,email)
  s=s.replace('https://www.'+OLD_DOMAIN,'https://'+domain).replace('https://'+OLD_DOMAIN,'https://'+domain)
@@ -55,8 +55,8 @@ if sim.exists():
  page=sim/'_simulador.html';s=page.read_text()
  for n,v in sv.items():s=s.replace(f'"{n}"',f'"{n}?v={v}"')
  page.write_text(s)
-if not preview and domain!=OLD_DOMAIN:
- # Endereço único no domínio novo: http e www vão para https://dominio, mantendo o caminho.
+if not preview:
+ # Endereço único: http e www vão para https://dominio, mantendo o caminho.
  ht=out/'.htaccess'
  rule=('RewriteEngine On\n# Endereço único: https, sem www.\n'
   'RewriteCond %{HTTPS} off [OR]\nRewriteCond %{HTTP_HOST} ^www\\. [NC]\n'

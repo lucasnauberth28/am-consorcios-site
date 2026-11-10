@@ -1,4 +1,4 @@
-/* AM Consórcios — site v2: calculadoras, menu, vídeo e envio de leads. */
+/* AM Assessoria Patrimonial — site v2: calculadoras, menu, vídeo e envio de leads. */
 (() => {
   'use strict';
   const money = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });

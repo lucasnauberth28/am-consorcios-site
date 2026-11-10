@@ -4,6 +4,7 @@ Direção: instituição financeira com linguagem editorial, hero cinematográfi
 
 ## Identidade de origem
 
+- Marca: AM Assessoria Patrimonial desde 10/11/2026 (antes AM Consórcios e Investimentos). Domínio amassessoriapatrimonial.com.br.
 - Logo original: `dist/assets/am-logo.jpeg`, obtido de https://www.amconsorcios.com/logo.jpeg em 3/10/2026. Arte e proporções preservadas; o recorte no header é feito por CSS.
 - Fonte de marca: Cinzel. Texto e interfaces: Inter.
 - Paleta original confirmada no site e no CSS público: preto `#0A0A0A`, superfície `#1A1A1A`, branco `#FFFFFF`, dourado claro `#FFD700`, dourado `#D4AF37`, dourado escuro `#B8860B`.
@@ -30,7 +31,7 @@ Header transparente com navegação móvel; marca original; botão primário dou
 - Mentoria: estágio da empresa, produto, equipe, processo e acompanhamento.
 - Sem catálogo com parcelas ou cotas desatualizadas, números de resultado sem confirmação ou afirmações de contemplação garantida.
 - Telefone da prévia: (11) 98608-6204, exibido no site oficial. O código do site antigo usa outro número; confirmar com o cliente antes de uma publicação no domínio comercial.
-- E-mail: adm@amconsorcios.com, publicado no site oficial.
+- E-mail: adm@amassessoriapatrimonial.com.br (antes adm@amconsorcios.com).
 
 ## Acessibilidade e movimento
 
